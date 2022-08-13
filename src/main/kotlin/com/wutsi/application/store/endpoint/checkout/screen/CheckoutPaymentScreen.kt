@@ -23,6 +23,8 @@ import com.wutsi.flutter.sdui.Widget
 import com.wutsi.flutter.sdui.enums.InputType
 import com.wutsi.platform.account.WutsiAccountApi
 import com.wutsi.platform.account.dto.PaymentMethodSummary
+import com.wutsi.platform.payment.PaymentMethodType
+import com.wutsi.platform.tenant.dto.FinancialInstitution
 import com.wutsi.platform.tenant.dto.MobileCarrier
 import com.wutsi.platform.tenant.dto.Tenant
 import org.springframework.web.bind.annotation.PostMapping
@@ -39,7 +41,6 @@ class CheckoutPaymentScreen(
     private val tenantProvider: TenantProvider,
     private val idempotencyKeyGenerator: IdempotencyKeyGenerator
 ) : AbstractQuery() {
-
     @PostMapping
     fun index(@RequestParam(name = "order-id") orderId: String): Widget {
         val tenant = tenantProvider.get()
@@ -124,13 +125,31 @@ class CheckoutPaymentScreen(
                     caption = PhoneUtil.format(it.phone?.number, it.phone?.country)
                         ?: it.maskedNumber,
                     value = it.token,
-                    icon = getMobileCarrier(it, tenant)?.let { tenantProvider.logo(it) }
+                    icon = getLogoUrl(tenant, it)
                 )
             }
         )
         return items
     }
 
-    protected fun getMobileCarrier(paymentMethod: PaymentMethodSummary, tenant: Tenant): MobileCarrier? =
-        tenant.mobileCarriers.findLast { it.code.equals(paymentMethod.provider, true) }
+    private fun getLogoUrl(tenant: Tenant, paymentMethod: PaymentMethodSummary): String? {
+        if (paymentMethod.type == PaymentMethodType.MOBILE.name) {
+            val carrier = getMobileCarrier(paymentMethod.provider, tenant)
+            if (carrier != null) {
+                return tenantProvider.logo(carrier)
+            }
+        } else if (paymentMethod.type == PaymentMethodType.BANK.name) {
+            val financialInstitution = getFinantialInstitution(paymentMethod.provider, tenant)
+            if (financialInstitution != null) {
+                return tenantProvider.logo(financialInstitution)
+            }
+        }
+        return null
+    }
+
+    private fun getMobileCarrier(provider: String, tenant: Tenant): MobileCarrier? =
+        tenant.mobileCarriers.findLast { it.code.equals(provider, true) }
+
+    private fun getFinantialInstitution(provider: String, tenant: Tenant): FinancialInstitution? =
+        tenant.financialInstitutions.findLast { it.code.equals(provider, true) }
 }
