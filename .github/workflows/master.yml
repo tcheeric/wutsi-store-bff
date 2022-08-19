@@ -64,6 +64,7 @@ jobs:
           heroku config:set --app ${HEROKU_APP} API_KEY=${API_KEY}
           heroku config:set --app ${HEROKU_APP} LOG4J_SLACK_WEBHOOK_URL=${LOG4J_SLACK_WEBHOOK_URL}
           heroku addons -a ${HEROKU_APP} | grep papertrail && echo 'addon: papertrail exists' ||  heroku addons:create papertrail -a ${HEROKU_APP}
+          heroku addons -a ${HEROKU_APP} | grep memcachier && echo 'addon: memcachier exists' ||  heroku addons:create memcachier -a ${HEROKU_APP}
           heroku deploy:jar wutsi-store-bff.jar --app ${HEROKU_APP}
       - name: Health check
         env:
@@ -116,6 +117,7 @@ jobs:
           heroku config:set --app ${HEROKU_APP} API_KEY=${API_KEY}
           heroku config:set --app ${HEROKU_APP} LOG4J_SLACK_WEBHOOK_URL=${LOG4J_SLACK_WEBHOOK_URL}
           heroku addons -a ${HEROKU_APP} | grep papertrail && echo 'addon: papertrail exists' ||  heroku addons:create papertrail -a ${HEROKU_APP}
+          heroku addons -a ${HEROKU_APP} | grep memcachier && echo 'addon: memcachier exists' ||  heroku addons:create memcachier -a ${HEROKU_APP}
           heroku deploy:jar wutsi-store-bff.jar --app ${HEROKU_APP}
       - name: Health check
         env:
