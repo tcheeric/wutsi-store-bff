@@ -41,7 +41,7 @@ class SettingsShippingScreen(
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = getText("page.settings.shipping.app-bar.title"),
+                title = getText("page.settings.shipping.app-bar.title")
             ),
 
             child = Column(
@@ -100,7 +100,7 @@ class SettingsShippingScreen(
                         )
                     )
                 )
-            ),
+            )
         ).toWidget()
     }
 
@@ -114,7 +114,7 @@ class SettingsShippingScreen(
                 caption = getText("shipping.type.$type"),
                 subCaption = toSubCaption(shipping, tenant),
                 action = gotoUrl(urlBuilder.build("settings/store/shipping/profile?id=${shipping?.id}")),
-                trailing = Icon(code = Theme.ICON_CHEVRON_RIGHT),
+                trailing = Icon(code = Theme.ICON_CHEVRON_RIGHT)
             )
         } else {
             val cmd = shipping?.let { "commands/enable-shipping?id=${it.id}" }

@@ -37,7 +37,7 @@ internal class OrderScreenTest : AbstractEndpointTest() {
 
     private val products = listOf(
         ProductSummary(id = 1L, title = "Item 1"),
-        ProductSummary(id = 2L, title = "Item 2"),
+        ProductSummary(id = 2L, title = "Item 2")
     )
 
     @BeforeEach
@@ -107,6 +107,6 @@ internal class OrderScreenTest : AbstractEndpointTest() {
             OrderItem(productId = 1, quantity = 10, unitPrice = 100.0, unitComparablePrice = 150.0),
             OrderItem(productId = 2, quantity = 1, unitPrice = 15000.0)
         ),
-        addressType = AddressType.POSTAL.name,
+        addressType = AddressType.POSTAL.name
     )
 }

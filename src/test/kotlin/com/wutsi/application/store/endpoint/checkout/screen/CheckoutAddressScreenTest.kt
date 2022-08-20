@@ -62,7 +62,7 @@ internal class CheckoutAddressScreenTest : AbstractEndpointTest() {
         doReturn(GetOrderResponse(order)).whenever(orderApi).getOrder(any())
 
         val addresses = listOf(
-            createAddress(id = 1, firstName = "Roger", email = "roger.milla@gmail.com", type = AddressType.EMAIL),
+            createAddress(id = 1, firstName = "Roger", email = "roger.milla@gmail.com", type = AddressType.EMAIL)
         )
         doReturn(ListAddressResponse(addresses)).whenever(orderApi).listAddresses(order.addressType)
 

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/settings/store/product/max-order")
 class SettingsProductMaxOrderScreen(
-    catalogApi: WutsiCatalogApi,
+    catalogApi: WutsiCatalogApi
 ) : AbstractSettingsProductAttributeScreen(catalogApi) {
     override fun getAttributeName() = "max-order"
 
@@ -23,7 +23,7 @@ class SettingsProductMaxOrderScreen(
             name = "value",
             value = product.maxOrder?.toString() ?: "",
             type = InputType.Number,
-            caption = getText("page.settings.store.product.attribute.${getAttributeName()}"),
+            caption = getText("page.settings.store.product.attribute.${getAttributeName()}")
         )
     }
 }

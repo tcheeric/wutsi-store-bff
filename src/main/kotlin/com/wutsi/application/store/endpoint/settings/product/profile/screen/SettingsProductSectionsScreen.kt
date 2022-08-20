@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/settings/store/product/sections")
 class SettingsProductSectionsScreen(
-    private val catalogApi: WutsiCatalogApi,
+    private val catalogApi: WutsiCatalogApi
 ) : AbstractQuery() {
     @PostMapping
     fun index(@RequestParam id: Long): Widget {
@@ -37,7 +37,7 @@ class SettingsProductSectionsScreen(
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = getText("page.settings.store.product.attribute.sections"),
+                title = getText("page.settings.store.product.attribute.sections")
             ),
             child = Form(
                 children = listOfNotNull(
@@ -70,7 +70,7 @@ class SettingsProductSectionsScreen(
                                 )
                             }
                         )
-                    ),
+                    )
                 )
             )
         ).toWidget()

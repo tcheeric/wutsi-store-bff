@@ -62,7 +62,7 @@ class OrderScreen(
     private val accountApi: WutsiAccountApi,
     private val catalogApi: WutsiCatalogApi,
     private val shippingApi: WutsiShippingApi,
-    private val tenantProvider: TenantProvider,
+    private val tenantProvider: TenantProvider
 ) : AbstractQuery() {
     @PostMapping
     fun index(@RequestParam(name = "id") id: String): Widget {
@@ -82,7 +82,7 @@ class OrderScreen(
                 else
                     null,
 
-                Text(getText("page.order.tab.qr-code").uppercase(), bold = true),
+                Text(getText("page.order.tab.qr-code").uppercase(), bold = true)
             )
         )
         val tabViews = TabBarView(
@@ -111,11 +111,11 @@ class OrderScreen(
                     title = getText("page.order.app-bar.title", arrayOf(order.id.uppercase().takeLast(4))),
                     actions = listOfNotNull(
                         getAppBarAction(order, shipping),
-                        getShareAction(order, tenant),
+                        getShareAction(order, tenant)
                     )
                 ),
                 child = tabViews,
-                bottomNavigationBar = bottomNavigationBar(),
+                bottomNavigationBar = bottomNavigationBar()
             )
         ).toWidget()
     }
@@ -164,7 +164,7 @@ class OrderScreen(
                         ),
                         toRow(
                             getText("page.order.date"),
-                            order.created.format(dateFormat),
+                            order.created.format(dateFormat)
                         ),
                         toRow(
                             getText("page.order.status"),
@@ -176,7 +176,7 @@ class OrderScreen(
                                     Theme.COLOR_DANGER
                                 else
                                     null
-                            ),
+                            )
                         ),
 
                         if (togglesProvider.isOrderPaymentEnabled())
@@ -190,13 +190,13 @@ class OrderScreen(
                                         Theme.COLOR_DANGER
                                     else
                                         null
-                                ),
+                                )
                             )
                         else
-                            null,
-                    ),
+                            null
+                    )
                 )
-            ),
+            )
         )
 
         // Products
@@ -318,7 +318,7 @@ class OrderScreen(
 
     private fun toPriceWidget(order: Order, tenant: Tenant) = PriceSummaryCard(
         model = sharedUIMapper.toPriceSummaryModel(order, tenant),
-        showPaymentStatus = togglesProvider.isOrderPaymentEnabled(),
+        showPaymentStatus = togglesProvider.isOrderPaymentEnabled()
     )
 
     private fun toRow(name: String, value: String): WidgetAware =
@@ -349,7 +349,7 @@ class OrderScreen(
             icon = Theme.ICON_SHARE,
             action = Action(
                 type = ActionType.Share,
-                url = "${tenant.webappUrl}/order?id=${order.id}",
+                url = "${tenant.webappUrl}/order?id=${order.id}"
             )
         )
 
@@ -381,7 +381,7 @@ class OrderScreen(
                     Button(
                         caption = getText("page.order.button.close"),
                         action = gotoUrl(urlBuilder.build("/order/close?id=${order.id}"))
-                    ),
+                    )
                 )
             else if (isAvailableForDelivery(order))
                 children.add(

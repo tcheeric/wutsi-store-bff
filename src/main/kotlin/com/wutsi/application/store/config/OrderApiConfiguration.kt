@@ -25,7 +25,7 @@ class OrderApiConfiguration(
             mapper = mapper,
             interceptors = listOf(
                 tracingRequestInterceptor,
-                authorizationRequestInterceptor,
+                authorizationRequestInterceptor
             ),
             errorDecoder = Custom5XXErrorDecoder()
         )

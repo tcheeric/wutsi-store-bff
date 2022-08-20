@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/widgets/checkout-status")
 class CheckoutStatusWidget(
     private val paymentApi: WutsiPaymentApi,
-    private val logger: KVLogger,
+    private val logger: KVLogger
 ) : AbstractQuery() {
     companion object {
         private val LOGGER = LoggerFactory.getLogger(CheckoutStatusWidget::class.java)

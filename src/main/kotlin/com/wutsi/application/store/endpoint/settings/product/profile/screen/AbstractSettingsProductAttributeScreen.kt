@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 
 abstract class AbstractSettingsProductAttributeScreen(
-    protected val catalogApi: WutsiCatalogApi,
+    protected val catalogApi: WutsiCatalogApi
 ) : AbstractQuery() {
     abstract fun getAttributeName(): String
 
@@ -46,7 +46,7 @@ abstract class AbstractSettingsProductAttributeScreen(
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = getText("page.settings.store.product.attribute.$name"),
+                title = getText("page.settings.store.product.attribute.$name")
             ),
             child = Form(
                 children = listOfNotNull(
@@ -65,7 +65,7 @@ abstract class AbstractSettingsProductAttributeScreen(
                     ),
                     Container(
                         padding = 10.0,
-                        child = getInputWidget(product),
+                        child = getInputWidget(product)
                     ),
 
                     if (showSubmitButton())
@@ -76,10 +76,10 @@ abstract class AbstractSettingsProductAttributeScreen(
                                 type = InputType.Submit,
                                 caption = getText("page.settings.store.product.attribute.button.submit"),
                                 action = getSubmitAction(id, name)
-                            ),
+                            )
                         )
                     else
-                        null,
+                        null
                 )
             )
         ).toWidget()

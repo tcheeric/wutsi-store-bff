@@ -32,7 +32,7 @@ internal class CheckoutReviewScreenTest : AbstractEndpointTest() {
 
     private val products = listOf(
         ProductSummary(id = 1, title = "Item 1"),
-        ProductSummary(id = 2, title = "Item 2"),
+        ProductSummary(id = 2, title = "Item 2")
     )
 
     private val shipping = createShipping(ShippingType.LOCAL_PICKUP, cityId = 11111L)

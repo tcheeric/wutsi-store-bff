@@ -13,7 +13,7 @@ class RemoveFromCartCommand : AbstractCommand() {
     @PostMapping
     fun index(
         @RequestParam(name = "merchant-id") merchantId: Long,
-        @RequestParam(name = "product-id") productId: Long,
+        @RequestParam(name = "product-id") productId: Long
     ): Action {
         cartApi.removeProduct(merchantId, productId)
         return gotoUrl(

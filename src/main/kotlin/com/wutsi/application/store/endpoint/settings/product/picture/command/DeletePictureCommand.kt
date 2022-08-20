@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/commands/delete-picture")
 class DeletePictureCommand(
-    private val catalogApi: WutsiCatalogApi,
+    private val catalogApi: WutsiCatalogApi
 ) : AbstractCommand() {
     @PostMapping
     fun index(

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/commands/cancel-order")
 class CancelOrderCommand(
-    private val orderApi: WutsiOrderApi,
+    private val orderApi: WutsiOrderApi
 ) : AbstractCommand() {
     @PostMapping
     fun index(

@@ -81,7 +81,7 @@ abstract class AbstractQuery : AbstractEndpoint() {
         borderColor = Theme.COLOR_GRAY_LIGHT,
         background = background,
         width = Double.MAX_VALUE,
-        child = child,
+        child = child
     )
 
     protected fun toTransactionStatusWidget(tx: Transaction?, error: String? = null): WidgetAware {

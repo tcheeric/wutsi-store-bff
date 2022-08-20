@@ -32,7 +32,7 @@ class SettingsStoreScreen : AbstractQuery() {
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = getText("page.settings.store.app-bar.title"),
+                title = getText("page.settings.store.app-bar.title")
             ),
             child = Column(
                 children = listOf(
@@ -98,12 +98,12 @@ class SettingsStoreScreen : AbstractQuery() {
                                     action = executeCommand(
                                         urlBuilder.build("/commands/disable-store")
                                     )
-                                ),
+                                )
                             )
                         )
                     )
                 )
-            ),
+            )
         ).toWidget()
     }
 }

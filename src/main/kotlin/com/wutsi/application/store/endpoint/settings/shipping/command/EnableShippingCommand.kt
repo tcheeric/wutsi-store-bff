@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/commands/enable-shipping")
 class EnableShippingCommand(
-    val shippingApi: WutsiShippingApi,
+    val shippingApi: WutsiShippingApi
 ) : AbstractCommand() {
     @PostMapping
     fun index(
         @RequestParam(required = false) id: Long? = null,
-        @RequestParam(required = false) type: ShippingType? = null,
+        @RequestParam(required = false) type: ShippingType? = null
     ): Action {
         if (id == null) {
             val account = securityContext.currentAccount()
@@ -28,7 +28,7 @@ class EnableShippingCommand(
                     type = type!!.name,
                     country = account.country,
                     cityId = account.cityId,
-                    street = account.street,
+                    street = account.street
                 )
             ).id
             return gotoUrl(

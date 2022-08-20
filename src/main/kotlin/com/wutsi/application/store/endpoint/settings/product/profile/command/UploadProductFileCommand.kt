@@ -19,7 +19,7 @@ import java.util.UUID
 class UploadProductFileCommand(
     private val catalogApi: WutsiCatalogApi,
     private val storageService: StorageService,
-    private val logger: KVLogger,
+    private val logger: KVLogger
 ) : AbstractCommand() {
     @PostMapping
     fun index(

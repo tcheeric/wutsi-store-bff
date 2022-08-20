@@ -31,7 +31,7 @@ class OrderStartDeliveryScreen : AbstractQuery() {
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_PRIMARY,
                 foregroundColor = Theme.COLOR_WHITE,
-                title = getText("page.order.start-delivery.app-bar.title", arrayOf(xid)),
+                title = getText("page.order.start-delivery.app-bar.title", arrayOf(xid))
             ),
             bottomNavigationBar = bottomNavigationBar(),
             child = Column(
@@ -43,7 +43,7 @@ class OrderStartDeliveryScreen : AbstractQuery() {
                         padding = 10.0,
                         child = Text(
                             caption = getText("page.order.start-delivery.message"),
-                            size = Theme.TEXT_SIZE_LARGE,
+                            size = Theme.TEXT_SIZE_LARGE
                         )
                     ),
                     Container(
@@ -68,7 +68,7 @@ class OrderStartDeliveryScreen : AbstractQuery() {
                         action = gotoPreviousScreen()
                     )
                 )
-            ),
+            )
         ).toWidget()
     }
 }

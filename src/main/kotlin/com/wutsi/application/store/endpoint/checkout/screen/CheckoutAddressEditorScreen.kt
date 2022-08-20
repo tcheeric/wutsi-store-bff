@@ -33,7 +33,7 @@ import java.util.Locale
 @RequestMapping("/checkout/address-editor")
 class CheckoutAddressEditorScreen(
     private val cityService: CityService,
-    private val orderApi: WutsiOrderApi,
+    private val orderApi: WutsiOrderApi
 ) : AbstractQuery() {
 
     @PostMapping
@@ -66,7 +66,7 @@ class CheckoutAddressEditorScreen(
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = getText("page.checkout.address.editor.app-bar.title"),
+                title = getText("page.checkout.address.editor.app-bar.title")
             ),
             child = SingleChildScrollView(
                 child = Column(
@@ -108,7 +108,7 @@ class CheckoutAddressEditorScreen(
                                         name = "street",
                                         value = account.street,
                                         caption = getText("page.checkout.address.editor.street"),
-                                        maxLength = 160,
+                                        maxLength = 160
                                     )
                                 ),
                                 Container(

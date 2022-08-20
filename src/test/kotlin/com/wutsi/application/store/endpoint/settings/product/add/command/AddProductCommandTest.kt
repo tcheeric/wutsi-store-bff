@@ -47,7 +47,7 @@ internal class AddProductCommandTest : AbstractEndpointTest() {
             subCategoryId = 333L,
             type = ProductType.NUMERIC.name,
             quantity = 100,
-            maxOrder = 5,
+            maxOrder = 5
         )
         val response = rest.postForEntity(url, request, Action::class.java)
 

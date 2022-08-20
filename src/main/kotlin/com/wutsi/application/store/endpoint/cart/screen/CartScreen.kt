@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController
 class CartScreen(
     private val catalogApi: WutsiCatalogApi,
     private val accountApi: WutsiAccountApi,
-    private val tenantProvider: TenantProvider,
+    private val tenantProvider: TenantProvider
 ) : AbstractQuery() {
 
     @PostMapping
@@ -81,7 +81,7 @@ class CartScreen(
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = getText("page.cart.app-bar.title"),
+                title = getText("page.cart.app-bar.title")
             ),
             child = SingleChildScrollView(
                 child = Column(
@@ -103,7 +103,7 @@ class CartScreen(
                 Container(
                     padding = 10.0,
                     alignment = Alignment.Center,
-                    child = Text(getText("page.cart.empty")),
+                    child = Text(getText("page.cart.empty"))
                 )
             )
 

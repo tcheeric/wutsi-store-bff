@@ -43,7 +43,7 @@ import org.springframework.web.bind.annotation.RestController
 class HomeScreen(
     private val accountApi: WutsiAccountApi,
     private val catalogApi: WutsiCatalogApi,
-    private val tenantProvider: TenantProvider,
+    private val tenantProvider: TenantProvider
 ) : ProductActionProvider, AbstractQuery() {
     override fun getAction(model: ProductModel): Action =
         gotoUrl(
@@ -100,7 +100,7 @@ class HomeScreen(
                 ProfileListItem(
                     model = sharedUIMapper.toAccountModel(merchant)
                 ),
-                Divider(color = Theme.COLOR_DIVIDER, height = 1.0),
+                Divider(color = Theme.COLOR_DIVIDER, height = 1.0)
             )
         )
 
@@ -153,7 +153,7 @@ class HomeScreen(
                         spacing = 5.0,
                         productsPerRow = 2,
                         models = products.map { sharedUIMapper.toProductModel(it, tenant) },
-                        actionProvider = this,
+                        actionProvider = this
                     )
                 )
             )
@@ -191,15 +191,15 @@ class HomeScreen(
                             child = Chip(
                                 caption = it.title,
                                 backgroundColor = Theme.COLOR_PRIMARY,
-                                elevation = 5.0,
+                                elevation = 5.0
                             ),
                             action = gotoUrl(
                                 url = urlBuilder.build("section?id=${it.id}")
-                            ),
+                            )
                         )
                     }
                 )
-            ),
+            )
         )
     }
 }

@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/commands/deliver-order")
 class DeliverOrderCommand(
-    private val orderApi: WutsiOrderApi,
+    private val orderApi: WutsiOrderApi
 ) : AbstractCommand() {
     @PostMapping
     fun index(
-        @RequestParam(name = "id") id: String,
+        @RequestParam(name = "id") id: String
     ): Action {
         orderApi.changeStatus(
             id,

@@ -93,7 +93,7 @@ class ProductScreen(
                     size = Theme.TEXT_SIZE_LARGE,
                     bold = true
                 )
-            ),
+            )
         )
 
         // Pictures
@@ -138,7 +138,7 @@ class ProductScreen(
                         if (!product.summary.isNullOrEmpty())
                             Column(
                                 children = listOf(
-                                    Text(product.summary!!),
+                                    Text(product.summary!!)
                                 )
                             )
                         else
@@ -150,7 +150,7 @@ class ProductScreen(
 
                         // Cart
                         toCartWidget(merchant, product, cart),
-                        toBuyNowWidget(merchant, product),
+                        toBuyNowWidget(merchant, product)
                     )
                 )
             )
@@ -170,7 +170,7 @@ class ProductScreen(
                         expanded = Container(
                             padding = 10.0,
                             child = Text(product.description!!)
-                        ),
+                        )
                     )
                 )
             )
@@ -181,7 +181,7 @@ class ProductScreen(
             listOfNotNull(
                 toVendorWidget(product, merchant, whatsappUrl),
                 toSimilarProductsWidget(product, cart, tenant),
-                toOtherProductsWidget(product, cart, tenant),
+                toOtherProductsWidget(product, cart, tenant)
             )
         )
 
@@ -203,7 +203,7 @@ class ProductScreen(
                 ),
                 child = Container(
                     child = ListView(
-                        children = children,
+                        children = children
                     )
                 ),
                 bottomNavigationBar = bottomNavigationBar(),
@@ -285,12 +285,12 @@ class ProductScreen(
                             Container(padding = 5.0),
                             Text(
                                 caption = getText("page.product.deliver-by-email"),
-                                color = Theme.COLOR_PRIMARY,
+                                color = Theme.COLOR_PRIMARY
                             )
                         )
                     )
                 else
-                    null,
+                    null
             )
         )
     }
@@ -329,7 +329,7 @@ class ProductScreen(
                 valueFontSize = Theme.TEXT_SIZE_X_LARGE,
                 value = price,
                 numberFormat = tenant.numberFormat
-            ),
+            )
         )
 
         if (savings > 0) {
@@ -337,14 +337,14 @@ class ProductScreen(
                 Text(
                     caption = fmt.format(comparablePrice),
                     decoration = TextDecoration.Strikethrough,
-                    color = Theme.COLOR_GRAY,
+                    color = Theme.COLOR_GRAY
                 )
             )
             if (percent >= 1)
                 children.add(
                     Text(
                         caption = getText("page.product.savings-percent", arrayOf(percent.toString())),
-                        color = Theme.COLOR_SUCCESS,
+                        color = Theme.COLOR_SUCCESS
                     )
                 )
         }
@@ -393,13 +393,13 @@ class ProductScreen(
                                             url = it,
                                             trackEvent = EventType.CHAT.name,
                                             trackProductId = product.id.toString()
-                                        ),
+                                        )
                                     )
                                 }
                             )
                         )
                     )
-                ),
+                )
             )
         )
 
@@ -446,7 +446,7 @@ class ProductScreen(
                         models = similar.take(4)
                             .map { sharedUIMapper.toProductModel(it, tenant, null) },
                         actionProvider = this,
-                        type = ProductCardType.SUMMARY,
+                        type = ProductCardType.SUMMARY
                     )
                 )
             )
@@ -490,7 +490,7 @@ class ProductScreen(
                         models = products.take(4)
                             .map { sharedUIMapper.toProductModel(it, tenant, null) },
                         actionProvider = this,
-                        type = ProductCardType.SUMMARY,
+                        type = ProductCardType.SUMMARY
                     ),
                     if (products.size > 4)
                         Center(

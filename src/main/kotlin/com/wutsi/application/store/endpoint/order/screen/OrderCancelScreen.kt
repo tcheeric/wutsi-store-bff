@@ -45,7 +45,7 @@ class OrderCancelScreen : AbstractQuery() {
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_PRIMARY,
                 foregroundColor = Theme.COLOR_WHITE,
-                title = getText("page.order.cancel.app-bar.title", arrayOf(xid)),
+                title = getText("page.order.cancel.app-bar.title", arrayOf(xid))
             ),
             bottomNavigationBar = bottomNavigationBar(),
             child = Form(
@@ -56,7 +56,7 @@ class OrderCancelScreen : AbstractQuery() {
                         alignment = Alignment.Center,
                         child = Text(
                             caption = getText("page.order.cancel.message"),
-                            size = Theme.TEXT_SIZE_LARGE,
+                            size = Theme.TEXT_SIZE_LARGE
                         )
                     ),
 
@@ -85,7 +85,7 @@ class OrderCancelScreen : AbstractQuery() {
                         padding = 10.0,
                         child = Input(
                             name = "comment",
-                            caption = getText("page.order.cancel.comment"),
+                            caption = getText("page.order.cancel.comment")
                         )
                     ),
 
@@ -105,7 +105,7 @@ class OrderCancelScreen : AbstractQuery() {
                         action = gotoPreviousScreen()
                     )
                 )
-            ),
+            )
         ).toWidget()
     }
 }

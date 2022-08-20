@@ -38,7 +38,7 @@ class OrderCloseScreen(
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_PRIMARY,
                 foregroundColor = Theme.COLOR_WHITE,
-                title = getText("page.order.close.app-bar.title", arrayOf(xid)),
+                title = getText("page.order.close.app-bar.title", arrayOf(xid))
             ),
             bottomNavigationBar = bottomNavigationBar(),
             child = Column(
@@ -50,7 +50,7 @@ class OrderCloseScreen(
                         padding = 10.0,
                         child = Text(
                             caption = getText("page.order.close.message"),
-                            size = Theme.TEXT_SIZE_LARGE,
+                            size = Theme.TEXT_SIZE_LARGE
                         )
                     ),
                     getShippingMessage(order)?.let {
@@ -77,7 +77,7 @@ class OrderCloseScreen(
                         action = gotoPreviousScreen()
                     )
                 )
-            ),
+            )
         ).toWidget()
     }
 

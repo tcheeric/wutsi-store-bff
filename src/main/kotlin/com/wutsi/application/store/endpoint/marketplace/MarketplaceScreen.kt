@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/marketplace")
 class MarketplaceScreen(
     private val catalogApi: WutsiCatalogApi,
-    private val accountApi: WutsiAccountApi,
+    private val accountApi: WutsiAccountApi
 ) : AbstractQuery() {
     companion object {
         private val LOGGER = LoggerFactory.getLogger(MarketplaceScreen::class.java)
@@ -51,7 +51,7 @@ class MarketplaceScreen(
         val merchants = catalogApi.searchMerchants(
             request = SearchMerchantRequest(
                 withPublishedProducts = true,
-                limit = 30,
+                limit = 30
             )
         ).merchants
 
@@ -89,7 +89,7 @@ class MarketplaceScreen(
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = getText("page.marketplace.app-bar.title"),
+                title = getText("page.marketplace.app-bar.title")
             ),
             bottomNavigationBar = bottomNavigationBar(),
             backgroundColor = Theme.COLOR_GRAY_LIGHT,
@@ -108,7 +108,7 @@ class MarketplaceScreen(
                         children = children
                     )
                 }
-            ),
+            )
         ).toWidget()
     }
 
@@ -121,7 +121,7 @@ class MarketplaceScreen(
                     padding = 10.0,
                     child = Text(getText("page.marketplace.stores"), bold = true)
                 )
-            ),
+            )
         )
         children.addAll(
             stores.flatMap {
@@ -130,12 +130,12 @@ class MarketplaceScreen(
                     ProfileListItem(
                         model = sharedUIMapper.toAccountModel(
                             it,
-                            category = if (it.categoryId == null) null else categoryMap[it.categoryId],
+                            category = if (it.categoryId == null) null else categoryMap[it.categoryId]
                         ),
                         action = gotoUrl(urlBuilder.build(shellUrl, "/profile?id=${it.id}&tab=store")),
                         showAccountType = false,
                         showLocation = true
-                    ),
+                    )
                 )
             }
         )
@@ -145,7 +145,7 @@ class MarketplaceScreen(
                 crossAxisAlignment = CrossAxisAlignment.start,
                 mainAxisAlignment = MainAxisAlignment.start,
                 children = children
-            ),
+            )
         )
     }
 
@@ -185,7 +185,7 @@ class MarketplaceScreen(
                 crossAxisAlignment = CrossAxisAlignment.start,
                 mainAxisAlignment = MainAxisAlignment.start,
                 children = children
-            ),
+            )
         )
     }
 
@@ -214,7 +214,7 @@ class MarketplaceScreen(
                         ProfileListItem(
                             model = sharedUIMapper.toAccountModel(
                                 store,
-                                category = if (store.categoryId == null) null else categoryMap[store.categoryId],
+                                category = if (store.categoryId == null) null else categoryMap[store.categoryId]
                             ),
                             action = gotoUrl(urlBuilder.build(shellUrl, "/profile?id=${store.id}&tab=store")),
                             showAccountType = false,

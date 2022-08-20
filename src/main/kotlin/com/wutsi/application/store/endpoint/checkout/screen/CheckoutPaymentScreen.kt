@@ -58,7 +58,7 @@ class CheckoutPaymentScreen(
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = getText("page.checkout.payment.app-bar.title"),
+                title = getText("page.checkout.payment.app-bar.title")
             ),
             child = SingleChildScrollView(
                 child = Form(
@@ -103,7 +103,7 @@ class CheckoutPaymentScreen(
                         )
                     )
                 )
-            ),
+            )
         ).toWidget()
     }
 

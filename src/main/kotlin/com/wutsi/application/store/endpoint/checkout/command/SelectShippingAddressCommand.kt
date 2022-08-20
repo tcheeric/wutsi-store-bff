@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/commands/select-shipping-address")
 class SelectShippingAddressCommand(
-    private val orderApi: WutsiOrderApi,
+    private val orderApi: WutsiOrderApi
 ) : AbstractCommand() {
     @PostMapping
     fun index(
         @RequestParam(name = "order-id") orderId: String,
-        @RequestParam(name = "address-id") addressId: Long,
+        @RequestParam(name = "address-id") addressId: Long
     ): Action {
         orderApi.setShippingAddress(
             orderId,

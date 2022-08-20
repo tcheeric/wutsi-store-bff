@@ -51,7 +51,7 @@ internal class MarketplaceScreenTest : AbstractEndpointTest() {
         Category(id = 1, title = "Cat 1"),
         Category(id = 2, title = "Cat 2"),
         Category(id = 3, title = "Cat 3"),
-        Category(id = 4, title = "Cat 4"),
+        Category(id = 4, title = "Cat 4")
     )
 
     @BeforeEach
@@ -90,7 +90,7 @@ internal class MarketplaceScreenTest : AbstractEndpointTest() {
             ProductSummary(104, thumbnail = PictureSummary(id = 100, url = "https://www.g.com/4.png")),
             ProductSummary(105, thumbnail = PictureSummary(id = 100, url = "https://www.g.com/5.png")),
             ProductSummary(106, thumbnail = PictureSummary(id = 100, url = "https://www.g.com/6.png")),
-            ProductSummary(107, thumbnail = PictureSummary(id = 100, url = "https://www.g.com/7.png")),
+            ProductSummary(107, thumbnail = PictureSummary(id = 100, url = "https://www.g.com/7.png"))
         )
         doReturn(SearchProductResponse(products)).whenever(catalogApi).searchProducts(any())
 

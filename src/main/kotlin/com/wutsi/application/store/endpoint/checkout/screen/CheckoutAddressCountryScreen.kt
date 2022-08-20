@@ -40,7 +40,7 @@ class CheckoutAddressCountryScreen : AbstractQuery() {
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = getText("page.checkout.address.country.app-bar.title"),
+                title = getText("page.checkout.address.country.app-bar.title")
             ),
             child = SingleChildScrollView(
                 child = Column(

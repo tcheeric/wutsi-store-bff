@@ -134,7 +134,7 @@ abstract class AbstractEndpointTest {
                         PhonePrefix(
                             country = "CM",
                             prefixes = listOf("+23795")
-                        ),
+                        )
                     ),
                     logos = listOf(
                         Logo(type = "PICTORIAL", url = "http://www.goole.com/images/mtn.png")
@@ -148,7 +148,7 @@ abstract class AbstractEndpointTest {
                         PhonePrefix(
                             country = "CM",
                             prefixes = listOf("+23722")
-                        ),
+                        )
                     ),
                     logos = listOf(
                         Logo(type = "PICTORIAL", url = "http://www.goole.com/images/orange.png")
@@ -202,7 +202,7 @@ abstract class AbstractEndpointTest {
             "payment-method-read",
             "payment-manage",
             "payment-read",
-            "tenant-read",
+            "tenant-read"
         ),
         subjectId: Long = ACCOUNT_ID,
         subjectType: SubjectType = USER
@@ -277,7 +277,7 @@ abstract class AbstractEndpointTest {
         type: ProductType = ProductType.PHYSICAL,
         accountId: Long = ACCOUNT_ID,
         quantity: Int = 30,
-        id: Long = 1,
+        id: Long = 1
     ) = Product(
         id = id,
         title = "Sample product",
@@ -361,7 +361,7 @@ abstract class AbstractEndpointTest {
         biography = "Short bio to descbribe my business",
         category = Category(
             id = 1000,
-            title = "Marketing",
+            title = "Marketing"
         ),
         timezoneId = "Africa/Douala",
         whatsapp = "+123766666666$id",
@@ -376,7 +376,7 @@ abstract class AbstractEndpointTest {
         displayName = displayName,
         country = "CM",
         language = "en",
-        status = "ACTIVE",
+        status = "ACTIVE"
     )
 
     fun createShipping(type: ShippingType, enabled: Boolean = true, cityId: Long? = 111L) = Shipping(
@@ -389,7 +389,7 @@ abstract class AbstractEndpointTest {
         deliveryTime = 24,
         cityId = cityId,
         country = "CM",
-        street = "3030 Linton",
+        street = "3030 Linton"
     )
 
     fun createShippingSummary(type: ShippingType, enabled: Boolean = true, rate: Double = 150000.0) = ShippingSummary(
@@ -407,7 +407,7 @@ abstract class AbstractEndpointTest {
         shippingId = 111,
         shippingType = type.name,
         rate = rate,
-        deliveryTime = 24,
+        deliveryTime = 24
     )
 
     fun createOrder(
@@ -433,7 +433,7 @@ abstract class AbstractEndpointTest {
         deliveryFees = 1000.0,
         accountId = ACCOUNT_ID,
         created = OffsetDateTime.of(LocalDateTime.of(2022, 4, 14, 0, 0, 0, 0), ZoneOffset.UTC),
-        addressType = AddressType.POSTAL.name,
+        addressType = AddressType.POSTAL.name
     )
 
     fun createAddress(
@@ -449,19 +449,19 @@ abstract class AbstractEndpointTest {
         cityId = 1000,
         street = "180 Rue des Manguier, Bonnapriso",
         email = email,
-        type = type.name,
+        type = type.name
     )
 
     fun createSection(id: Long = 555L, title: String = "Deals", sortOrder: Int = 7) = Section(
         id = id,
         title = title,
-        sortOrder = sortOrder,
+        sortOrder = sortOrder
     )
 
     fun createSectionSummary(id: Long = 555L, title: String = "Deals", sortOrder: Int = 7, productCount: Int = 0) =
         SectionSummary(
             id = id,
             title = title,
-            sortOrder = sortOrder,
+            sortOrder = sortOrder
         )
 }

@@ -35,7 +35,7 @@ class CheckoutShippingScreen(
     private val orderApi: WutsiOrderApi,
     private val catalogApi: WutsiCatalogApi,
     private val tenantProvider: TenantProvider,
-    private val service: ShippingService,
+    private val service: ShippingService
 ) : AbstractQuery() {
 
     @PostMapping
@@ -54,7 +54,7 @@ class CheckoutShippingScreen(
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = getText("page.checkout.shipping.app-bar.title"),
+                title = getText("page.checkout.shipping.app-bar.title")
             ),
             child = Column(
                 mainAxisAlignment = MainAxisAlignment.start,
@@ -86,10 +86,10 @@ class CheckoutShippingScreen(
                 alignment = Alignment.Center,
                 child = Text(
                     getText("page.checkout.shipping.message"),
-                    size = Theme.TEXT_SIZE_LARGE,
+                    size = Theme.TEXT_SIZE_LARGE
                 )
             ),
-            Divider(height = 1.0, color = Theme.COLOR_DIVIDER),
+            Divider(height = 1.0, color = Theme.COLOR_DIVIDER)
         )
 
         children.addAll(
@@ -129,7 +129,7 @@ class CheckoutShippingScreen(
                     ),
                     action = executeCommand(
                         urlBuilder.build("commands/select-shipping-method?order-id=${order.id}&shipping-id=${it.shippingId}")
-                    ),
+                    )
                 )
             }
         )

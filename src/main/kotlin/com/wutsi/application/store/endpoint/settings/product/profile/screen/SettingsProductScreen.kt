@@ -56,7 +56,7 @@ class SettingsProductScreen(
 
     @Value("\${wutsi.store.pictures.max-width}") private val pictureMaxWidth: Int,
     @Value("\${wutsi.store.pictures.max-width}") private val pictureMaxHeight: Int,
-    @Value("\${wutsi.store.pictures.max-per-product}") private val maxPicturesPerProduct: Int,
+    @Value("\${wutsi.store.pictures.max-per-product}") private val maxPicturesPerProduct: Int
 ) : AbstractQuery() {
     companion object {
         const val IMAGE_WIDTH = 150.0
@@ -95,9 +95,9 @@ class SettingsProductScreen(
                     backgroundColor = Theme.COLOR_PRIMARY,
                     foregroundColor = Theme.COLOR_WHITE,
                     title = getText("page.settings.store.product.app-bar.title"),
-                    bottom = tabs,
+                    bottom = tabs
                 ),
-                child = tabViews,
+                child = tabViews
             )
         ).toWidget()
     }
@@ -114,7 +114,7 @@ class SettingsProductScreen(
                     Container(
                         padding = 10.0,
                         height = IMAGE_HEIGHT + 2 * (10.0 + IMAGE_PADDING),
-                        child = toPictureListWidget(product),
+                        child = toPictureListWidget(product)
                     ),
 
                     if (product.status == ProductStatus.DRAFT.name)
@@ -132,7 +132,7 @@ class SettingsProductScreen(
                                     children = listOf(
                                         Text(
                                             caption = getText("page.settings.store.product.draft"),
-                                            color = Theme.COLOR_WARNING,
+                                            color = Theme.COLOR_WARNING
                                         )
                                     )
                                 )
@@ -230,7 +230,7 @@ class SettingsProductScreen(
                                         type = ActionType.Command,
                                         url = urlBuilder.build("commands/publish-product?id=${product.id}")
                                     )
-                                ),
+                                )
                             )
                         )
                     )
@@ -258,14 +258,14 @@ class SettingsProductScreen(
                     child = toStatWidget(
                         "page.settings.store.product.stats-views",
                         product.overallMetrics.totalViews.toDouble(),
-                        tenant,
+                        tenant
                     )
                 ),
                 Flexible(
                     child = toStatWidget(
                         "page.settings.store.product.stats-orders",
                         product.overallMetrics.totalOrders.toDouble(),
-                        tenant,
+                        tenant
                     )
                 ),
                 Flexible(
@@ -273,9 +273,9 @@ class SettingsProductScreen(
                         "page.settings.store.product.stats-conversion",
                         product.overallMetrics.conversion,
                         tenant,
-                        percent = true,
+                        percent = true
                     )
-                ),
+                )
             )
         )
 
@@ -286,7 +286,7 @@ class SettingsProductScreen(
         money: Boolean = false,
         percent: Boolean = false,
         color: String = Theme.COLOR_BLACK,
-        valueSize: Double = 30.0,
+        valueSize: Double = 30.0
     ): WidgetAware =
         Container(
             padding = 10.0,
@@ -303,7 +303,7 @@ class SettingsProductScreen(
                             currency = tenant.currencySymbol,
                             color = color,
                             numberFormat = tenant.numberFormat,
-                            valueFontSize = valueSize,
+                            valueFontSize = valueSize
                         )
                     else
                         Text(
@@ -318,7 +318,7 @@ class SettingsProductScreen(
                         child = Text(
                             caption = getText(name).uppercase(),
                             size = Theme.TEXT_SIZE_SMALL,
-                            alignment = TextAlignment.Center,
+                            alignment = TextAlignment.Center
                         )
                     )
                 )
@@ -388,14 +388,14 @@ class SettingsProductScreen(
                         action = Action(
                             type = ActionType.Prompt,
                             prompt = uploadDialog(product).toWidget()
-                        ),
-                    ),
+                        )
+                    )
                 )
             )
 
         return ListView(
             direction = Axis.Horizontal,
-            children = images,
+            children = images
         )
     }
 
@@ -443,8 +443,8 @@ class SettingsProductScreen(
             ),
             Button(
                 type = ButtonType.Text,
-                caption = getText("page.settings.store.product.button.cancel"),
-            ),
+                caption = getText("page.settings.store.product.button.cancel")
+            )
         )
     )
 

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/commands/submit-order")
 class SubmitOrderCommand(
     private val orderApi: WutsiOrderApi,
-    private val logger: KVLogger,
+    private val logger: KVLogger
 ) : AbstractCommand() {
     companion object {
         private val LOGGER = LoggerFactory.getLogger(SubmitOrderCommand::class.java)
@@ -26,7 +26,7 @@ class SubmitOrderCommand(
 
     @PostMapping
     fun index(
-        @RequestParam(name = "order-id") orderId: String,
+        @RequestParam(name = "order-id") orderId: String
     ): Action {
         try {
             // Open the order

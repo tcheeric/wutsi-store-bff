@@ -23,7 +23,7 @@ class AuthorizeOrderPaymentCommand(
     fun index(
         @RequestParam(name = "order-id") orderId: String,
         @RequestParam(name = "idempotency-key") idempotencyKey: String,
-        @RequestBody request: AuthorizeOrderPaymentRequest,
+        @RequestBody request: AuthorizeOrderPaymentRequest
     ): Action {
         val me = accountApi.getAccount(securityContext.currentAccountId()).account
         val path = "?phone=" + encodeURLParam(me.phone!!.number) +

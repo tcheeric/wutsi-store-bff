@@ -38,14 +38,14 @@ class SettingsProductFileScreen(
                         alignment = TextAlignment.Center,
                         maxLines = 3,
                         overflow = TextOverflow.Clip
-                    ),
+                    )
                 )
             },
             Input(
                 name = "file",
                 type = InputType.File,
                 caption = getText("page.settings.store.product.attribute.${getAttributeName()}"),
-                uploadUrl = urlBuilder.build("commands/upload-product-file?product-id=${product.id}"),
+                uploadUrl = urlBuilder.build("commands/upload-product-file?product-id=${product.id}")
             )
         )
     )

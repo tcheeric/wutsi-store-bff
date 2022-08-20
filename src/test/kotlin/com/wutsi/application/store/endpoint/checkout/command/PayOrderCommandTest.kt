@@ -54,7 +54,7 @@ internal class PayOrderCommandTest : AbstractEndpointTest() {
         totalPrice = 1000.0,
         currency = "XAF",
         status = OrderStatus.CREATED.name,
-        reservationId = 777L,
+        reservationId = 777L
     )
     private val idempotencyKey = "567"
 

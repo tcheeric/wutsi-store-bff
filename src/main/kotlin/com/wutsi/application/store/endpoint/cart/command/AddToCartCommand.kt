@@ -14,7 +14,7 @@ class AddToCartCommand : AbstractCommand() {
     @PostMapping
     fun index(
         @RequestParam(name = "merchant-id") merchantId: Long,
-        @RequestParam(name = "product-id") productId: Long,
+        @RequestParam(name = "product-id") productId: Long
     ): Action {
         cartApi.addProduct(
             merchantId,

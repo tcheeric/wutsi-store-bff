@@ -78,7 +78,7 @@ internal class ProductScreenTest : AbstractEndpointTest() {
             createProductSummary(id = 7),
             createProductSummary(id = 8),
             createProductSummary(id = 9),
-            createProductSummary(id = 10),
+            createProductSummary(id = 10)
         )
         doReturn(SearchProductResponse(products)).whenever(catalogApi).searchProducts(any())
     }

@@ -72,7 +72,7 @@ class SettingsProductEditorScreen(
                                     .map {
                                         DropdownMenuItem(
                                             caption = it.title,
-                                            value = it.id.toString(),
+                                            value = it.id.toString()
                                         )
                                     }
                             )
@@ -89,12 +89,12 @@ class SettingsProductEditorScreen(
                                     children = listOf(
                                         DropdownMenuItem(
                                             caption = getText("product.type.PHYSICAL"),
-                                            value = ProductType.PHYSICAL.name,
+                                            value = ProductType.PHYSICAL.name
                                         ),
                                         DropdownMenuItem(
                                             caption = getText("product.type.NUMERIC"),
-                                            value = ProductType.NUMERIC.name,
-                                        ),
+                                            value = ProductType.NUMERIC.name
+                                        )
                                     )
                                 )
                             )
@@ -136,7 +136,7 @@ class SettingsProductEditorScreen(
                             child = Input(
                                 name = "maxOrder",
                                 caption = getText("page.settings.store.product.editor.max-order"),
-                                type = InputType.Number,
+                                type = InputType.Number
                             )
                         ),
 
@@ -155,7 +155,7 @@ class SettingsProductEditorScreen(
                                 )
                             )
                         )
-                    ),
+                    )
                 )
             )
         ).toWidget()

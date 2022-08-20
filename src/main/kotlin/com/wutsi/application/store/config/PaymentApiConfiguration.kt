@@ -18,7 +18,7 @@ class PaymentApiConfiguration(
     private val authorizationRequestInterceptor: FeignAuthorizationRequestInterceptor,
     private val tracingRequestInterceptor: FeignTracingRequestInterceptor,
     private val mapper: ObjectMapper,
-    private val env: Environment,
+    private val env: Environment
 ) {
     @Bean
     fun paymentApi(): WutsiPaymentApi =

@@ -42,7 +42,7 @@ internal class HomeScreenTest : AbstractEndpointTest() {
         val sections = listOf(
             createSectionSummary(1, "Section 1", productCount = 10),
             createSectionSummary(2, "Section 2", productCount = 12),
-            createSectionSummary(3, "Section 3", productCount = 3),
+            createSectionSummary(3, "Section 3", productCount = 3)
         )
         doReturn(ListSectionResponse(sections)).whenever(catalogApi).listSections(any(), anyOrNull())
     }

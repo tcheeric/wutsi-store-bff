@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/settings/store/products")
 class SettingsProductListScreen(
     private val catalogApi: WutsiCatalogApi,
-    private val tenantProvider: TenantProvider,
+    private val tenantProvider: TenantProvider
 ) : AbstractQuery() {
     companion object {
         const val MAX_PRODUCTS = 50
@@ -49,7 +49,7 @@ class SettingsProductListScreen(
                 accountId = accountId,
                 status = status,
                 sortBy = ProductSort.TITLE.name,
-                limit = MAX_PRODUCTS,
+                limit = MAX_PRODUCTS
             )
         ).products
 
@@ -59,7 +59,7 @@ class SettingsProductListScreen(
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = getText("page.settings.store.product.list.app-bar.title"),
+                title = getText("page.settings.store.product.list.app-bar.title")
             ),
             floatingActionButton = Button(
                 type = ButtonType.Floatable,
@@ -68,7 +68,7 @@ class SettingsProductListScreen(
                 iconColor = Theme.COLOR_WHITE,
                 action = gotoUrl(
                     url = urlBuilder.build("settings/store/product/add")
-                ),
+                )
             ),
             child = Column(
                 children = listOf(
@@ -121,7 +121,7 @@ class SettingsProductListScreen(
                         )
                     )
                 )
-            ),
+            )
         ).toWidget()
     }
 }

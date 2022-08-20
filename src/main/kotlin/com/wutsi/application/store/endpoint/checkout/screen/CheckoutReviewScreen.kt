@@ -43,7 +43,7 @@ class CheckoutReviewScreen(
     private val accountApi: WutsiAccountApi,
     private val catalogApi: WutsiCatalogApi,
     private val shippingApi: WutsiShippingApi,
-    private val tenantProvider: TenantProvider,
+    private val tenantProvider: TenantProvider
 ) : AbstractQuery() {
 
     @PostMapping
@@ -86,7 +86,7 @@ class CheckoutReviewScreen(
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = getText("page.checkout.review.app-bar.title"),
+                title = getText("page.checkout.review.app-bar.title")
             ),
             child = SingleChildScrollView(
                 child = Column(
@@ -95,7 +95,7 @@ class CheckoutReviewScreen(
                     children = children.filterNotNull()
                 )
             ),
-            backgroundColor = Theme.COLOR_GRAY_LIGHT,
+            backgroundColor = Theme.COLOR_GRAY_LIGHT
         ).toWidget()
     }
 
@@ -174,7 +174,7 @@ class CheckoutReviewScreen(
                 Container(
                     padding = 5.0,
                     child = ShippingCard(
-                        model = sharedUIMapper.toShippingModel(order, shipping, tenant),
+                        model = sharedUIMapper.toShippingModel(order, shipping, tenant)
                     )
                 )
             )
@@ -191,7 +191,7 @@ class CheckoutReviewScreen(
                         child = AddressCard(
                             model = sharedUIMapper.toAddressModel(order.shippingAddress!!),
                             showEmailAddress = true,
-                            showPostalAddress = true,
+                            showPostalAddress = true
                         )
                     )
                 )

@@ -43,7 +43,7 @@ internal class CheckoutPaymentScreenTest : AbstractEndpointTest() {
             type = PaymentMethodType.MOBILE.name,
             provider = PaymentMethodProvider.ORANGE.name,
             phone = Phone(number = "+237990000001")
-        ),
+        )
     )
 
     @BeforeEach

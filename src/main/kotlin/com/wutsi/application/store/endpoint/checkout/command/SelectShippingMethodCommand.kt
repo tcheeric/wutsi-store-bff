@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/commands/select-shipping-method")
 class SelectShippingMethodCommand(
     private val orderApi: WutsiOrderApi,
-    private val service: ShippingService,
+    private val service: ShippingService
 ) : AbstractCommand() {
     @PostMapping
     fun index(
         @RequestParam(name = "order-id") orderId: String,
-        @RequestParam(name = "shipping-id") shippingId: Long,
+        @RequestParam(name = "shipping-id") shippingId: Long
     ): Action {
         val account = securityContext.currentAccount()
         val order = orderApi.getOrder(orderId).order

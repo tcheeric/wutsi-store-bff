@@ -136,12 +136,12 @@ abstract class AbstractEndpoint {
 
     protected fun gotoPreviousScreen() = Action(
         type = ActionType.Route,
-        url = "route:/..",
+        url = "route:/.."
     )
 
     protected fun gotoHomeScreen() = Action(
         type = ActionType.Route,
-        url = "route:/~",
+        url = "route:/~"
     )
 
     protected fun executeCommand(url: String) = Action(
@@ -153,7 +153,7 @@ abstract class AbstractEndpoint {
         type = ActionType.Prompt,
         prompt = Dialog(
             type = DialogType.Error,
-            message = message,
+            message = message
         ).toWidget()
     )
 

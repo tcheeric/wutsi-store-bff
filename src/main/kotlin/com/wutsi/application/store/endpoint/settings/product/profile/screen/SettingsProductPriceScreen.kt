@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/settings/store/product/price")
 class SettingsProductPriceScreen(
     catalogApi: WutsiCatalogApi,
-    private val tenantProvider: TenantProvider,
+    private val tenantProvider: TenantProvider
 ) : AbstractSettingsProductAttributeScreen(catalogApi) {
     override fun getAttributeName() = "price"
 

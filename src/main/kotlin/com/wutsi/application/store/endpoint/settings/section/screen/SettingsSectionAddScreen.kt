@@ -50,11 +50,11 @@ class SettingsSectionAddScreen : AbstractQuery() {
                                 caption = getText("page.settings.store.section.add.button.submit"),
                                 action = Action(
                                     type = ActionType.Command,
-                                    url = urlBuilder.build("commands/create-section"),
+                                    url = urlBuilder.build("commands/create-section")
                                 )
                             )
                         )
-                    ),
+                    )
                 )
             )
         ).toWidget()

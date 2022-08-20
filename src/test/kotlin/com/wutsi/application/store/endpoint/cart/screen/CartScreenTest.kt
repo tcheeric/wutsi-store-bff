@@ -63,13 +63,13 @@ internal class CartScreenTest : AbstractEndpointTest() {
     fun outOfStock() {
         val cart = Cart(
             products = listOf(
-                Product(productId = 1, quantity = 5),
+                Product(productId = 1, quantity = 5)
             )
         )
         doReturn(GetCartResponse(cart)).whenever(cartApi).getCart(any())
 
         val products = listOf(
-            ProductSummary(id = 1, price = 100.0, quantity = 0, maxOrder = null),
+            ProductSummary(id = 1, price = 100.0, quantity = 0, maxOrder = null)
         )
         doReturn(SearchProductResponse(products)).whenever(catalogApi).searchProducts(any())
 

@@ -37,7 +37,7 @@ internal class OrdersScreenTest : AbstractEndpointTest() {
             currency = "XAF",
             status = OrderStatus.DONE.name,
             reservationId = 777L,
-            created = OffsetDateTime.of(2020, 5, 5, 1, 1, 0, 0, ZoneOffset.UTC),
+            created = OffsetDateTime.of(2020, 5, 5, 1, 1, 0, 0, ZoneOffset.UTC)
         ),
         OrderSummary(
             id = "222",
@@ -49,8 +49,8 @@ internal class OrdersScreenTest : AbstractEndpointTest() {
             currency = "XAF",
             status = OrderStatus.OPENED.name,
             reservationId = 777L,
-            created = OffsetDateTime.of(2020, 6, 5, 1, 1, 0, 0, ZoneOffset.UTC),
-        ),
+            created = OffsetDateTime.of(2020, 6, 5, 1, 1, 0, 0, ZoneOffset.UTC)
+        )
     )
 
     private val customers = listOf(

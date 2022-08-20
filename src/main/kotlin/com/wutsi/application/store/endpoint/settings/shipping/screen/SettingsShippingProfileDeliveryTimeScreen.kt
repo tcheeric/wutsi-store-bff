@@ -21,7 +21,7 @@ class SettingsShippingProfileDeliveryTimeScreen : AbstractSettingsShippingProfil
             .map {
                 DropdownMenuItem(
                     value = it,
-                    caption = if (it.isEmpty()) "" else getText("shipping.delivery-time.$it"),
+                    caption = if (it.isEmpty()) "" else getText("shipping.delivery-time.$it")
                 )
             }
     )
@@ -39,7 +39,7 @@ class SettingsShippingProfileDeliveryTimeScreen : AbstractSettingsShippingProfil
             "168",
             "336",
             "504",
-            "672",
+            "672"
         )
     }
 }

@@ -50,7 +50,7 @@ class CheckoutAddressScreen(
                     alignment = Alignment.Center,
                     child = Text(
                         getText("page.checkout.address.message"),
-                        size = Theme.TEXT_SIZE_LARGE,
+                        size = Theme.TEXT_SIZE_LARGE
                     )
                 ),
                 Divider(height = 1.0, color = Theme.COLOR_DIVIDER)
@@ -67,7 +67,7 @@ class CheckoutAddressScreen(
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = getText("page.checkout.address.app-bar.title"),
+                title = getText("page.checkout.address.app-bar.title")
             ),
             child = SingleChildScrollView(
                 child = Column(
@@ -118,7 +118,7 @@ class CheckoutAddressScreen(
                         ),
                         action = executeCommand(
                             urlBuilder.build("commands/select-shipping-address?order-id=${order.id}&address-id=${it.id}")
-                        ),
+                        )
                     )
                 }
             )

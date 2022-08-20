@@ -19,7 +19,7 @@ import java.text.DecimalFormat
 @RequestMapping("/settings/store/product/comparable-price")
 class SettingsProductComparablePriceScreen(
     catalogApi: WutsiCatalogApi,
-    private val tenantProvider: TenantProvider,
+    private val tenantProvider: TenantProvider
 ) : AbstractSettingsProductAttributeScreen(catalogApi) {
     override fun getAttributeName() = "comparable-price"
 
@@ -50,7 +50,7 @@ class SettingsProductComparablePriceScreen(
                     value = product.comparablePrice?.toString() ?: "",
                     type = InputType.Number,
                     caption = getText("page.settings.store.product.attribute.${getAttributeName()}"),
-                    suffix = tenant.currencySymbol,
+                    suffix = tenant.currencySymbol
                 )
             )
         )

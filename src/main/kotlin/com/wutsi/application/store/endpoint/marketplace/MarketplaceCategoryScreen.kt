@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController
 class MarketplaceCategoryScreen(
     private val catalogApi: WutsiCatalogApi,
     private val accountApi: WutsiAccountApi,
-    private val tenantProvider: TenantProvider,
+    private val tenantProvider: TenantProvider
 ) : ProductActionProvider, AbstractQuery() {
     override fun getAction(model: ProductModel): Action =
         gotoUrl(
@@ -66,7 +66,7 @@ class MarketplaceCategoryScreen(
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = category.title,
+                title = category.title
             ),
             bottomNavigationBar = bottomNavigationBar(),
             child = SingleChildScrollView(
@@ -74,9 +74,9 @@ class MarketplaceCategoryScreen(
                     spacing = 5.0,
                     productsPerRow = 2,
                     models = products.map { sharedUIMapper.toProductModel(it, tenant, merchants[it.accountId]) },
-                    actionProvider = this,
+                    actionProvider = this
                 )
-            ),
+            )
         ).toWidget()
     }
 }
