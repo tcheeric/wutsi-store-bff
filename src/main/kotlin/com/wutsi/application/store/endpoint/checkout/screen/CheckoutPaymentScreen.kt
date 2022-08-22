@@ -1,7 +1,6 @@
 package com.wutsi.application.store.endpoint.checkout.screen
 
 import com.wutsi.application.shared.Theme
-import com.wutsi.application.shared.service.PhoneUtil
 import com.wutsi.application.shared.service.TenantProvider
 import com.wutsi.application.shared.ui.ProfileListItem
 import com.wutsi.application.store.endpoint.AbstractQuery
@@ -122,8 +121,7 @@ class CheckoutPaymentScreen(
         items.addAll(
             paymentMethods.map {
                 DropdownMenuItem(
-                    caption = PhoneUtil.format(it.phone?.number, it.phone?.country)
-                        ?: it.maskedNumber,
+                    caption = it.maskedNumber,
                     value = it.token,
                     icon = getLogoUrl(tenant, it)
                 )

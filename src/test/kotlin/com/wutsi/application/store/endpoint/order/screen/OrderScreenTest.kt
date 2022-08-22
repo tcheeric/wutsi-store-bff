@@ -16,6 +16,7 @@ import com.wutsi.ecommerce.order.entity.PaymentStatus
 import com.wutsi.ecommerce.shipping.WutsiShippingApi
 import com.wutsi.ecommerce.shipping.dto.GetShippingResponse
 import com.wutsi.ecommerce.shipping.entity.ShippingType
+import com.wutsi.platform.tenant.entity.ToggleName
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -48,6 +49,8 @@ internal class OrderScreenTest : AbstractEndpointTest() {
 
         val order = createOrder(merchantId = ACCOUNT_ID)
         doReturn(GetOrderResponse(order)).whenever(orderApi).getOrder(any())
+
+        doReturn(true).whenever(togglesProvider).isToggleEnabled(ToggleName.BUSINESS_ACCOUNT)
     }
 
     @Test

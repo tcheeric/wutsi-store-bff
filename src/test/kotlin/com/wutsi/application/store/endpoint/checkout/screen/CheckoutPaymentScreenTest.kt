@@ -9,7 +9,6 @@ import com.wutsi.ecommerce.order.WutsiOrderApi
 import com.wutsi.ecommerce.order.dto.GetOrderResponse
 import com.wutsi.platform.account.dto.ListPaymentMethodResponse
 import com.wutsi.platform.account.dto.PaymentMethodSummary
-import com.wutsi.platform.account.dto.Phone
 import com.wutsi.platform.payment.PaymentMethodProvider
 import com.wutsi.platform.payment.PaymentMethodType
 import org.junit.jupiter.api.BeforeEach
@@ -36,13 +35,13 @@ internal class CheckoutPaymentScreenTest : AbstractEndpointTest() {
             token = "xxxx",
             type = PaymentMethodType.MOBILE.name,
             provider = PaymentMethodProvider.MTN.name,
-            phone = Phone(number = "+237990000000")
+            maskedNumber = "....0000"
         ),
         PaymentMethodSummary(
             token = "yyy",
             type = PaymentMethodType.MOBILE.name,
             provider = PaymentMethodProvider.ORANGE.name,
-            phone = Phone(number = "+237990000001")
+            maskedNumber = "....0001"
         )
     )
 

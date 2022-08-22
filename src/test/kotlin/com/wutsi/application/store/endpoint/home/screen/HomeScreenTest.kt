@@ -13,6 +13,7 @@ import com.wutsi.ecommerce.catalog.dto.GetProductResponse
 import com.wutsi.ecommerce.catalog.dto.ListSectionResponse
 import com.wutsi.ecommerce.catalog.dto.SearchProductResponse
 import com.wutsi.platform.account.dto.GetAccountResponse
+import com.wutsi.platform.tenant.entity.ToggleName
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -45,6 +46,8 @@ internal class HomeScreenTest : AbstractEndpointTest() {
             createSectionSummary(3, "Section 3", productCount = 3)
         )
         doReturn(ListSectionResponse(sections)).whenever(catalogApi).listSections(any(), anyOrNull())
+
+        doReturn(true).whenever(togglesProvider).isToggleEnabled(ToggleName.BUSINESS_ACCOUNT)
     }
 
     @Test

@@ -88,7 +88,7 @@
                         {
                           "type": "DropdownMenuItem",
                           "attributes": {
-                            "caption": "+237 990000000",
+                            "caption": "....0000",
                             "icon": "http://www.goole.com/images/mtn.png",
                             "enabled": true,
                             "value": "xxxx"
@@ -98,7 +98,7 @@
                         {
                           "type": "DropdownMenuItem",
                           "attributes": {
-                            "caption": "+237 990000001",
+                            "caption": "....0001",
                             "icon": "http://www.goole.com/images/orange.png",
                             "enabled": true,
                             "value": "yyy"
