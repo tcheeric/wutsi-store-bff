@@ -14,7 +14,7 @@ import org.springframework.boot.test.web.server.LocalServerPort
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 internal class UpdateProductAttributeCommandTest : AbstractEndpointTest() {
     @LocalServerPort
-    public val port: Int = 0
+    val port: Int = 0
 
     private val productId = 777L
 
@@ -27,7 +27,7 @@ internal class UpdateProductAttributeCommandTest : AbstractEndpointTest() {
         val response = rest.postForEntity(url("title"), request, Action::class.java)
 
         // THEN
-        kotlin.test.assertEquals(200, response.statusCodeValue)
+        assertEquals(200, response.statusCodeValue)
 
         val req = argumentCaptor<com.wutsi.ecommerce.catalog.dto.UpdateProductAttributeRequest>()
         verify(catalogApi).updateProductAttribute(eq(productId), eq("title"), req.capture())
@@ -47,7 +47,7 @@ internal class UpdateProductAttributeCommandTest : AbstractEndpointTest() {
         val response = rest.postForEntity(url("visible"), request, Action::class.java)
 
         // THEN
-        kotlin.test.assertEquals(200, response.statusCodeValue)
+        assertEquals(200, response.statusCodeValue)
 
         val req = argumentCaptor<com.wutsi.ecommerce.catalog.dto.UpdateProductAttributeRequest>()
         verify(catalogApi).updateProductAttribute(eq(productId), eq("visible"), req.capture())
@@ -55,7 +55,39 @@ internal class UpdateProductAttributeCommandTest : AbstractEndpointTest() {
 
         val action = response.body!!
         assertEquals(ActionType.Route, action.type)
-        kotlin.test.assertEquals("http://localhost:0/settings/store/product?id=$productId", action.url)
+        assertEquals("http://localhost:0/settings/store/product?id=$productId", action.url)
+    }
+
+    @Test
+    fun negativePrice() {
+        // WHEN
+        val request = com.wutsi.application.store.endpoint.settings.product.profile.dto.UpdateProductAttributeRequest(
+            value = "-1"
+        )
+        val response = rest.postForEntity(url("price"), request, Action::class.java)
+
+        // THEN
+        assertEquals(200, response.statusCodeValue)
+
+        val action = response.body!!
+        assertEquals(ActionType.Prompt, action.type)
+        assertEquals(getText("error.product.negative-price"), action.prompt?.attributes?.get("message"))
+    }
+
+    @Test
+    fun negativeComparablePrice() {
+        // WHEN
+        val request = com.wutsi.application.store.endpoint.settings.product.profile.dto.UpdateProductAttributeRequest(
+            value = "-1"
+        )
+        val response = rest.postForEntity(url("comparable-price"), request, Action::class.java)
+
+        // THEN
+        assertEquals(200, response.statusCodeValue)
+
+        val action = response.body!!
+        assertEquals(ActionType.Prompt, action.type)
+        assertEquals(getText("error.product.negative-price"), action.prompt?.attributes?.get("message"))
     }
 
     private fun url(attribute: String): String =
