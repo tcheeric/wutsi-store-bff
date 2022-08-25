@@ -31,7 +31,6 @@ internal class HomeScreenTest : AbstractEndpointTest() {
     @BeforeEach
     override fun setUp() {
         super.setUp()
-
         val products = listOf(
             createProductSummary(1),
             createProductSummary(2),

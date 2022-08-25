@@ -4,14 +4,13 @@ import com.wutsi.analytics.tracking.entity.EventType
 import com.wutsi.application.shared.Theme
 import com.wutsi.application.shared.model.AccountModel
 import com.wutsi.application.shared.model.ProductModel
-import com.wutsi.application.shared.service.CityService
 import com.wutsi.application.shared.service.PhoneUtil
 import com.wutsi.application.shared.service.StringUtil
 import com.wutsi.application.shared.service.TenantProvider
-import com.wutsi.application.shared.ui.Avatar
 import com.wutsi.application.shared.ui.ProductActionProvider
 import com.wutsi.application.shared.ui.ProductCardType
 import com.wutsi.application.shared.ui.ProductGridView
+import com.wutsi.application.shared.ui.ProfileListItem
 import com.wutsi.application.store.endpoint.AbstractQuery
 import com.wutsi.application.store.endpoint.Page
 import com.wutsi.ecommerce.cart.dto.Cart
@@ -65,7 +64,6 @@ class ProductScreen(
     private val catalogApi: WutsiCatalogApi,
     private val accountApi: WutsiAccountApi,
     private val tenantProvider: TenantProvider,
-    private val cityService: CityService
 ) : ProductActionProvider, AbstractQuery() {
     override fun getAction(model: ProductModel): Action =
         gotoUrl(
@@ -362,49 +360,36 @@ class ProductScreen(
                 mainAxisAlignment = MainAxisAlignment.start,
                 crossAxisAlignment = CrossAxisAlignment.start,
                 mainAxisSize = MainAxisSize.min,
-                children = listOf(
-                    Avatar(
-                        radius = 24.0,
-                        model = sharedUIMapper.toAccountModel(merchant)
-                    ),
-                    Container(padding = 10.0),
-                    Container(
-                        child = Column(
-                            mainAxisAlignment = MainAxisAlignment.start,
-                            crossAxisAlignment = CrossAxisAlignment.start,
-                            mainAxisSize = MainAxisSize.min,
-                            children = listOfNotNull(
-                                Text(caption = merchant.displayName ?: "", bold = true),
-                                Text(
-                                    caption = if (merchant.category == null)
-                                        toLocation(merchant)
-                                    else
-                                        merchant.category!!.title + " - " + toLocation(merchant),
-                                    color = Theme.COLOR_GRAY
-                                ),
-                                whatsappUrl?.let {
-                                    Button(
-                                        type = if (togglesProvider.isCartEnabled()) ButtonType.Outlined else ButtonType.Elevated,
-                                        stretched = false,
-                                        padding = 10.0,
-                                        caption = getText("page.product.write-to-merchant"),
-                                        action = Action(
-                                            type = ActionType.Navigate,
-                                            url = it,
-                                            trackEvent = EventType.CHAT.name,
-                                            trackProductId = product.id.toString()
-                                        )
-                                    )
-                                }
+                children = listOfNotNull(
+                    ProfileListItem(
+                        model = sharedUIMapper.toAccountModel(merchant),
+                        showAccountType = false,
+                        action = gotoUrl(
+                            urlBuilder.build(shellUrl, "/profile"),
+                            parameters = mapOf(
+                                "id" to merchant.id.toString()
                             )
                         )
-                    )
+                    ),
+                    whatsappUrl?.let {
+                        Center(
+                            child = Button(
+                                type = if (togglesProvider.isCartEnabled()) ButtonType.Outlined else ButtonType.Elevated,
+                                stretched = false,
+                                padding = 10.0,
+                                caption = getText("page.product.write-to-merchant"),
+                                action = Action(
+                                    type = ActionType.Navigate,
+                                    url = it,
+                                    trackEvent = EventType.CHAT.name,
+                                    trackProductId = product.id.toString()
+                                )
+                            )
+                        )
+                    }
                 )
             )
         )
-
-    private fun toLocation(merchant: Account): String =
-        sharedUIMapper.toLocationText(cityService.get(merchant.cityId), merchant.country)
 
     private fun toSimilarProductsWidget(product: Product, cart: Cart?, tenant: Tenant): WidgetAware? {
         // Get products
