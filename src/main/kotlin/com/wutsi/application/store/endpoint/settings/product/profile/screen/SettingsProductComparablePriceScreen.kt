@@ -50,7 +50,11 @@ class SettingsProductComparablePriceScreen(
                     value = product.comparablePrice?.toString() ?: "",
                     type = InputType.Number,
                     caption = getText("page.settings.store.product.attribute.${getAttributeName()}"),
-                    suffix = tenant.currencySymbol
+                    suffix = tenant.currencySymbol,
+                    inputFormatterRegex = if (tenant.monetaryFormat.indexOf(".") == -1)
+                        "[0-9]"
+                    else
+                        null
                 )
             )
         )
