@@ -364,6 +364,7 @@ class ProductScreen(
                     ProfileListItem(
                         model = sharedUIMapper.toAccountModel(merchant),
                         showAccountType = false,
+                        showLocation = false,
                         action = gotoUrl(
                             urlBuilder.build(shellUrl, "/profile"),
                             parameters = mapOf(
