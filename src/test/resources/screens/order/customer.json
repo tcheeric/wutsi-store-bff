@@ -1,13 +1,13 @@
 {
   "type": "DefaultTabController",
   "attributes": {
-    "length": 2
+    "length": 2,
+    "id": "page.order"
   },
   "children": [
     {
       "type": "Screen",
       "attributes": {
-        "id": "page.order",
         "safe": false,
         "backgroundColor": "#e8e8e8"
       },

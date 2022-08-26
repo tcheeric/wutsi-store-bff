@@ -1,13 +1,13 @@
 {
   "type": "DefaultTabController",
   "attributes": {
-    "length": 2
+    "length": 2,
+    "id": "page.settings.store.product"
   },
   "children": [
     {
       "type": "Screen",
       "attributes": {
-        "id": "page.settings.store.product",
         "safe": false,
         "backgroundColor": "#FFFFFF"
       },

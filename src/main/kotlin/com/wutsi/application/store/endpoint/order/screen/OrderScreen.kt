@@ -99,9 +99,9 @@ class OrderScreen(
         )
 
         return DefaultTabController(
+            id = Page.ORDER,
             length = tabs.tabs.size,
             child = Screen(
-                id = Page.ORDER,
                 backgroundColor = Theme.COLOR_GRAY_LIGHT,
                 appBar = AppBar(
                     elevation = 0.0,

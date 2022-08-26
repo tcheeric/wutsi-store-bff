@@ -86,9 +86,9 @@ class SettingsProductScreen(
         )
 
         return DefaultTabController(
+            id = Page.SETTINGS_STORE_PRODUCT,
             length = tabs.tabs.size,
             child = Screen(
-                id = Page.SETTINGS_STORE_PRODUCT,
                 backgroundColor = Theme.COLOR_WHITE,
                 appBar = AppBar(
                     elevation = 0.0,
