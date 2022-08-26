@@ -53,7 +53,7 @@
               "type": "Input",
               "attributes": {
                 "name": "value",
-                "value": "7000.0",
+                "value": "7000",
                 "hideText": false,
                 "required": false,
                 "caption": "Price",

@@ -60,7 +60,8 @@
                 "enabled": true,
                 "readOnly": false,
                 "type": "Number",
-                "minLength": 0
+                "minLength": 0,
+                "inputFormatterRegex": "[0-9]"
               },
               "children": []
             }

@@ -28,6 +28,8 @@ class SettingsProductComparablePriceScreen(
     override fun getInputWidget(product: Product): WidgetAware {
         val tenant = tenantProvider.get()
         val fmt = DecimalFormat(tenant.monetaryFormat)
+        val hasNoDecimal = tenant.monetaryFormat.indexOf(".") == -1
+
         return Column(
             children = listOf(
                 Container(
@@ -47,11 +49,16 @@ class SettingsProductComparablePriceScreen(
                 ),
                 Input(
                     name = "value",
-                    value = product.comparablePrice?.toString() ?: "",
                     type = InputType.Number,
                     caption = getText("page.settings.store.product.attribute.${getAttributeName()}"),
                     suffix = tenant.currencySymbol,
-                    inputFormatterRegex = if (tenant.monetaryFormat.indexOf(".") == -1)
+
+                    value = if (hasNoDecimal)
+                        product.comparablePrice?.let { DecimalFormat("#0").format(it) } ?: ""
+                    else
+                        product.comparablePrice?.toString() ?: "",
+
+                    inputFormatterRegex = if (hasNoDecimal)
                         "[0-9]"
                     else
                         null

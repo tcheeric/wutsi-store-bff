@@ -93,7 +93,7 @@
                   "type": "Input",
                   "attributes": {
                     "name": "value",
-                    "value": "10000.0",
+                    "value": "10000",
                     "hideText": false,
                     "required": false,
                     "caption": "Comparable Price",

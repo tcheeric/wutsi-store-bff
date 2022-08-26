@@ -23,7 +23,8 @@ class SettingsProductQuantityScreen(
             name = "value",
             value = product.quantity.toString(),
             type = InputType.Number,
-            caption = getText("page.settings.store.product.attribute.${getAttributeName()}")
+            caption = getText("page.settings.store.product.attribute.${getAttributeName()}"),
+            inputFormatterRegex = "[0-9]"
         )
     }
 }
