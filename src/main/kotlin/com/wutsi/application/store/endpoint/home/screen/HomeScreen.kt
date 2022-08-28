@@ -98,7 +98,8 @@ class HomeScreen(
         children.addAll(
             listOf(
                 ProfileListItem(
-                    model = sharedUIMapper.toAccountModel(merchant)
+                    model = sharedUIMapper.toAccountModel(merchant),
+                    showAccountType = false
                 ),
                 Divider(color = Theme.COLOR_DIVIDER, height = 1.0)
             )
