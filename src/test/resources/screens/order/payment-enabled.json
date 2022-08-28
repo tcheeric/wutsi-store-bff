@@ -75,7 +75,8 @@
                                 {
                                   "type": "Container",
                                   "attributes": {
-                                    "alignment": "Center"
+                                    "alignment": "Center",
+                                    "padding": 10.0
                                   },
                                   "children": [
                                     {
@@ -94,8 +95,7 @@
                                 {
                                   "type": "Container",
                                   "attributes": {
-                                    "alignment": "Center",
-                                    "padding": 10.0
+                                    "alignment": "Center"
                                   },
                                   "children": [
                                     {

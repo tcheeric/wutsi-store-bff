@@ -110,7 +110,7 @@
                 {
                   "type": "ListItemSwitch",
                   "attributes": {
-                    "caption": "Your Store is active",
+                    "caption": "Your store is active",
                     "name": "value",
                     "selected": true
                   },

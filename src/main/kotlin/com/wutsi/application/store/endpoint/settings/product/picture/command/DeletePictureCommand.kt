@@ -19,8 +19,6 @@ class DeletePictureCommand(
         @RequestParam("picture-id") pictureId: Long
     ): Action {
         catalogApi.deletePicture(pictureId)
-        return gotoUrl(
-            url = urlBuilder.build("/settings/store/product?id=$productId")
-        )
+        return gotoPreviousScreen()
     }
 }

@@ -12,7 +12,7 @@ import org.springframework.boot.test.web.server.LocalServerPort
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 internal class DeletePictureCommandTest : AbstractEndpointTest() {
     @LocalServerPort
-    public val port: Int = 0
+    val port: Int = 0
 
     @Test
     fun index() {
@@ -27,6 +27,6 @@ internal class DeletePictureCommandTest : AbstractEndpointTest() {
 
         val action = response.body!!
         assertEquals(ActionType.Route, action.type)
-        assertEquals("http://localhost:0/settings/store/product?id=1", action.url)
+        assertEquals("route:/..", action.url)
     }
 }
