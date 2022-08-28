@@ -41,6 +41,7 @@ import com.wutsi.flutter.sdui.enums.InputType
 import com.wutsi.flutter.sdui.enums.MainAxisAlignment
 import com.wutsi.flutter.sdui.enums.TextAlignment
 import com.wutsi.platform.tenant.dto.Tenant
+import com.wutsi.platform.tenant.entity.ToggleName
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -73,33 +74,54 @@ class SettingsProductScreen(
         val tenant = tenantProvider.get()
 
         val tabs = TabBar(
-            tabs = listOf(
+            tabs = listOfNotNull(
                 Text(getText("page.settings.store.product.tab.product").uppercase(), bold = true),
-                Text(getText("page.settings.store.product.tab.stats").uppercase(), bold = true)
+
+                if (togglesProvider.isToggleEnabled(ToggleName.STORE_STATISTICS))
+                    Text(getText("page.settings.store.product.tab.stats").uppercase(), bold = true)
+                else
+                    null
             )
         )
         val tabViews = TabBarView(
-            children = listOf(
+            children = listOfNotNull(
                 productTab(product, tenant, errors),
-                statisticsTab(product, tenant)
+
+                if (togglesProvider.isToggleEnabled(ToggleName.STORE_STATISTICS))
+                    statisticsTab(product, tenant)
+                else
+                    null
             )
         )
 
-        return DefaultTabController(
-            id = Page.SETTINGS_STORE_PRODUCT,
-            length = tabs.tabs.size,
-            child = Screen(
+        return if (tabViews.children.size == 1)
+            Screen(
+                id = Page.SETTINGS_STORE_PRODUCT,
                 backgroundColor = Theme.COLOR_WHITE,
                 appBar = AppBar(
                     elevation = 0.0,
                     backgroundColor = Theme.COLOR_PRIMARY,
                     foregroundColor = Theme.COLOR_WHITE,
-                    title = getText("page.settings.store.product.app-bar.title"),
-                    bottom = tabs
+                    title = getText("page.settings.store.product.app-bar.title")
                 ),
-                child = tabViews
-            )
-        ).toWidget()
+                child = tabViews.children[0]
+            ).toWidget()
+        else
+            return DefaultTabController(
+                id = Page.SETTINGS_STORE_PRODUCT,
+                length = tabs.tabs.size,
+                child = Screen(
+                    backgroundColor = Theme.COLOR_WHITE,
+                    appBar = AppBar(
+                        elevation = 0.0,
+                        backgroundColor = Theme.COLOR_PRIMARY,
+                        foregroundColor = Theme.COLOR_WHITE,
+                        title = getText("page.settings.store.product.app-bar.title"),
+                        bottom = tabs
+                    ),
+                    child = tabViews
+                )
+            ).toWidget()
     }
 
     private fun productTab(product: Product, tenant: Tenant, errors: Array<String>? = null): WidgetAware {

@@ -50,6 +50,7 @@ import com.wutsi.flutter.sdui.enums.TextDecoration
 import com.wutsi.platform.account.WutsiAccountApi
 import com.wutsi.platform.account.dto.Account
 import com.wutsi.platform.tenant.dto.Tenant
+import com.wutsi.platform.tenant.entity.ToggleName
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -213,15 +214,17 @@ class ProductScreen(
     }
 
     private fun track(product: Product, request: HttpServletRequest) {
-        track(
-            correlationId = UUID.randomUUID().toString(),
-            page = Page.PRODUCT,
-            event = EventType.VIEW,
-            productId = product.id,
-            merchantId = product.accountId,
-            value = null,
-            request = request
-        )
+        if (togglesProvider.isToggleEnabled(ToggleName.STORE_STATISTICS)) {
+            track(
+                correlationId = UUID.randomUUID().toString(),
+                page = Page.PRODUCT,
+                event = EventType.VIEW,
+                productId = product.id,
+                merchantId = product.accountId,
+                value = null,
+                request = request
+            )
+        }
     }
 
     private fun toCartWidget(merchant: Account, product: Product, cart: Cart?): WidgetAware? {

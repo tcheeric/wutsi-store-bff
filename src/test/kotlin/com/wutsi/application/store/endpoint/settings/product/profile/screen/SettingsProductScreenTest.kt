@@ -6,6 +6,7 @@ import com.nhaarman.mockitokotlin2.whenever
 import com.wutsi.application.store.endpoint.AbstractEndpointTest
 import com.wutsi.ecommerce.catalog.dto.GetProductResponse
 import com.wutsi.ecommerce.catalog.entity.ProductType
+import com.wutsi.platform.tenant.entity.ToggleName
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -31,6 +32,15 @@ internal class SettingsProductScreenTest : AbstractEndpointTest() {
         doReturn(GetProductResponse(product)).whenever(catalogApi).getProduct(any())
 
         assertEndpointEquals("/screens/settings/product/profile.json", url)
+    }
+
+    @Test
+    fun profileWithStatisticsEnabled() {
+        doReturn(true).whenever(togglesProvider).isToggleEnabled(ToggleName.STORE_STATISTICS)
+        val product = createProduct(true)
+        doReturn(GetProductResponse(product)).whenever(catalogApi).getProduct(any())
+
+        assertEndpointEquals("/screens/settings/product/profile-with-statistics-enabled.json", url)
     }
 
     @Test
