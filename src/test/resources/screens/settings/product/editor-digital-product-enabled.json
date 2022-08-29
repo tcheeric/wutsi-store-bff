@@ -159,7 +159,8 @@
                     "type": "Number",
                     "maxLength": 10,
                     "minLength": 0,
-                    "suffix": "FCFA"
+                    "suffix": "FCFA",
+                    "inputFormatterRegex": "[0-9]"
                   },
                   "children": []
                 }
@@ -188,7 +189,8 @@
                     "enabled": true,
                     "readOnly": false,
                     "type": "Number",
-                    "minLength": 0
+                    "minLength": 0,
+                    "inputFormatterRegex": "[0-9]"
                   },
                   "children": []
                 }
@@ -210,7 +212,8 @@
                     "enabled": true,
                     "readOnly": false,
                     "type": "Number",
-                    "minLength": 0
+                    "minLength": 0,
+                    "inputFormatterRegex": "[0-9]"
                   },
                   "children": []
                 }

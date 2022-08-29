@@ -23,7 +23,8 @@ class SettingsProductMaxOrderScreen(
             name = "value",
             value = product.maxOrder?.toString() ?: "",
             type = InputType.Number,
-            caption = getText("page.settings.store.product.attribute.${getAttributeName()}")
+            caption = getText("page.settings.store.product.attribute.${getAttributeName()}"),
+            inputFormatterRegex = "[0-9]"
         )
     }
 }

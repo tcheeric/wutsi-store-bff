@@ -34,6 +34,7 @@ class SettingsProductEditorScreen(
     @PostMapping
     fun index(@RequestParam(name = "category-id") categoryId: Long): Widget {
         val tenant = tenantProvider.get()
+        val hasNoDecimal = tenant.monetaryFormat.indexOf(".") == -1
         val categories = catalogApi.searchCategories(
             request = SearchCategoryRequest(
                 parentId = categoryId
@@ -118,7 +119,11 @@ class SettingsProductEditorScreen(
                                 caption = getText("page.settings.store.product.editor.price"),
                                 type = InputType.Number,
                                 suffix = tenant.currencySymbol,
-                                required = true
+                                required = true,
+                                inputFormatterRegex = if (hasNoDecimal)
+                                    "[0-9]"
+                                else
+                                    null
                             )
                         ),
                         Divider(color = Theme.COLOR_DIVIDER),
@@ -128,7 +133,8 @@ class SettingsProductEditorScreen(
                                 name = "quantity",
                                 caption = getText("page.settings.store.product.editor.quantity"),
                                 type = InputType.Number,
-                                required = true
+                                required = true,
+                                inputFormatterRegex = "[0-9]"
                             )
                         ),
                         Container(
@@ -136,7 +142,8 @@ class SettingsProductEditorScreen(
                             child = Input(
                                 name = "maxOrder",
                                 caption = getText("page.settings.store.product.editor.max-order"),
-                                type = InputType.Number
+                                type = InputType.Number,
+                                inputFormatterRegex = "[0-9]"
                             )
                         ),
 
