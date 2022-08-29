@@ -42,6 +42,12 @@ internal class CheckoutPaymentScreenTest : AbstractEndpointTest() {
             type = PaymentMethodType.MOBILE.name,
             provider = PaymentMethodProvider.ORANGE.name,
             maskedNumber = "....0001"
+        ),
+        PaymentMethodSummary(
+            token = "zzz",
+            type = PaymentMethodType.BANK.name,
+            provider = PaymentMethodProvider.ORANGE.name,
+            maskedNumber = "....0003"
         )
     )
 

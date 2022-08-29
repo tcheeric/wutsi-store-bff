@@ -22,6 +22,8 @@ import com.wutsi.flutter.sdui.Widget
 import com.wutsi.flutter.sdui.enums.InputType
 import com.wutsi.platform.account.WutsiAccountApi
 import com.wutsi.platform.account.dto.PaymentMethodSummary
+import com.wutsi.platform.payment.Capability
+import com.wutsi.platform.payment.PaymentMethodProvider
 import com.wutsi.platform.payment.PaymentMethodType
 import com.wutsi.platform.tenant.dto.FinancialInstitution
 import com.wutsi.platform.tenant.dto.MobileCarrier
@@ -45,9 +47,10 @@ class CheckoutPaymentScreen(
         val tenant = tenantProvider.get()
         val order = orderApi.getOrder(orderId).order
         val merchant = accountApi.getAccount(order.merchantId).account
-        val paymentMethods = accountApi.listPaymentMethods(securityContext.currentAccountId()).paymentMethods
         val amountText = DecimalFormat(tenant.monetaryFormat).format(order.totalPrice)
         val idempotencyKey = idempotencyKeyGenerator.generate()
+        val paymentMethods = accountApi.listPaymentMethods(securityContext.currentAccountId()).paymentMethods
+            .filter { supportsPayment(it) }
 
         // Result
         return Screen(
@@ -104,6 +107,11 @@ class CheckoutPaymentScreen(
                 )
             )
         ).toWidget()
+    }
+
+    private fun supportsPayment(paymentMethod: PaymentMethodSummary): Boolean {
+        val provider = PaymentMethodProvider.valueOf(paymentMethod.provider.uppercase())
+        return provider.capabilities.contains(Capability.PAYMENT)
     }
 
     private fun toPaymentMethodWidgetList(
