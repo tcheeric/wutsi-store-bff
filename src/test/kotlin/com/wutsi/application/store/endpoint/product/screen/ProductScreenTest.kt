@@ -95,7 +95,7 @@ internal class ProductScreenTest : AbstractEndpointTest() {
     }
 
     @Test
-    fun productWithTrackingEnabled() {
+    fun productWithStatisticsEnabled() {
         doReturn(true).whenever(togglesProvider).isToggleEnabled(ToggleName.STORE_STATISTICS)
 
         val product = createProduct(true)

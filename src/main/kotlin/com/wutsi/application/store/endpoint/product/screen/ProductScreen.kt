@@ -30,6 +30,7 @@ import com.wutsi.flutter.sdui.CarouselSlider
 import com.wutsi.flutter.sdui.Center
 import com.wutsi.flutter.sdui.Column
 import com.wutsi.flutter.sdui.Container
+import com.wutsi.flutter.sdui.Divider
 import com.wutsi.flutter.sdui.ExpandablePanel
 import com.wutsi.flutter.sdui.Icon
 import com.wutsi.flutter.sdui.Image
@@ -359,7 +360,8 @@ class ProductScreen(
 
     private fun toVendorWidget(product: Product, merchant: Account, whatsappUrl: String?): WidgetAware =
         toSectionWidget(
-            child = Row(
+            padding = null,
+            child = Column(
                 mainAxisAlignment = MainAxisAlignment.start,
                 crossAxisAlignment = CrossAxisAlignment.start,
                 mainAxisSize = MainAxisSize.min,
@@ -375,6 +377,7 @@ class ProductScreen(
                             )
                         )
                     ),
+                    Divider(height = 1.0),
                     whatsappUrl?.let {
                         Center(
                             child = Button(

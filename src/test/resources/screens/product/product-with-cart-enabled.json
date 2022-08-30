@@ -263,7 +263,6 @@
             {
               "type": "Container",
               "attributes": {
-                "padding": 10.0,
                 "margin": 5.0,
                 "background": "#FFFFFF",
                 "border": 1.0,
@@ -272,7 +271,7 @@
               },
               "children": [
                 {
-                  "type": "Row",
+                  "type": "Column",
                   "attributes": {
                     "mainAxisAlignment": "start",
                     "mainAxisSize": "min",
@@ -319,6 +318,13 @@
                           "id": "77777"
                         }
                       }
+                    },
+                    {
+                      "type": "Divider",
+                      "attributes": {
+                        "height": 1.0
+                      },
+                      "children": []
                     },
                     {
                       "type": "Center",
