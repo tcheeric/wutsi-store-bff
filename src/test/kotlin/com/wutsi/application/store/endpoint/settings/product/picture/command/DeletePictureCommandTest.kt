@@ -17,7 +17,7 @@ internal class DeletePictureCommandTest : AbstractEndpointTest() {
     @Test
     fun index() {
         // WHEN
-        val url = "http://localhost:$port/commands/delete-picture?picture-id=111&product-id=1"
+        val url = "http://localhost:$port/commands/delete-picture?picture-id=111"
         val response = rest.postForEntity(url, null, Action::class.java)
 
         // THEN

@@ -15,7 +15,6 @@ class DeletePictureCommand(
 ) : AbstractCommand() {
     @PostMapping
     fun index(
-        @RequestParam("product-id") productId: Long,
         @RequestParam("picture-id") pictureId: Long
     ): Action {
         catalogApi.deletePicture(pictureId)
