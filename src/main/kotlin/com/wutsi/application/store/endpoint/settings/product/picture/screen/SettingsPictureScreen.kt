@@ -43,7 +43,7 @@ class SettingsPictureScreen(
                 stretched = false,
                 color = Theme.COLOR_WHITE,
                 action = gotoUrl(
-                    url = urlBuilder.build("settings/store/picture/delete?picture-id=$pictureId&product-id=$productId\""),
+                    url = urlBuilder.build("settings/store/picture/delete?picture-id=$pictureId&product-id=$productId"),
                     replacement = true
                 )
             )

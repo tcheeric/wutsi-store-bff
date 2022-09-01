@@ -49,7 +49,7 @@ class SettingsPictureDeleteScreen(
             ),
             child = Column(
                 mainAxisAlignment = MainAxisAlignment.start,
-                crossAxisAlignment = CrossAxisAlignment.start,
+                crossAxisAlignment = CrossAxisAlignment.center,
                 children = listOf(
                     Container(
                         padding = 10.0,
