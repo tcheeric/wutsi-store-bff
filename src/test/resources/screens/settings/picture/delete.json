@@ -9,7 +9,7 @@
       "type": "Column",
       "attributes": {
         "mainAxisAlignment": "start",
-        "crossAxisAlignment": "start"
+        "crossAxisAlignment": "center"
       },
       "children": [
         {
