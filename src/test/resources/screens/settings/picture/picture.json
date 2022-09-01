@@ -1,41 +1,43 @@
 {
-  "type" : "Screen",
-  "attributes" : {
-    "id" : "page.settings.store.picture",
-    "safe" : false
+  "type": "Screen",
+  "attributes": {
+    "id": "page.settings.store.picture",
+    "safe": false
   },
-  "children" : [ {
-    "type" : "PhotoView",
-    "attributes" : {
-      "url" : "https://www.imag.com/3.png"
+  "children": [
+    {
+      "type": "PhotoView",
+      "attributes": {
+        "url": "https://www.imag.com/3.png"
+      },
+      "children": []
+    }
+  ],
+  "appBar": {
+    "type": "AppBar",
+    "attributes": {
+      "title": "Picture",
+      "elevation": 0.0,
+      "backgroundColor": "#FFFFFF",
+      "foregroundColor": "#000000"
     },
-    "children" : [ ]
-  } ],
-  "appBar" : {
-    "type" : "AppBar",
-    "attributes" : {
-      "title" : "Picture",
-      "elevation" : 0.0,
-      "backgroundColor" : "#FFFFFF",
-      "foregroundColor" : "#000000"
-    },
-    "children" : [ ]
+    "children": []
   },
-  "floatingActionButton" : {
-    "type" : "Button",
-    "attributes" : {
-      "caption" : "",
-      "padding" : 15.0,
-      "type" : "Floatable",
-      "stretched" : false,
-      "icon" : "e8b8",
-      "color" : "#FFFFFF"
+  "floatingActionButton": {
+    "type": "Button",
+    "attributes": {
+      "caption": "",
+      "padding": 15.0,
+      "type": "Floatable",
+      "stretched": false,
+      "icon": "e8b8",
+      "color": "#FFFFFF"
     },
-    "children" : [ ],
-    "action" : {
-      "type" : "Route",
-      "url" : "http://localhost:0/settings/store/picture/delete?picture-id=3&product-id=777\"",
-      "replacement" : true
+    "children": [],
+    "action": {
+      "type": "Route",
+      "url": "http://localhost:0/settings/store/picture/delete?picture-id=3&product-id=777",
+      "replacement": true
     }
   }
 }
