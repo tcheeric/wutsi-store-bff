@@ -82,7 +82,6 @@ class SettingsPictureDeleteScreen(
                             action = gotoPreviousScreen()
                         )
                     )
-
                 )
             )
 
