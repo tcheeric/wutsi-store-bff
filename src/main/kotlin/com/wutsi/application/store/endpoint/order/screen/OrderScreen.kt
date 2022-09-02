@@ -101,7 +101,6 @@ class OrderScreen(
                     elevation = 0.0,
                     backgroundColor = Theme.COLOR_PRIMARY,
                     foregroundColor = Theme.COLOR_WHITE,
-                    bottom = tabs,
                     title = getText("page.order.app-bar.title", arrayOf(order.id.uppercase().takeLast(4))),
                     actions = listOfNotNull(
                         getAppBarAction(order),

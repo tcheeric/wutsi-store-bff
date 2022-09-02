@@ -852,21 +852,7 @@
             }
           ]
         }
-      ],
-      "bottom": {
-        "type": "TabBar",
-        "attributes": {},
-        "children": [
-          {
-            "type": "Text",
-            "attributes": {
-              "caption": "PRODUCTS",
-              "bold": true
-            },
-            "children": []
-          }
-        ]
-      }
+      ]
     },
     "children": []
   },
