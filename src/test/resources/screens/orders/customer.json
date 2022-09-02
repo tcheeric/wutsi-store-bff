@@ -55,36 +55,9 @@
                 {
                   "type": "DropdownMenuItem",
                   "attributes": {
-                    "caption": "Delivered",
-                    "enabled": true,
-                    "value": "DELIVERED"
-                  },
-                  "children": []
-                },
-                {
-                  "type": "DropdownMenuItem",
-                  "attributes": {
-                    "caption": "In Transit",
-                    "enabled": true,
-                    "value": "IN_TRANSIT"
-                  },
-                  "children": []
-                },
-                {
-                  "type": "DropdownMenuItem",
-                  "attributes": {
                     "caption": "Opened",
                     "enabled": true,
                     "value": "OPENED"
-                  },
-                  "children": []
-                },
-                {
-                  "type": "DropdownMenuItem",
-                  "attributes": {
-                    "caption": "Ready for Pickup",
-                    "enabled": true,
-                    "value": "READY_FOR_PICKUP"
                   },
                   "children": []
                 }

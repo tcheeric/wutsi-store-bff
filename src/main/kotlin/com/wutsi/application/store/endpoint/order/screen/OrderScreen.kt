@@ -104,7 +104,7 @@ class OrderScreen(
                     bottom = tabs,
                     title = getText("page.order.app-bar.title", arrayOf(order.id.uppercase().takeLast(4))),
                     actions = listOfNotNull(
-                        getAppBarAction(order, shipping),
+                        getAppBarAction(order),
                         getShareAction(order, tenant)
                     )
                 ),
@@ -124,7 +124,7 @@ class OrderScreen(
                         bottom = tabs,
                         title = getText("page.order.app-bar.title", arrayOf(order.id.uppercase().takeLast(4))),
                         actions = listOfNotNull(
-                            getAppBarAction(order, shipping),
+                            getAppBarAction(order),
                             getShareAction(order, tenant)
                         )
                     ),
@@ -361,14 +361,11 @@ class OrderScreen(
             )
         )
 
-    private fun getAppBarAction(order: Order, shipping: Shipping?): WidgetAware? {
-        if (order.merchantId != securityContext.currentAccountId())
+    private fun getAppBarAction(order: Order): WidgetAware? {
+        if (order.merchantId != securityContext.currentAccountId() || isClosed(order))
             return null
 
-        val buttons = getAppBarButtons(order, shipping)
-        if (buttons.isEmpty())
-            return null
-
+        val buttons = getAppBarButtons(order)
         return TitleBarAction(
             icon = Theme.ICON_MORE,
             action = Action(
@@ -381,63 +378,19 @@ class OrderScreen(
         )
     }
 
-    private fun getAppBarButtons(order: Order, shipping: Shipping?): List<WidgetAware> {
-        val children = mutableListOf<WidgetAware>()
-        if (isManualFulfillment(shipping)) {
-            if (order.status == OrderStatus.OPENED.name)
-                children.add(
-                    Button(
-                        caption = getText("page.order.button.close"),
-                        action = gotoUrl(urlBuilder.build("/order/close?id=${order.id}"))
-                    )
-                )
-            else if (isAvailableForDelivery(order))
-                children.add(
-                    Button(
-                        caption = getText("page.order.button.deliver"),
-                        action = gotoUrl(urlBuilder.build("/order/deliver?id=${order.id}"))
-                    )
-                )
-            else if (isAvailableForLocalDelivery(order, shipping))
-                children.add(
-                    Button(
-                        caption = getText("page.order.button.start-delivery"),
-                        action = gotoUrl(urlBuilder.build("/order/start-delivery?id=${order.id}"))
-                    )
-                )
+    private fun isClosed(order: Order): Boolean =
+        order.status == OrderStatus.CANCELLED.name || order.status == OrderStatus.DONE.name
 
-            if (canCancel(order))
-                children.add(
-                    Button(
-                        type = ButtonType.Outlined,
-                        caption = getText("page.order.button.cancel"),
-                        action = gotoUrl(urlBuilder.build("/order/cancel?id=${order.id}"))
-                    )
-                )
-        }
-        return children
-    }
-
-    private fun canCancel(order: Order): Boolean =
-        order.status != OrderStatus.EXPIRED.name &&
-            order.status != OrderStatus.CANCELLED.name &&
-            order.status != OrderStatus.DELIVERED.name
-
-    private fun isAvailableForDelivery(order: Order): Boolean =
-        order.status == OrderStatus.READY_FOR_PICKUP.name ||
-            order.status == OrderStatus.IN_TRANSIT.name
-
-    private fun isAvailableForLocalDelivery(order: Order, shipping: Shipping?): Boolean =
-        togglesProvider.isShippingLocalDeliveryEnabled() &&
-            shipping != null &&
-            shipping.type == ShippingType.LOCAL_DELIVERY.name &&
-            order.status == OrderStatus.DONE.name
-
-    private fun isManualFulfillment(shipping: Shipping?): Boolean =
-        isAutomaticFulfillment(shipping)
-
-    private fun isAutomaticFulfillment(shipping: Shipping?): Boolean =
-        togglesProvider.isShippingEmailDeliveryEnabled() &&
-            shipping != null &&
-            shipping.type == ShippingType.EMAIL_DELIVERY.name
+    private fun getAppBarButtons(order: Order): List<WidgetAware> =
+        listOf<WidgetAware>(
+            Button(
+                caption = getText("page.order.button.close"),
+                action = gotoUrl(urlBuilder.build("/order/close?id=${order.id}"))
+            ),
+            Button(
+                type = ButtonType.Outlined,
+                caption = getText("page.order.button.cancel"),
+                action = gotoUrl(urlBuilder.build("/order/cancel?id=${order.id}"))
+            )
+        )
 }

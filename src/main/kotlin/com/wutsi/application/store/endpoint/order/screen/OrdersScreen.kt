@@ -199,5 +199,9 @@ class OrdersScreen(
     ).orders
 
     private fun getOrderStatusList(): List<OrderStatus> =
-        OrderStatus.values().filter { it != OrderStatus.CREATED && it != OrderStatus.EXPIRED }
+        listOf(
+            OrderStatus.OPENED,
+            OrderStatus.DONE,
+            OrderStatus.CANCELLED
+        )
 }
