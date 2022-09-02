@@ -30,7 +30,6 @@ import com.wutsi.flutter.sdui.Container
 import com.wutsi.flutter.sdui.DefaultTabController
 import com.wutsi.flutter.sdui.Dialog
 import com.wutsi.flutter.sdui.Divider
-import com.wutsi.flutter.sdui.DynamicWidget
 import com.wutsi.flutter.sdui.Flexible
 import com.wutsi.flutter.sdui.Row
 import com.wutsi.flutter.sdui.Screen
@@ -80,9 +79,7 @@ class OrderScreen(
                 if (shipping != null)
                     Text(getText("page.order.tab.shipping").uppercase(), bold = true)
                 else
-                    null,
-
-                Text(getText("page.order.tab.qr-code").uppercase(), bold = true)
+                    null
             )
         )
         val tabViews = TabBarView(
@@ -92,16 +89,13 @@ class OrderScreen(
                 if (shipping != null)
                     shippingTab(order, shipping, tenant)
                 else
-                    null,
-
-                qrCodeTab(order)
+                    null
             )
         )
 
-        return DefaultTabController(
-            id = Page.ORDER,
-            length = tabs.tabs.size,
-            child = Screen(
+        return if (tabViews.children.size == 1)
+            Screen(
+                id = Page.ORDER,
                 backgroundColor = Theme.COLOR_GRAY_LIGHT,
                 appBar = AppBar(
                     elevation = 0.0,
@@ -114,10 +108,30 @@ class OrderScreen(
                         getShareAction(order, tenant)
                     )
                 ),
-                child = tabViews,
+                child = tabViews.children[0],
                 bottomNavigationBar = bottomNavigationBar()
-            )
-        ).toWidget()
+            ).toWidget()
+        else
+            DefaultTabController(
+                id = Page.ORDER,
+                length = tabs.tabs.size,
+                child = Screen(
+                    backgroundColor = Theme.COLOR_GRAY_LIGHT,
+                    appBar = AppBar(
+                        elevation = 0.0,
+                        backgroundColor = Theme.COLOR_PRIMARY,
+                        foregroundColor = Theme.COLOR_WHITE,
+                        bottom = tabs,
+                        title = getText("page.order.app-bar.title", arrayOf(order.id.uppercase().takeLast(4))),
+                        actions = listOfNotNull(
+                            getAppBarAction(order, shipping),
+                            getShareAction(order, tenant)
+                        )
+                    ),
+                    child = tabViews,
+                    bottomNavigationBar = bottomNavigationBar()
+                )
+            ).toWidget()
     }
 
     private fun productsTab(order: Order, tenant: Tenant): WidgetAware {
@@ -286,12 +300,6 @@ class OrderScreen(
             )
         )
     }
-
-    private fun qrCodeTab(order: Order) = toSectionWidget(
-        child = DynamicWidget(
-            url = urlBuilder.build("order/qr-code-widget?id=${order.id}")
-        )
-    )
 
     private fun toProductListWidget(order: Order, products: Map<Long, ProductSummary>, tenant: Tenant): WidgetAware {
         val children = mutableListOf<WidgetAware>()

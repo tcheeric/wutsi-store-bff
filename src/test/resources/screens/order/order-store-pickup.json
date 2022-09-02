@@ -1,7 +1,7 @@
 {
   "type": "DefaultTabController",
   "attributes": {
-    "length": 3,
+    "length": 2,
     "id": "page.order"
   },
   "children": [
@@ -794,26 +794,6 @@
                   ]
                 }
               ]
-            },
-            {
-              "type": "Container",
-              "attributes": {
-                "padding": 10.0,
-                "margin": 5.0,
-                "background": "#FFFFFF",
-                "border": 1.0,
-                "borderColor": "#e8e8e8",
-                "width": 1.7976931348623157E308
-              },
-              "children": [
-                {
-                  "type": "DynamicWidget",
-                  "attributes": {
-                    "url": "http://localhost:0/order/qr-code-widget?id=111"
-                  },
-                  "children": []
-                }
-              ]
             }
           ]
         }
@@ -872,14 +852,6 @@
                 "type": "Text",
                 "attributes": {
                   "caption": "SHIPPING",
-                  "bold": true
-                },
-                "children": []
-              },
-              {
-                "type": "Text",
-                "attributes": {
-                  "caption": "QR CODE",
                   "bold": true
                 },
                 "children": []
