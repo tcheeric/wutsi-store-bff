@@ -303,7 +303,12 @@ class OrderScreen(
     private fun toProductListWidget(order: Order, products: Map<Long, ProductSummary>, tenant: Tenant): WidgetAware {
         val children = mutableListOf<WidgetAware>()
         var i = 0
-        order.items.map { toItemWidget(it, products[it.productId]!!, tenant) }
+        order.items.mapNotNull {
+            if (products[it.productId] != null)
+                toItemWidget(it, products[it.productId]!!, tenant)
+            else
+                null
+        }
             .forEach {
                 if (i++ > 0)
                     children.add(Divider(color = Theme.COLOR_DIVIDER, height = 1.0))

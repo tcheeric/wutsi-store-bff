@@ -635,7 +635,7 @@
                           {
                             "type": "Button",
                             "attributes": {
-                              "caption": "Complete the Order",
+                              "caption": "Close the Order",
                               "padding": 15.0,
                               "type": "Elevated"
                             },
