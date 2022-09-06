@@ -28,6 +28,7 @@ import com.wutsi.platform.account.dto.AccountSummary
 import com.wutsi.platform.account.dto.Category
 import com.wutsi.platform.account.dto.SearchAccountRequest
 import com.wutsi.platform.account.entity.AccountSort
+import com.wutsi.platform.account.entity.AccountStatus
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -62,7 +63,8 @@ class MarketplaceScreen(
             accountApi.searchAccount(
                 request = SearchAccountRequest(
                     ids = merchants.map { it.accountId },
-                    sortBy = AccountSort.NAME.name
+                    sortBy = AccountSort.NAME.name,
+                    status = AccountStatus.ACTIVE.name
                 )
             ).accounts
 

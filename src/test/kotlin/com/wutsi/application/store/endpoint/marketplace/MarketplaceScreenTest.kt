@@ -19,6 +19,7 @@ import com.wutsi.platform.account.dto.AccountSummary
 import com.wutsi.platform.account.dto.Category
 import com.wutsi.platform.account.dto.ListCategoryResponse
 import com.wutsi.platform.account.dto.SearchAccountResponse
+import com.wutsi.platform.account.entity.AccountStatus
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -42,9 +43,9 @@ internal class MarketplaceScreenTest : AbstractEndpointTest() {
     )
 
     val stores = listOf(
-        AccountSummary(id = 111, business = true, categoryId = 111),
-        AccountSummary(id = 222, business = true, categoryId = 222),
-        AccountSummary(id = 333, business = true, categoryId = 333)
+        AccountSummary(id = 111, business = true, categoryId = 111, status = AccountStatus.ACTIVE.name),
+        AccountSummary(id = 222, business = true, categoryId = 222, status = AccountStatus.ACTIVE.name),
+        AccountSummary(id = 333, business = true, categoryId = 333, status = AccountStatus.ACTIVE.name)
     )
 
     val categories = listOf(
