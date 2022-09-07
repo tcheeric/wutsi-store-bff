@@ -47,6 +47,7 @@ class MarketplaceScreen(
     @PostMapping
     fun index(): Widget {
         val children = mutableListOf<WidgetAware>()
+        val userId = securityContext.currentAccountId()
 
         // Get merchants
         val merchants = catalogApi.searchMerchants(
@@ -82,7 +83,13 @@ class MarketplaceScreen(
             if (children.isNotEmpty()) {
                 children.add(Container(padding = 10.0))
             }
-            children.add(toStoreListWidget(stores, categories))
+            val cartMerchantIds = carts.map { it.merchantId }
+            children.add(
+                toStoreListWidget(
+                    stores = stores.filter { !cartMerchantIds.contains(it.id) && it.id != userId },
+                    categories = categories
+                )
+            )
         }
 
         return Screen(
