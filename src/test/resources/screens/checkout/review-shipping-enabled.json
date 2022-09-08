@@ -498,14 +498,14 @@
                     {
                       "type": "Button",
                       "attributes": {
-                        "caption": "Pay 25,000 CFA",
+                        "caption": "Submit to Merchant",
                         "padding": 15.0,
                         "type": "Elevated"
                       },
                       "children": [],
                       "action": {
-                        "type": "Route",
-                        "url": "http://localhost:0/checkout/payment?order-id=111"
+                        "type": "Command",
+                        "url": "http://localhost:0/commands/submit-order?order-id=111"
                       }
                     }
                   ]
@@ -524,32 +524,7 @@
       "elevation": 0.0,
       "backgroundColor": "#FFFFFF",
       "foregroundColor": "#000000",
-      "automaticallyImplyLeading": false,
-      "actions": [
-        {
-          "type": "IconButton",
-          "attributes": {
-            "icon": "ef28"
-          },
-          "children": [],
-          "action": {
-            "type": "Command",
-            "url": "http://localhost:0/commands/cancel-order",
-            "prompt": {
-              "type": "Dialog",
-              "attributes": {
-                "type": "Confirm",
-                "message": "Are you sure you want to cancel the order?"
-              },
-              "children": []
-            },
-            "parameters": {
-              "id": "111",
-              "return-home": "true"
-            }
-          }
-        }
-      ]
+      "automaticallyImplyLeading": true
     },
     "children": []
   }

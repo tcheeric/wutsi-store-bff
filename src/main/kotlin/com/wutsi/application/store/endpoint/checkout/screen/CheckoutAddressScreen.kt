@@ -9,19 +9,24 @@ import com.wutsi.ecommerce.order.WutsiOrderApi
 import com.wutsi.ecommerce.order.dto.Address
 import com.wutsi.ecommerce.order.dto.Order
 import com.wutsi.ecommerce.order.entity.AddressType
+import com.wutsi.flutter.sdui.Action
 import com.wutsi.flutter.sdui.AppBar
 import com.wutsi.flutter.sdui.Button
 import com.wutsi.flutter.sdui.Column
 import com.wutsi.flutter.sdui.Container
+import com.wutsi.flutter.sdui.Dialog
 import com.wutsi.flutter.sdui.Divider
+import com.wutsi.flutter.sdui.IconButton
 import com.wutsi.flutter.sdui.Screen
 import com.wutsi.flutter.sdui.SingleChildScrollView
 import com.wutsi.flutter.sdui.Text
 import com.wutsi.flutter.sdui.Widget
 import com.wutsi.flutter.sdui.WidgetAware
+import com.wutsi.flutter.sdui.enums.ActionType
 import com.wutsi.flutter.sdui.enums.Alignment
 import com.wutsi.flutter.sdui.enums.ButtonType
 import com.wutsi.flutter.sdui.enums.CrossAxisAlignment
+import com.wutsi.flutter.sdui.enums.DialogType
 import com.wutsi.flutter.sdui.enums.MainAxisAlignment
 import com.wutsi.flutter.sdui.enums.TextAlignment
 import org.springframework.context.i18n.LocaleContextHolder
@@ -67,7 +72,24 @@ class CheckoutAddressScreen(
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = getText("page.checkout.address.app-bar.title")
+                title = getText("page.checkout.address.app-bar.title"),
+                actions = listOf(
+                    IconButton(
+                        icon = Theme.ICON_CANCEL,
+                        action = Action(
+                            type = ActionType.Command,
+                            url = urlBuilder.build("commands/cancel-order"),
+                            prompt = Dialog(
+                                type = DialogType.Confirm,
+                                message = getText("page.checkout.address.confirm-cancel")
+                            ).toWidget(),
+                            parameters = mapOf(
+                                "id" to orderId,
+                                "return-home" to "true"
+                            )
+                        )
+                    )
+                )
             ),
             child = SingleChildScrollView(
                 child = Column(

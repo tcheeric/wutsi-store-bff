@@ -53,6 +53,14 @@ internal class CheckoutReviewScreenTest : AbstractEndpointTest() {
     }
 
     @Test
+    fun shippingEnabled() {
+        doReturn(true).whenever(togglesProvider).isShippingEnabled()
+
+        val url = "http://localhost:$port/checkout/review?order-id=111"
+        assertEndpointEquals("/screens/checkout/review-shipping-enabled.json", url)
+    }
+
+    @Test
     fun paymentEnabled() {
         doReturn(true).whenever(togglesProvider).isOrderPaymentEnabled()
 

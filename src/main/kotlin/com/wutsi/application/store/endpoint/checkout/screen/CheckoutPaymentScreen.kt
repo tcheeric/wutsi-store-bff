@@ -7,18 +7,23 @@ import com.wutsi.application.store.endpoint.AbstractQuery
 import com.wutsi.application.store.endpoint.Page
 import com.wutsi.application.store.service.IdempotencyKeyGenerator
 import com.wutsi.ecommerce.order.WutsiOrderApi
+import com.wutsi.flutter.sdui.Action
 import com.wutsi.flutter.sdui.AppBar
 import com.wutsi.flutter.sdui.Center
 import com.wutsi.flutter.sdui.Column
 import com.wutsi.flutter.sdui.Container
+import com.wutsi.flutter.sdui.Dialog
 import com.wutsi.flutter.sdui.DropdownButton
 import com.wutsi.flutter.sdui.DropdownMenuItem
 import com.wutsi.flutter.sdui.Form
+import com.wutsi.flutter.sdui.IconButton
 import com.wutsi.flutter.sdui.Input
 import com.wutsi.flutter.sdui.MoneyText
 import com.wutsi.flutter.sdui.Screen
 import com.wutsi.flutter.sdui.SingleChildScrollView
 import com.wutsi.flutter.sdui.Widget
+import com.wutsi.flutter.sdui.enums.ActionType
+import com.wutsi.flutter.sdui.enums.DialogType
 import com.wutsi.flutter.sdui.enums.InputType
 import com.wutsi.platform.account.WutsiAccountApi
 import com.wutsi.platform.account.dto.PaymentMethodSummary
@@ -60,7 +65,24 @@ class CheckoutPaymentScreen(
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = getText("page.checkout.payment.app-bar.title")
+                title = getText("page.checkout.payment.app-bar.title"),
+                actions = listOf(
+                    IconButton(
+                        icon = Theme.ICON_CANCEL,
+                        action = Action(
+                            type = ActionType.Command,
+                            url = urlBuilder.build("commands/cancel-order"),
+                            prompt = Dialog(
+                                type = DialogType.Confirm,
+                                message = getText("page.checkout.payment.confirm-cancel")
+                            ).toWidget(),
+                            parameters = mapOf(
+                                "id" to orderId,
+                                "return-home" to "true"
+                            )
+                        )
+                    )
+                )
             ),
             child = SingleChildScrollView(
                 child = Form(

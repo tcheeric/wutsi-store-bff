@@ -20,16 +20,20 @@ class CancelOrderCommand(
     @PostMapping
     fun index(
         @RequestParam id: String,
-        @RequestBody request: ChangeOrderStatusRequest
+        @RequestParam(name = "return-home", required = false) returnHome: Boolean? = null,
+        @RequestBody(required = false) request: ChangeOrderStatusRequest? = null
     ): Action {
         orderApi.changeStatus(
             id,
             ChangeStatusRequest(
                 status = OrderStatus.CANCELLED.name,
-                reason = request.reason,
-                comment = request.comment
+                reason = request?.reason,
+                comment = request?.comment
             )
         )
-        return gotoPreviousScreen()
+        return if (returnHome == true)
+            gotoHomeScreen()
+        else
+            gotoPreviousScreen()
     }
 }
