@@ -41,4 +41,11 @@ internal class SettingsStoreScreenTest : AbstractEndpointTest() {
 
         assertEndpointEquals("/screens/settings/store/store-statistics-enabled.json", url)
     }
+
+    @Test
+    fun orderEnambled() {
+        doReturn(true).whenever(togglesProvider).isToggleEnabled(ToggleName.ORDER)
+
+        assertEndpointEquals("/screens/settings/store/store-order-enabled.json", url)
+    }
 }

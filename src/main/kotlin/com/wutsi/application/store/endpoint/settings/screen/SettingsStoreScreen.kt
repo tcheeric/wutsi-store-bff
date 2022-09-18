@@ -74,7 +74,7 @@ class SettingsStoreScreen : AbstractQuery() {
                                         leading = Icon(code = Theme.ICON_ORDERS, color = Theme.COLOR_PRIMARY),
                                         trailing = Icon(code = Theme.ICON_CHEVRON_RIGHT),
                                         action = gotoUrl(
-                                            urlBuilder.build("settings/orders?merchant=true")
+                                            urlBuilder.build("orders?merchant=true")
                                         )
                                     )
                                 else
