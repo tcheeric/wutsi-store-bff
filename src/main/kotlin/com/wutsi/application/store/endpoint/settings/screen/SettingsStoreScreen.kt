@@ -68,6 +68,18 @@ class SettingsStoreScreen : AbstractQuery() {
                                     )
                                 ),
 
+                                if (togglesProvider.isToggleEnabled(ToggleName.ORDER))
+                                    ListItem(
+                                        caption = getText("page.settings.store.orders"),
+                                        leading = Icon(code = Theme.ICON_ORDERS, color = Theme.COLOR_PRIMARY),
+                                        trailing = Icon(code = Theme.ICON_CHEVRON_RIGHT),
+                                        action = gotoUrl(
+                                            urlBuilder.build("settings/orders?merchant=true")
+                                        )
+                                    )
+                                else
+                                    null,
+
                                 if (togglesProvider.isShippingEnabled())
                                     ListItem(
                                         caption = getText("page.settings.store.shipping"),

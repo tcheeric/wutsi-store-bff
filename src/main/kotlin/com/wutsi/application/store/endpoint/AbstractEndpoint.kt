@@ -167,6 +167,7 @@ abstract class AbstractEndpoint {
         model = sharedUIMapper.toBottomNavigationBarModel(
             shellUrl = shellUrl,
             cashUrl = cashUrl,
+            storeUrl = "",
             urlBuilder = urlBuilder
         )
     ).toBottomNavigationBar()
