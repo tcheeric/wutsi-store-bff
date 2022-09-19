@@ -88,7 +88,7 @@
                   "type": "Timeout",
                   "attributes": {
                     "url": "http://localhost:0/widgets/checkout-status?transaction-id=555",
-                    "delay": 15
+                    "delay": 5
                   },
                   "children": []
                 }

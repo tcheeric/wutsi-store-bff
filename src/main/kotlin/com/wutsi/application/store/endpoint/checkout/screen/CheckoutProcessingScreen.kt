@@ -57,7 +57,7 @@ class CheckoutProcessingScreen(
                                 ),
                                 Timeout(
                                     url = urlBuilder.build("widgets/checkout-status?transaction-id=$transactionId"),
-                                    delay = 15
+                                    delay = 5
                                 )
                             )
                         )
