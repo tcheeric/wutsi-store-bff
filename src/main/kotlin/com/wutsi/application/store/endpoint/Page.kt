@@ -29,6 +29,7 @@ object Page {
     const val SETTINGS_STORE_PRODUCT_LIST = "page.settings.product.list"
     const val SETTINGS_STORE_PRODUCT = "page.settings.store.product"
     const val SETTINGS_STORE_PICTURE = "page.settings.store.picture"
+    const val SETTINGS_STORE_PICTURE_DELETE = "page.settings.store.picture.delete"
     const val SETTINGS_STORE_PRODUCT_ADD = "page.settings.store.product.add"
     const val SETTINGS_STORE_PRODUCT_EDITOR = "page.settings.store.product.editor"
     const val SETTINGS_STORE_PRODUCT_DESCRIPTION = "page.settings.store.product.description"

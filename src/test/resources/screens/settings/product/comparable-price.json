@@ -93,7 +93,7 @@
                   "type": "Input",
                   "attributes": {
                     "name": "value",
-                    "value": "10000.0",
+                    "value": "10000",
                     "hideText": false,
                     "required": false,
                     "caption": "Comparable Price",
@@ -101,7 +101,8 @@
                     "readOnly": false,
                     "type": "Number",
                     "minLength": 0,
-                    "suffix": "FCFA"
+                    "suffix": "FCFA",
+                    "inputFormatterRegex": "[0-9]"
                   },
                   "children": []
                 }

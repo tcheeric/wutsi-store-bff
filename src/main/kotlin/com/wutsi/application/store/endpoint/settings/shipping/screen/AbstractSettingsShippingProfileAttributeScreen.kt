@@ -55,7 +55,7 @@ abstract class AbstractSettingsShippingProfileAttributeScreen : AbstractQuery() 
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = getTitle(name, shipping),
+                title = getTitle(name, shipping)
             ),
             child = Form(
                 children = listOf(
@@ -69,7 +69,7 @@ abstract class AbstractSettingsShippingProfileAttributeScreen : AbstractQuery() 
                     ),
                     Container(
                         padding = 10.0,
-                        child = getInputWidget(shipping),
+                        child = getInputWidget(shipping)
                     ),
                     Container(
                         padding = 10.0,
@@ -81,8 +81,8 @@ abstract class AbstractSettingsShippingProfileAttributeScreen : AbstractQuery() 
                                 type = ActionType.Command,
                                 url = urlBuilder.build("commands/update-shipping-attribute?id=$id&name=$name")
                             )
-                        ),
-                    ),
+                        )
+                    )
                 )
             )
         ).toWidget()

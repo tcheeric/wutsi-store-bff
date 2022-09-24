@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/section")
 class SectionScreen(
     private val catalogApi: WutsiCatalogApi,
-    private val tenantProvider: TenantProvider,
+    private val tenantProvider: TenantProvider
 ) : ProductActionProvider, AbstractQuery() {
     override fun getAction(model: ProductModel): Action =
         gotoUrl(
@@ -55,14 +55,14 @@ class SectionScreen(
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = section.title,
+                title = section.title
             ),
             child = SingleChildScrollView(
                 child = ProductGridView(
                     spacing = 5.0,
                     productsPerRow = 2,
                     models = products.map { sharedUIMapper.toProductModel(it, tenant) },
-                    actionProvider = this,
+                    actionProvider = this
                 )
             ),
             bottomNavigationBar = bottomNavigationBar()

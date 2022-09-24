@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/settings/store/sections")
 class SettingsSectionListScreen(
-    private val catalogApi: WutsiCatalogApi,
+    private val catalogApi: WutsiCatalogApi
 ) : AbstractQuery() {
     @PostMapping
     fun index(@RequestBody request: FilterProductRequest?): Widget {
@@ -38,7 +38,7 @@ class SettingsSectionListScreen(
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = getText("page.settings.store.section.list.app-bar.title"),
+                title = getText("page.settings.store.section.list.app-bar.title")
             ),
             floatingActionButton = Button(
                 type = ButtonType.Floatable,
@@ -47,7 +47,7 @@ class SettingsSectionListScreen(
                 iconColor = Theme.COLOR_WHITE,
                 action = gotoUrl(
                     url = urlBuilder.build("settings/store/section/add")
-                ),
+                )
             ),
             child = Column(
                 children = listOf(
@@ -75,7 +75,7 @@ class SettingsSectionListScreen(
                         )
                     )
                 )
-            ),
+            )
         ).toWidget()
     }
 }

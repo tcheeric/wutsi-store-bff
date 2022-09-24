@@ -24,4 +24,4 @@ wildcard_import_limit=99
 max_line_length=off
 
 [*.{kt,kts}]
-disabled_rules=trailing-comma,multiline-if-else,annotation
+ktlint_disabled_rules=multiline-if-else

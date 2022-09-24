@@ -45,7 +45,7 @@ import java.time.format.DateTimeFormatter
 class OrdersScreen(
     private val accountApi: WutsiAccountApi,
     private val tenantProvider: TenantProvider,
-    private val orderApi: WutsiOrderApi,
+    private val orderApi: WutsiOrderApi
 ) : AbstractQuery() {
     companion object {
         const val MAX_ORDERS = 100
@@ -73,7 +73,7 @@ class OrdersScreen(
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = getText("page.orders.app-bar.title"),
+                title = getText("page.orders.app-bar.title")
             ),
             child = Column(
                 mainAxisAlignment = MainAxisAlignment.start,
@@ -96,7 +96,7 @@ class OrdersScreen(
                             action = gotoUrl(
                                 url = urlBuilder.build("/orders?merchant=$merchant"),
                                 replacement = true
-                            ),
+                            )
                         )
                     ),
 
@@ -178,14 +178,14 @@ class OrdersScreen(
                         caption = order.created.format(dateFormat),
                         size = Theme.TEXT_SIZE_SMALL
                     )
-                ),
+                )
             ),
             caption = getText("page.order.number", arrayOf(order.id.takeLast(4))),
             subCaption = getText("order.status.${order.status}") +
                 if (togglesProvider.isOrderPaymentEnabled()) " - " + getText("payment.status.${order.paymentStatus}") else "",
             action = gotoUrl(
                 url = urlBuilder.build("/order?id=${order.id}")
-            ),
+            )
         )
     }
 
@@ -194,10 +194,14 @@ class OrdersScreen(
             merchantId = if (merchant) securityContext.currentAccountId() else null,
             accountId = if (!merchant) securityContext.currentAccountId() else null,
             status = if (request?.status.isNullOrEmpty()) getOrderStatusList().map { it.name } else listOf(request?.status!!),
-            limit = MAX_ORDERS,
+            limit = MAX_ORDERS
         )
     ).orders
 
     private fun getOrderStatusList(): List<OrderStatus> =
-        OrderStatus.values().filter { it != OrderStatus.CREATED && it != OrderStatus.EXPIRED }
+        listOf(
+            OrderStatus.OPENED,
+            OrderStatus.DONE,
+            OrderStatus.CANCELLED
+        )
 }

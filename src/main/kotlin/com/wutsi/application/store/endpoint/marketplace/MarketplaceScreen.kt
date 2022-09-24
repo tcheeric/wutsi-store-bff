@@ -28,6 +28,7 @@ import com.wutsi.platform.account.dto.AccountSummary
 import com.wutsi.platform.account.dto.Category
 import com.wutsi.platform.account.dto.SearchAccountRequest
 import com.wutsi.platform.account.entity.AccountSort
+import com.wutsi.platform.account.entity.AccountStatus
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -37,7 +38,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/marketplace")
 class MarketplaceScreen(
     private val catalogApi: WutsiCatalogApi,
-    private val accountApi: WutsiAccountApi,
+    private val accountApi: WutsiAccountApi
 ) : AbstractQuery() {
     companion object {
         private val LOGGER = LoggerFactory.getLogger(MarketplaceScreen::class.java)
@@ -46,12 +47,13 @@ class MarketplaceScreen(
     @PostMapping
     fun index(): Widget {
         val children = mutableListOf<WidgetAware>()
+        val userId = securityContext.currentAccountId()
 
         // Get merchants
         val merchants = catalogApi.searchMerchants(
             request = SearchMerchantRequest(
                 withPublishedProducts = true,
-                limit = 30,
+                limit = 30
             )
         ).merchants
 
@@ -62,7 +64,8 @@ class MarketplaceScreen(
             accountApi.searchAccount(
                 request = SearchAccountRequest(
                     ids = merchants.map { it.accountId },
-                    sortBy = AccountSort.NAME.name
+                    sortBy = AccountSort.NAME.name,
+                    status = AccountStatus.ACTIVE.name
                 )
             ).accounts
 
@@ -80,7 +83,13 @@ class MarketplaceScreen(
             if (children.isNotEmpty()) {
                 children.add(Container(padding = 10.0))
             }
-            children.add(toStoreListWidget(stores, categories))
+            val cartMerchantIds = carts.map { it.merchantId }
+            children.add(
+                toStoreListWidget(
+                    stores = stores.filter { !cartMerchantIds.contains(it.id) && it.id != userId },
+                    categories = categories
+                )
+            )
         }
 
         return Screen(
@@ -89,7 +98,7 @@ class MarketplaceScreen(
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = getText("page.marketplace.app-bar.title"),
+                title = getText("page.marketplace.app-bar.title")
             ),
             bottomNavigationBar = bottomNavigationBar(),
             backgroundColor = Theme.COLOR_GRAY_LIGHT,
@@ -108,7 +117,7 @@ class MarketplaceScreen(
                         children = children
                     )
                 }
-            ),
+            )
         ).toWidget()
     }
 
@@ -121,7 +130,7 @@ class MarketplaceScreen(
                     padding = 10.0,
                     child = Text(getText("page.marketplace.stores"), bold = true)
                 )
-            ),
+            )
         )
         children.addAll(
             stores.flatMap {
@@ -130,12 +139,12 @@ class MarketplaceScreen(
                     ProfileListItem(
                         model = sharedUIMapper.toAccountModel(
                             it,
-                            category = if (it.categoryId == null) null else categoryMap[it.categoryId],
+                            category = if (it.categoryId == null) null else categoryMap[it.categoryId]
                         ),
                         action = gotoUrl(urlBuilder.build(shellUrl, "/profile?id=${it.id}&tab=store")),
                         showAccountType = false,
                         showLocation = true
-                    ),
+                    )
                 )
             }
         )
@@ -145,7 +154,7 @@ class MarketplaceScreen(
                 crossAxisAlignment = CrossAxisAlignment.start,
                 mainAxisAlignment = MainAxisAlignment.start,
                 children = children
-            ),
+            )
         )
     }
 
@@ -185,7 +194,7 @@ class MarketplaceScreen(
                 crossAxisAlignment = CrossAxisAlignment.start,
                 mainAxisAlignment = MainAxisAlignment.start,
                 children = children
-            ),
+            )
         )
     }
 
@@ -214,7 +223,7 @@ class MarketplaceScreen(
                         ProfileListItem(
                             model = sharedUIMapper.toAccountModel(
                                 store,
-                                category = if (store.categoryId == null) null else categoryMap[store.categoryId],
+                                category = if (store.categoryId == null) null else categoryMap[store.categoryId]
                             ),
                             action = gotoUrl(urlBuilder.build(shellUrl, "/profile?id=${store.id}&tab=store")),
                             showAccountType = false,

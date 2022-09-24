@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/order/deliver")
 class OrderDeliverScreen(
-    private val orderApi: WutsiOrderApi,
+    private val orderApi: WutsiOrderApi
 ) : AbstractQuery() {
     @PostMapping
     fun index(@RequestParam(name = "id") id: String): Widget {
@@ -36,7 +36,7 @@ class OrderDeliverScreen(
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_PRIMARY,
                 foregroundColor = Theme.COLOR_WHITE,
-                title = getText("page.order.deliver.app-bar.title", arrayOf(xid)),
+                title = getText("page.order.deliver.app-bar.title", arrayOf(xid))
             ),
             bottomNavigationBar = bottomNavigationBar(),
             child = Column(
@@ -48,7 +48,7 @@ class OrderDeliverScreen(
                         padding = 10.0,
                         child = Text(
                             caption = getText("page.order.deliver.message"),
-                            size = Theme.TEXT_SIZE_LARGE,
+                            size = Theme.TEXT_SIZE_LARGE
                         )
                     ),
 
@@ -66,7 +66,7 @@ class OrderDeliverScreen(
                         action = gotoPreviousScreen()
                     )
                 )
-            ),
+            )
         ).toWidget()
     }
 }

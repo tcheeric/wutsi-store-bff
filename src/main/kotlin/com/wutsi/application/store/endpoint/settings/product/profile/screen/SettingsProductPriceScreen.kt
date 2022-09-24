@@ -9,12 +9,13 @@ import com.wutsi.flutter.sdui.WidgetAware
 import com.wutsi.flutter.sdui.enums.InputType
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.text.DecimalFormat
 
 @RestController
 @RequestMapping("/settings/store/product/price")
 class SettingsProductPriceScreen(
     catalogApi: WutsiCatalogApi,
-    private val tenantProvider: TenantProvider,
+    private val tenantProvider: TenantProvider
 ) : AbstractSettingsProductAttributeScreen(catalogApi) {
     override fun getAttributeName() = "price"
 
@@ -22,12 +23,22 @@ class SettingsProductPriceScreen(
 
     override fun getInputWidget(product: Product): WidgetAware {
         val tenant = tenantProvider.get()
+        val hasNoDecimal = tenant.monetaryFormat.indexOf(".") == -1
         return Input(
             name = "value",
-            value = product.price?.toString() ?: "",
             type = InputType.Number,
             caption = getText("page.settings.store.product.attribute.${getAttributeName()}"),
-            suffix = tenant.currencySymbol
+            suffix = tenant.currencySymbol,
+
+            value = if (hasNoDecimal)
+                product.price?.let { DecimalFormat("#0").format(it) } ?: ""
+            else
+                product.price?.toString() ?: "",
+
+            inputFormatterRegex = if (hasNoDecimal)
+                "[0-9]"
+            else
+                null
         )
     }
 }

@@ -16,6 +16,7 @@ import com.wutsi.ecommerce.order.entity.PaymentStatus
 import com.wutsi.ecommerce.shipping.WutsiShippingApi
 import com.wutsi.ecommerce.shipping.dto.GetShippingResponse
 import com.wutsi.ecommerce.shipping.entity.ShippingType
+import com.wutsi.platform.tenant.entity.ToggleName
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -37,7 +38,7 @@ internal class OrderScreenTest : AbstractEndpointTest() {
 
     private val products = listOf(
         ProductSummary(id = 1L, title = "Item 1"),
-        ProductSummary(id = 2L, title = "Item 2"),
+        ProductSummary(id = 2L, title = "Item 2")
     )
 
     @BeforeEach
@@ -48,6 +49,8 @@ internal class OrderScreenTest : AbstractEndpointTest() {
 
         val order = createOrder(merchantId = ACCOUNT_ID)
         doReturn(GetOrderResponse(order)).whenever(orderApi).getOrder(any())
+
+        doReturn(true).whenever(togglesProvider).isToggleEnabled(ToggleName.BUSINESS_ACCOUNT)
     }
 
     @Test
@@ -107,6 +110,6 @@ internal class OrderScreenTest : AbstractEndpointTest() {
             OrderItem(productId = 1, quantity = 10, unitPrice = 100.0, unitComparablePrice = 150.0),
             OrderItem(productId = 2, quantity = 1, unitPrice = 15000.0)
         ),
-        addressType = AddressType.POSTAL.name,
+        addressType = AddressType.POSTAL.name
     )
 }

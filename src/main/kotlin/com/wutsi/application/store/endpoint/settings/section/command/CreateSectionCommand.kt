@@ -17,7 +17,7 @@ class CreateSectionCommand(private val catalogApi: WutsiCatalogApi) : AbstractCo
     ): Action {
         catalogApi.createSection(
             request = com.wutsi.ecommerce.catalog.dto.CreateSectionRequest(
-                title = request.title,
+                title = request.title
             )
         )
         return gotoPreviousScreen()

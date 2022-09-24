@@ -184,7 +184,32 @@
       "title": "Shipping",
       "elevation": 0.0,
       "backgroundColor": "#FFFFFF",
-      "foregroundColor": "#000000"
+      "foregroundColor": "#000000",
+      "actions": [
+        {
+          "type": "IconButton",
+          "attributes": {
+            "icon": "ef28"
+          },
+          "children": [],
+          "action": {
+            "type": "Command",
+            "url": "http://localhost:0/commands/cancel-order",
+            "prompt": {
+              "type": "Dialog",
+              "attributes": {
+                "type": "Confirm",
+                "message": "Are you sure you want to cancel the order?"
+              },
+              "children": []
+            },
+            "parameters": {
+              "id": "111",
+              "return-home": "true"
+            }
+          }
+        }
+      ]
     },
     "children": []
   }

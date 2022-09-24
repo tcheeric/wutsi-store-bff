@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController
 class PayOrderCommand(
     private val orderApi: WutsiOrderApi,
     private val paymentApi: WutsiPaymentApi,
-    private val logger: KVLogger,
+    private val logger: KVLogger
 ) : AbstractCommand() {
     companion object {
         private val LOGGER = LoggerFactory.getLogger(PayOrderCommand::class.java)

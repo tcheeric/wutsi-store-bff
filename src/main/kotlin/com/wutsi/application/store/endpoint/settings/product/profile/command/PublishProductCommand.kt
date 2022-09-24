@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/commands/publish-product")
 class PublishProductCommand(
-    private val catalogApi: WutsiCatalogApi,
+    private val catalogApi: WutsiCatalogApi
 ) : AbstractCommand() {
     @PostMapping
     fun index(

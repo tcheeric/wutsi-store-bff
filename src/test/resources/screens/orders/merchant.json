@@ -55,36 +55,9 @@
                 {
                   "type": "DropdownMenuItem",
                   "attributes": {
-                    "caption": "Delivered",
-                    "enabled": true,
-                    "value": "DELIVERED"
-                  },
-                  "children": []
-                },
-                {
-                  "type": "DropdownMenuItem",
-                  "attributes": {
-                    "caption": "In Transit",
-                    "enabled": true,
-                    "value": "IN_TRANSIT"
-                  },
-                  "children": []
-                },
-                {
-                  "type": "DropdownMenuItem",
-                  "attributes": {
                     "caption": "Opened",
                     "enabled": true,
                     "value": "OPENED"
-                  },
-                  "children": []
-                },
-                {
-                  "type": "DropdownMenuItem",
-                  "attributes": {
-                    "caption": "Ready for Pickup",
-                    "enabled": true,
-                    "value": "READY_FOR_PICKUP"
                   },
                   "children": []
                 }
@@ -267,18 +240,6 @@
         "action": {
           "type": "Route",
           "url": "https://wutsi-gateway-test.herokuapp.com/shell/profile"
-        }
-      },
-      {
-        "type": "BottomNavigationBarItem",
-        "attributes": {
-          "icon": "f36e",
-          "caption": "Settings"
-        },
-        "children": [],
-        "action": {
-          "type": "Route",
-          "url": "https://wutsi-gateway-test.herokuapp.com/shell/settings"
         }
       }
     ]

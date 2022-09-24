@@ -353,51 +353,6 @@
                       "children": [],
                       "action": {
                         "type": "Route",
-                        "url": "https://wutsi-gateway-test.herokuapp.com/shell/profile?id=111&tab=store"
-                      }
-                    },
-                    {
-                      "type": "Divider",
-                      "attributes": {
-                        "height": 1.0,
-                        "color": "#8c8c8c"
-                      },
-                      "children": []
-                    },
-                    {
-                      "type": "ListItem",
-                      "attributes": {
-                        "caption": "",
-                        "iconRight": "e15f",
-                        "padding": 10.0,
-                        "trailing": {
-                          "type": "Icon",
-                          "attributes": {
-                            "code": "e15f"
-                          },
-                          "children": []
-                        },
-                        "leading": {
-                          "type": "CircleAvatar",
-                          "attributes": {
-                            "radius": 24.0
-                          },
-                          "children": [
-                            {
-                              "type": "Text",
-                              "attributes": {
-                                "caption": "",
-                                "bold": true,
-                                "size": 16.0
-                              },
-                              "children": []
-                            }
-                          ]
-                        }
-                      },
-                      "children": [],
-                      "action": {
-                        "type": "Route",
                         "url": "https://wutsi-gateway-test.herokuapp.com/shell/profile?id=222&tab=store"
                       }
                     },
@@ -495,18 +450,6 @@
         "action": {
           "type": "Route",
           "url": "https://wutsi-gateway-test.herokuapp.com/shell/profile"
-        }
-      },
-      {
-        "type": "BottomNavigationBarItem",
-        "attributes": {
-          "icon": "f36e",
-          "caption": "Settings"
-        },
-        "children": [],
-        "action": {
-          "type": "Route",
-          "url": "https://wutsi-gateway-test.herokuapp.com/shell/settings"
         }
       }
     ]

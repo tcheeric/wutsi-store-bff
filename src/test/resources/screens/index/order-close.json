@@ -10,7 +10,7 @@
       "type": "Column",
       "attributes": {
         "mainAxisAlignment": "start",
-        "crossAxisAlignment": "start"
+        "crossAxisAlignment": "center"
       },
       "children": [
         {
@@ -23,13 +23,16 @@
         {
           "type": "Container",
           "attributes": {
+            "alignment": "Center",
             "padding": 10.0
           },
           "children": [
             {
               "type": "Text",
               "attributes": {
-                "caption": "The order is completed and ready for shipping.",
+                "caption": "Close the Order",
+                "color": "#1D7EDF",
+                "bold": true,
                 "size": 16.0
               },
               "children": []
@@ -39,14 +42,14 @@
         {
           "type": "Container",
           "attributes": {
+            "alignment": "Center",
             "padding": 10.0
           },
           "children": [
             {
               "type": "Text",
               "attributes": {
-                "caption": "A SMS notification will be sent to inform the customer that its order is available in store for pickup.",
-                "color": "#1D7EDF"
+                "caption": "The order has been processed, and shipped to the customer."
               },
               "children": []
             }
@@ -68,7 +71,7 @@
             {
               "type": "Button",
               "attributes": {
-                "caption": "Complete the Order",
+                "caption": "Close",
                 "padding": 15.0,
                 "type": "Elevated"
               },
@@ -105,51 +108,5 @@
       "foregroundColor": "#FFFFFF"
     },
     "children": []
-  },
-  "bottomNavigationBar": {
-    "type": "BottomNavigationBar",
-    "attributes": {
-      "background": "#1D7EDF",
-      "selectedItemColor": "#FFFFFF",
-      "unselectedItemColor": "#FFFFFF"
-    },
-    "children": [
-      {
-        "type": "BottomNavigationBarItem",
-        "attributes": {
-          "icon": "f107",
-          "caption": "Home"
-        },
-        "children": [],
-        "action": {
-          "type": "Route",
-          "url": "route:/~"
-        }
-      },
-      {
-        "type": "BottomNavigationBarItem",
-        "attributes": {
-          "icon": "f27b",
-          "caption": "Me"
-        },
-        "children": [],
-        "action": {
-          "type": "Route",
-          "url": "https://wutsi-gateway-test.herokuapp.com/shell/profile"
-        }
-      },
-      {
-        "type": "BottomNavigationBarItem",
-        "attributes": {
-          "icon": "f36e",
-          "caption": "Settings"
-        },
-        "children": [],
-        "action": {
-          "type": "Route",
-          "url": "https://wutsi-gateway-test.herokuapp.com/shell/settings"
-        }
-      }
-    ]
   }
 }

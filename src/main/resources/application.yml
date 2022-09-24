@@ -45,6 +45,9 @@ wutsi:
     login-url: ${wutsi.application.gateway-url}/login
     shell-url: ${wutsi.application.gateway-url}/shell
   platform:
+    cache:
+      name: ${wutsi.application.name}
+      type: local
     image:
       type: none
     security:
@@ -53,6 +56,9 @@ wutsi:
     stream:
       name: ${wutsi.application.name}
       type: local
+      subscriptions:
+        - wutsi-tenant
+        - wutsi-account
     tracing:
       client-id: ${wutsi.application.name}
     storage:

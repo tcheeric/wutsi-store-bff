@@ -33,7 +33,7 @@ internal class MarketplaceCategoryScreenTest : AbstractEndpointTest() {
         val products = listOf(
             createProductSummary(id = 1, accountId = 11),
             createProductSummary(id = 2, accountId = 11),
-            createProductSummary(id = 3, accountId = 12),
+            createProductSummary(id = 3, accountId = 12)
         )
         doReturn(SearchProductResponse(products)).whenever(catalogApi).searchProducts(any())
 

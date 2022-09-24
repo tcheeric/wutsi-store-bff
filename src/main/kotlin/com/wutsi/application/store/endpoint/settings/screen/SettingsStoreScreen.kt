@@ -17,6 +17,7 @@ import com.wutsi.flutter.sdui.Text
 import com.wutsi.flutter.sdui.Widget
 import com.wutsi.flutter.sdui.enums.Alignment
 import com.wutsi.flutter.sdui.enums.TextAlignment
+import com.wutsi.platform.tenant.entity.ToggleName
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -32,7 +33,7 @@ class SettingsStoreScreen : AbstractQuery() {
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = getText("page.settings.store.app-bar.title"),
+                title = getText("page.settings.store.app-bar.title")
             ),
             child = Column(
                 children = listOf(
@@ -67,6 +68,18 @@ class SettingsStoreScreen : AbstractQuery() {
                                     )
                                 ),
 
+                                if (togglesProvider.isToggleEnabled(ToggleName.ORDER))
+                                    ListItem(
+                                        caption = getText("page.settings.store.orders"),
+                                        leading = Icon(code = Theme.ICON_ORDERS, color = Theme.COLOR_PRIMARY),
+                                        trailing = Icon(code = Theme.ICON_CHEVRON_RIGHT),
+                                        action = gotoUrl(
+                                            urlBuilder.build("orders?merchant=true")
+                                        )
+                                    )
+                                else
+                                    null,
+
                                 if (togglesProvider.isShippingEnabled())
                                     ListItem(
                                         caption = getText("page.settings.store.shipping"),
@@ -79,14 +92,17 @@ class SettingsStoreScreen : AbstractQuery() {
                                 else
                                     null,
 
-                                ListItem(
-                                    caption = getText("page.settings.store.statistics"),
-                                    leading = Icon(code = Theme.ICON_BAR_CHART, color = Theme.COLOR_PRIMARY),
-                                    trailing = Icon(code = Theme.ICON_CHEVRON_RIGHT),
-                                    action = gotoUrl(
-                                        urlBuilder.build("settings/store/statistics")
+                                if (togglesProvider.isToggleEnabled(ToggleName.STORE_STATISTICS))
+                                    ListItem(
+                                        caption = getText("page.settings.store.statistics"),
+                                        leading = Icon(code = Theme.ICON_BAR_CHART, color = Theme.COLOR_PRIMARY),
+                                        trailing = Icon(code = Theme.ICON_CHEVRON_RIGHT),
+                                        action = gotoUrl(
+                                            urlBuilder.build("settings/store/statistics")
+                                        )
                                     )
-                                ),
+                                else
+                                    null,
 
                                 Container(
                                     padding = 20.0
@@ -98,12 +114,12 @@ class SettingsStoreScreen : AbstractQuery() {
                                     action = executeCommand(
                                         urlBuilder.build("/commands/disable-store")
                                     )
-                                ),
+                                )
                             )
                         )
                     )
                 )
-            ),
+            )
         ).toWidget()
     }
 }

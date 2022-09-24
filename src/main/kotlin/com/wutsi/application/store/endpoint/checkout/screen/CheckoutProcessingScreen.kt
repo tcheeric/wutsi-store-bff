@@ -22,12 +22,12 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/checkout/processing")
 class CheckoutProcessingScreen(
     private val orderApi: WutsiOrderApi,
-    private val accountApi: WutsiAccountApi,
+    private val accountApi: WutsiAccountApi
 ) : AbstractQuery() {
     @PostMapping
     fun index(
         @RequestParam(name = "order-id") orderId: String,
-        @RequestParam(name = "transaction-id") transactionId: String,
+        @RequestParam(name = "transaction-id") transactionId: String
     ): Widget {
         val order = orderApi.getOrder(orderId).order
         val merchant = accountApi.getAccount(order.merchantId).account
@@ -57,13 +57,13 @@ class CheckoutProcessingScreen(
                                 ),
                                 Timeout(
                                     url = urlBuilder.build("widgets/checkout-status?transaction-id=$transactionId"),
-                                    delay = 15
+                                    delay = 5
                                 )
                             )
                         )
-                    ),
-                ),
-            ),
+                    )
+                )
+            )
         ).toWidget()
     }
 }

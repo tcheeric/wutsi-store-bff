@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/settings/store/product/quantity")
 class SettingsProductQuantityScreen(
-    catalogApi: WutsiCatalogApi,
+    catalogApi: WutsiCatalogApi
 ) : AbstractSettingsProductAttributeScreen(catalogApi) {
     override fun getAttributeName() = "quantity"
 
@@ -24,6 +24,7 @@ class SettingsProductQuantityScreen(
             value = product.quantity.toString(),
             type = InputType.Number,
             caption = getText("page.settings.store.product.attribute.${getAttributeName()}"),
+            inputFormatterRegex = "[0-9]"
         )
     }
 }

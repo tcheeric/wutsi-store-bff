@@ -49,7 +49,7 @@ internal class SaveShippingAddressCommandTest : AbstractEndpointTest() {
             lastName = "Sponsible",
             email = "ray.sponsible@gmail.com",
             street = "4304039 Foo",
-            cityId = 111L,
+            cityId = 111L
         )
         val response = rest.postForEntity(url, request, Action::class.java)
 

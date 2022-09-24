@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/settings/store/product/type")
 class SettingsProductTypeScreen(
-    catalogApi: WutsiCatalogApi,
+    catalogApi: WutsiCatalogApi
 ) : AbstractSettingsProductAttributeScreen(catalogApi) {
     override fun getAttributeName() = "type"
 
@@ -27,12 +27,12 @@ class SettingsProductTypeScreen(
             children = listOf(
                 DropdownMenuItem(
                     caption = getText("product.type.PHYSICAL"),
-                    value = "PHYSICAL",
+                    value = "PHYSICAL"
                 ),
                 DropdownMenuItem(
                     caption = getText("product.type.NUMERIC"),
-                    value = "NUMERIC",
-                ),
+                    value = "NUMERIC"
+                )
             )
         )
     }

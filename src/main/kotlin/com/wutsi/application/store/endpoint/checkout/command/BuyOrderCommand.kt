@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/commands/buy-now")
 class BuyOrderCommand(
     private val orderApi: WutsiOrderApi,
-    private val logger: KVLogger,
+    private val logger: KVLogger
 ) : AbstractCommand() {
     @PostMapping
     fun index(
         @RequestParam(name = "merchant-id") merchantId: Long,
         @RequestParam(name = "product-id") productId: Long,
-        @RequestParam(name = "address-type") addressType: AddressType,
+        @RequestParam(name = "address-type") addressType: AddressType
     ): Action {
         try {
             val orderId = orderApi.createOrder(
@@ -35,7 +35,7 @@ class BuyOrderCommand(
                             productId = productId,
                             quantity = 1
                         )
-                    ),
+                    )
                 )
             ).id
             logger.add("order_id", orderId)

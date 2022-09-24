@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/commands/disable-shipping")
 class DisableShippingCommand(
-    val shippingApi: WutsiShippingApi,
+    val shippingApi: WutsiShippingApi
 ) : AbstractCommand() {
     @PostMapping
     fun index(
-        @RequestParam id: Long,
+        @RequestParam id: Long
     ): Action {
         shippingApi.updateShippingAttribute(
             id,

@@ -37,7 +37,7 @@ internal class CancelOrderCommandTest : AbstractEndpointTest() {
     }
 
     @Test
-    fun index() {
+    fun cancel() {
         // GIVEN
         val productId = 777L
         doReturn(CreateProductResponse(productId)).whenever(catalogApi).createProduct(any())
@@ -61,5 +61,32 @@ internal class CancelOrderCommandTest : AbstractEndpointTest() {
         val action = response.body!!
         assertEquals(ActionType.Route, action.type)
         assertEquals("route:/..", action.url)
+    }
+
+    @Test
+    fun cancelAndReturnHome() {
+        // GIVEN
+        val productId = 777L
+        doReturn(CreateProductResponse(productId)).whenever(catalogApi).createProduct(any())
+
+        // WHEN
+        val request = ChangeOrderStatusRequest(
+            reason = "foo",
+            comment = "bar"
+        )
+        val response = rest.postForEntity("$url&return-home=true", request, Action::class.java)
+
+        // THEN
+        assertEquals(200, response.statusCodeValue)
+
+        val req = argumentCaptor<ChangeStatusRequest>()
+        verify(orderApi).changeStatus(eq("111"), req.capture())
+        assertEquals(request.reason, req.firstValue.reason)
+        assertEquals(request.comment, req.firstValue.comment)
+        assertEquals(OrderStatus.CANCELLED.name, req.firstValue.status)
+
+        val action = response.body!!
+        assertEquals(ActionType.Route, action.type)
+        assertEquals("route:/~", action.url)
     }
 }

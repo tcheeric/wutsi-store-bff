@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/settings/store/shipping/attribute/city-id")
 class SettingsShippingProfileCityScreen(
-    private val cityService: CityService,
+    private val cityService: CityService
 ) : AbstractSettingsShippingProfileAttributeScreen() {
     override fun getAttributeName() = "city-id"
 

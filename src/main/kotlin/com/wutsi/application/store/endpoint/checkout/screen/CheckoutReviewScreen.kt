@@ -17,16 +17,21 @@ import com.wutsi.ecommerce.order.WutsiOrderApi
 import com.wutsi.ecommerce.order.dto.Order
 import com.wutsi.ecommerce.order.dto.OrderItem
 import com.wutsi.ecommerce.shipping.WutsiShippingApi
+import com.wutsi.flutter.sdui.Action
 import com.wutsi.flutter.sdui.AppBar
 import com.wutsi.flutter.sdui.Column
 import com.wutsi.flutter.sdui.Container
+import com.wutsi.flutter.sdui.Dialog
 import com.wutsi.flutter.sdui.Divider
+import com.wutsi.flutter.sdui.IconButton
 import com.wutsi.flutter.sdui.Screen
 import com.wutsi.flutter.sdui.SingleChildScrollView
 import com.wutsi.flutter.sdui.Text
 import com.wutsi.flutter.sdui.Widget
 import com.wutsi.flutter.sdui.WidgetAware
+import com.wutsi.flutter.sdui.enums.ActionType
 import com.wutsi.flutter.sdui.enums.CrossAxisAlignment
+import com.wutsi.flutter.sdui.enums.DialogType
 import com.wutsi.flutter.sdui.enums.MainAxisAlignment
 import com.wutsi.platform.account.WutsiAccountApi
 import com.wutsi.platform.tenant.dto.Tenant
@@ -43,7 +48,7 @@ class CheckoutReviewScreen(
     private val accountApi: WutsiAccountApi,
     private val catalogApi: WutsiCatalogApi,
     private val shippingApi: WutsiShippingApi,
-    private val tenantProvider: TenantProvider,
+    private val tenantProvider: TenantProvider
 ) : AbstractQuery() {
 
     @PostMapping
@@ -80,6 +85,7 @@ class CheckoutReviewScreen(
         children.add(toPriceWidget(order, tenant))
 
         // Result
+        val shippingEnabled = togglesProvider.isShippingEnabled()
         return Screen(
             id = Page.CHECKOUT_REVIEW,
             appBar = AppBar(
@@ -87,6 +93,27 @@ class CheckoutReviewScreen(
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
                 title = getText("page.checkout.review.app-bar.title"),
+                automaticallyImplyLeading = shippingEnabled,
+                actions = if (!shippingEnabled)
+                    listOf(
+                        IconButton(
+                            icon = Theme.ICON_CANCEL,
+                            action = Action(
+                                type = ActionType.Command,
+                                url = urlBuilder.build("commands/cancel-order"),
+                                prompt = Dialog(
+                                    type = DialogType.Confirm,
+                                    message = getText("page.checkout.review.confirm-cancel")
+                                ).toWidget(),
+                                parameters = mapOf(
+                                    "id" to orderId,
+                                    "return-home" to "true"
+                                )
+                            )
+                        )
+                    )
+                else
+                    null
             ),
             child = SingleChildScrollView(
                 child = Column(
@@ -95,7 +122,7 @@ class CheckoutReviewScreen(
                     children = children.filterNotNull()
                 )
             ),
-            backgroundColor = Theme.COLOR_GRAY_LIGHT,
+            backgroundColor = Theme.COLOR_GRAY_LIGHT
         ).toWidget()
     }
 
@@ -174,7 +201,7 @@ class CheckoutReviewScreen(
                 Container(
                     padding = 5.0,
                     child = ShippingCard(
-                        model = sharedUIMapper.toShippingModel(order, shipping, tenant),
+                        model = sharedUIMapper.toShippingModel(order, shipping, tenant)
                     )
                 )
             )
@@ -191,7 +218,7 @@ class CheckoutReviewScreen(
                         child = AddressCard(
                             model = sharedUIMapper.toAddressModel(order.shippingAddress!!),
                             showEmailAddress = true,
-                            showPostalAddress = true,
+                            showPostalAddress = true
                         )
                     )
                 )

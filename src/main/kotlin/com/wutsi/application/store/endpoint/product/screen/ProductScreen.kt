@@ -4,14 +4,13 @@ import com.wutsi.analytics.tracking.entity.EventType
 import com.wutsi.application.shared.Theme
 import com.wutsi.application.shared.model.AccountModel
 import com.wutsi.application.shared.model.ProductModel
-import com.wutsi.application.shared.service.CityService
 import com.wutsi.application.shared.service.PhoneUtil
 import com.wutsi.application.shared.service.StringUtil
 import com.wutsi.application.shared.service.TenantProvider
-import com.wutsi.application.shared.ui.Avatar
 import com.wutsi.application.shared.ui.ProductActionProvider
 import com.wutsi.application.shared.ui.ProductCardType
 import com.wutsi.application.shared.ui.ProductGridView
+import com.wutsi.application.shared.ui.ProfileListItem
 import com.wutsi.application.store.endpoint.AbstractQuery
 import com.wutsi.application.store.endpoint.Page
 import com.wutsi.ecommerce.cart.dto.Cart
@@ -31,6 +30,7 @@ import com.wutsi.flutter.sdui.CarouselSlider
 import com.wutsi.flutter.sdui.Center
 import com.wutsi.flutter.sdui.Column
 import com.wutsi.flutter.sdui.Container
+import com.wutsi.flutter.sdui.Divider
 import com.wutsi.flutter.sdui.ExpandablePanel
 import com.wutsi.flutter.sdui.Icon
 import com.wutsi.flutter.sdui.Image
@@ -51,6 +51,7 @@ import com.wutsi.flutter.sdui.enums.TextDecoration
 import com.wutsi.platform.account.WutsiAccountApi
 import com.wutsi.platform.account.dto.Account
 import com.wutsi.platform.tenant.dto.Tenant
+import com.wutsi.platform.tenant.entity.ToggleName
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -64,8 +65,7 @@ import javax.servlet.http.HttpServletRequest
 class ProductScreen(
     private val catalogApi: WutsiCatalogApi,
     private val accountApi: WutsiAccountApi,
-    private val tenantProvider: TenantProvider,
-    private val cityService: CityService
+    private val tenantProvider: TenantProvider
 ) : ProductActionProvider, AbstractQuery() {
     override fun getAction(model: ProductModel): Action =
         gotoUrl(
@@ -93,7 +93,7 @@ class ProductScreen(
                     size = Theme.TEXT_SIZE_LARGE,
                     bold = true
                 )
-            ),
+            )
         )
 
         // Pictures
@@ -138,7 +138,7 @@ class ProductScreen(
                         if (!product.summary.isNullOrEmpty())
                             Column(
                                 children = listOf(
-                                    Text(product.summary!!),
+                                    Text(product.summary!!)
                                 )
                             )
                         else
@@ -150,7 +150,7 @@ class ProductScreen(
 
                         // Cart
                         toCartWidget(merchant, product, cart),
-                        toBuyNowWidget(merchant, product),
+                        toBuyNowWidget(merchant, product)
                     )
                 )
             )
@@ -170,7 +170,7 @@ class ProductScreen(
                         expanded = Container(
                             padding = 10.0,
                             child = Text(product.description!!)
-                        ),
+                        )
                     )
                 )
             )
@@ -181,7 +181,7 @@ class ProductScreen(
             listOfNotNull(
                 toVendorWidget(product, merchant, whatsappUrl),
                 toSimilarProductsWidget(product, cart, tenant),
-                toOtherProductsWidget(product, cart, tenant),
+                toOtherProductsWidget(product, cart, tenant)
             )
         )
 
@@ -203,7 +203,7 @@ class ProductScreen(
                 ),
                 child = Container(
                     child = ListView(
-                        children = children,
+                        children = children
                     )
                 ),
                 bottomNavigationBar = bottomNavigationBar(),
@@ -215,15 +215,17 @@ class ProductScreen(
     }
 
     private fun track(product: Product, request: HttpServletRequest) {
-        track(
-            correlationId = UUID.randomUUID().toString(),
-            page = Page.PRODUCT,
-            event = EventType.VIEW,
-            productId = product.id,
-            merchantId = product.accountId,
-            value = null,
-            request = request
-        )
+        if (togglesProvider.isToggleEnabled(ToggleName.STORE_STATISTICS)) {
+            track(
+                correlationId = UUID.randomUUID().toString(),
+                page = Page.PRODUCT,
+                event = EventType.VIEW,
+                productId = product.id,
+                merchantId = product.accountId,
+                value = null,
+                request = request
+            )
+        }
     }
 
     private fun toCartWidget(merchant: Account, product: Product, cart: Cart?): WidgetAware? {
@@ -285,12 +287,12 @@ class ProductScreen(
                             Container(padding = 5.0),
                             Text(
                                 caption = getText("page.product.deliver-by-email"),
-                                color = Theme.COLOR_PRIMARY,
+                                color = Theme.COLOR_PRIMARY
                             )
                         )
                     )
                 else
-                    null,
+                    null
             )
         )
     }
@@ -329,7 +331,7 @@ class ProductScreen(
                 valueFontSize = Theme.TEXT_SIZE_X_LARGE,
                 value = price,
                 numberFormat = tenant.numberFormat
-            ),
+            )
         )
 
         if (savings > 0) {
@@ -337,14 +339,14 @@ class ProductScreen(
                 Text(
                     caption = fmt.format(comparablePrice),
                     decoration = TextDecoration.Strikethrough,
-                    color = Theme.COLOR_GRAY,
+                    color = Theme.COLOR_GRAY
                 )
             )
             if (percent >= 1)
                 children.add(
                     Text(
                         caption = getText("page.product.savings-percent", arrayOf(percent.toString())),
-                        color = Theme.COLOR_SUCCESS,
+                        color = Theme.COLOR_SUCCESS
                     )
                 )
         }
@@ -358,53 +360,43 @@ class ProductScreen(
 
     private fun toVendorWidget(product: Product, merchant: Account, whatsappUrl: String?): WidgetAware =
         toSectionWidget(
-            child = Row(
+            padding = null,
+            child = Column(
                 mainAxisAlignment = MainAxisAlignment.start,
                 crossAxisAlignment = CrossAxisAlignment.start,
                 mainAxisSize = MainAxisSize.min,
-                children = listOf(
-                    Avatar(
-                        radius = 24.0,
-                        model = sharedUIMapper.toAccountModel(merchant)
-                    ),
-                    Container(padding = 10.0),
-                    Container(
-                        child = Column(
-                            mainAxisAlignment = MainAxisAlignment.start,
-                            crossAxisAlignment = CrossAxisAlignment.start,
-                            mainAxisSize = MainAxisSize.min,
-                            children = listOfNotNull(
-                                Text(caption = merchant.displayName ?: "", bold = true),
-                                Text(
-                                    caption = if (merchant.category == null)
-                                        toLocation(merchant)
-                                    else
-                                        merchant.category!!.title + " - " + toLocation(merchant),
-                                    color = Theme.COLOR_GRAY
-                                ),
-                                whatsappUrl?.let {
-                                    Button(
-                                        type = if (togglesProvider.isCartEnabled()) ButtonType.Outlined else ButtonType.Elevated,
-                                        stretched = false,
-                                        padding = 10.0,
-                                        caption = getText("page.product.write-to-merchant"),
-                                        action = Action(
-                                            type = ActionType.Navigate,
-                                            url = it,
-                                            trackEvent = EventType.CHAT.name,
-                                            trackProductId = product.id.toString()
-                                        ),
-                                    )
-                                }
+                children = listOfNotNull(
+                    ProfileListItem(
+                        model = sharedUIMapper.toAccountModel(merchant),
+                        showAccountType = false,
+                        showLocation = false,
+                        action = gotoUrl(
+                            urlBuilder.build(shellUrl, "/profile"),
+                            parameters = mapOf(
+                                "id" to merchant.id.toString()
                             )
                         )
-                    )
-                ),
+                    ),
+                    Divider(height = 1.0),
+                    whatsappUrl?.let {
+                        Center(
+                            child = Button(
+                                type = if (togglesProvider.isCartEnabled()) ButtonType.Outlined else ButtonType.Elevated,
+                                stretched = false,
+                                padding = 10.0,
+                                caption = getText("page.product.write-to-merchant"),
+                                action = Action(
+                                    type = ActionType.Navigate,
+                                    url = it,
+                                    trackEvent = EventType.CHAT.name,
+                                    trackProductId = product.id.toString()
+                                )
+                            )
+                        )
+                    }
+                )
             )
         )
-
-    private fun toLocation(merchant: Account): String =
-        sharedUIMapper.toLocationText(cityService.get(merchant.cityId), merchant.country)
 
     private fun toSimilarProductsWidget(product: Product, cart: Cart?, tenant: Tenant): WidgetAware? {
         // Get products
@@ -446,7 +438,7 @@ class ProductScreen(
                         models = similar.take(4)
                             .map { sharedUIMapper.toProductModel(it, tenant, null) },
                         actionProvider = this,
-                        type = ProductCardType.SUMMARY,
+                        type = ProductCardType.SUMMARY
                     )
                 )
             )
@@ -490,7 +482,7 @@ class ProductScreen(
                         models = products.take(4)
                             .map { sharedUIMapper.toProductModel(it, tenant, null) },
                         actionProvider = this,
-                        type = ProductCardType.SUMMARY,
+                        type = ProductCardType.SUMMARY
                     ),
                     if (products.size > 4)
                         Center(

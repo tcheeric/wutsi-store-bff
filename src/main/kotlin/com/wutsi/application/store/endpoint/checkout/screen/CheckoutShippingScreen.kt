@@ -10,17 +10,22 @@ import com.wutsi.ecommerce.order.WutsiOrderApi
 import com.wutsi.ecommerce.order.dto.Order
 import com.wutsi.ecommerce.shipping.WutsiShippingApi
 import com.wutsi.ecommerce.shipping.dto.RateSummary
+import com.wutsi.flutter.sdui.Action
 import com.wutsi.flutter.sdui.AppBar
 import com.wutsi.flutter.sdui.Center
 import com.wutsi.flutter.sdui.Column
 import com.wutsi.flutter.sdui.Container
+import com.wutsi.flutter.sdui.Dialog
 import com.wutsi.flutter.sdui.Divider
+import com.wutsi.flutter.sdui.IconButton
 import com.wutsi.flutter.sdui.Screen
 import com.wutsi.flutter.sdui.Text
 import com.wutsi.flutter.sdui.Widget
 import com.wutsi.flutter.sdui.WidgetAware
+import com.wutsi.flutter.sdui.enums.ActionType
 import com.wutsi.flutter.sdui.enums.Alignment
 import com.wutsi.flutter.sdui.enums.CrossAxisAlignment
+import com.wutsi.flutter.sdui.enums.DialogType
 import com.wutsi.flutter.sdui.enums.MainAxisAlignment
 import com.wutsi.platform.tenant.dto.Tenant
 import org.springframework.web.bind.annotation.PostMapping
@@ -35,7 +40,7 @@ class CheckoutShippingScreen(
     private val orderApi: WutsiOrderApi,
     private val catalogApi: WutsiCatalogApi,
     private val tenantProvider: TenantProvider,
-    private val service: ShippingService,
+    private val service: ShippingService
 ) : AbstractQuery() {
 
     @PostMapping
@@ -55,6 +60,23 @@ class CheckoutShippingScreen(
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
                 title = getText("page.checkout.shipping.app-bar.title"),
+                actions = listOf(
+                    IconButton(
+                        icon = Theme.ICON_CANCEL,
+                        action = Action(
+                            type = ActionType.Command,
+                            url = urlBuilder.build("commands/cancel-order"),
+                            prompt = Dialog(
+                                type = DialogType.Confirm,
+                                message = getText("page.checkout.shipping.confirm-cancel")
+                            ).toWidget(),
+                            parameters = mapOf(
+                                "id" to orderId,
+                                "return-home" to "true"
+                            )
+                        )
+                    )
+                )
             ),
             child = Column(
                 mainAxisAlignment = MainAxisAlignment.start,
@@ -86,10 +108,10 @@ class CheckoutShippingScreen(
                 alignment = Alignment.Center,
                 child = Text(
                     getText("page.checkout.shipping.message"),
-                    size = Theme.TEXT_SIZE_LARGE,
+                    size = Theme.TEXT_SIZE_LARGE
                 )
             ),
-            Divider(height = 1.0, color = Theme.COLOR_DIVIDER),
+            Divider(height = 1.0, color = Theme.COLOR_DIVIDER)
         )
 
         children.addAll(
@@ -129,7 +151,7 @@ class CheckoutShippingScreen(
                     ),
                     action = executeCommand(
                         urlBuilder.build("commands/select-shipping-method?order-id=${order.id}&shipping-id=${it.shippingId}")
-                    ),
+                    )
                 )
             }
         )

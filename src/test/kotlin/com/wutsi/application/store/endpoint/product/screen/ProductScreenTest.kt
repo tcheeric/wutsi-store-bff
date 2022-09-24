@@ -3,6 +3,7 @@ package com.wutsi.application.store.endpoint.product.screen
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.wutsi.analytics.tracking.WutsiTrackingApi
@@ -21,6 +22,7 @@ import com.wutsi.ecommerce.catalog.entity.ProductType
 import com.wutsi.ecommerce.shipping.WutsiShippingApi
 import com.wutsi.ecommerce.shipping.dto.SearchRateResponse
 import com.wutsi.ecommerce.shipping.entity.ShippingType
+import com.wutsi.platform.tenant.entity.ToggleName
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -78,7 +80,7 @@ internal class ProductScreenTest : AbstractEndpointTest() {
             createProductSummary(id = 7),
             createProductSummary(id = 8),
             createProductSummary(id = 9),
-            createProductSummary(id = 10),
+            createProductSummary(id = 10)
         )
         doReturn(SearchProductResponse(products)).whenever(catalogApi).searchProducts(any())
     }
@@ -89,6 +91,17 @@ internal class ProductScreenTest : AbstractEndpointTest() {
         doReturn(GetProductResponse(product)).whenever(catalogApi).getProduct(any())
 
         assertEndpointEquals("/screens/product/product-with-image.json", url)
+        assertNoTracking(product)
+    }
+
+    @Test
+    fun productWithStatisticsEnabled() {
+        doReturn(true).whenever(togglesProvider).isToggleEnabled(ToggleName.STORE_STATISTICS)
+
+        val product = createProduct(true)
+        doReturn(GetProductResponse(product)).whenever(catalogApi).getProduct(any())
+
+        assertEndpointEquals("/screens/product/product-with-statistics-enabled.json", url)
         assertTrackPushed(product)
     }
 
@@ -98,7 +111,7 @@ internal class ProductScreenTest : AbstractEndpointTest() {
         doReturn(GetProductResponse(product)).whenever(catalogApi).getProduct(any())
 
         assertEndpointEquals("/screens/product/product-numeric.json", url)
-        assertTrackPushed(product)
+        assertNoTracking(product)
     }
 
     @Test
@@ -117,7 +130,7 @@ internal class ProductScreenTest : AbstractEndpointTest() {
         doReturn(GetProductResponse(product)).whenever(catalogApi).getProduct(any())
 
         assertEndpointEquals("/screens/product/product-with-cart-enabled.json", url)
-        assertTrackPushed(product)
+        assertNoTracking(product)
     }
 
     @Test
@@ -136,7 +149,7 @@ internal class ProductScreenTest : AbstractEndpointTest() {
         doReturn(GetProductResponse(product)).whenever(catalogApi).getProduct(any())
 
         assertEndpointEquals("/screens/product/product-in-cart.json", url)
-        assertTrackPushed(product)
+        assertNoTracking(product)
     }
 
     @Test
@@ -147,7 +160,11 @@ internal class ProductScreenTest : AbstractEndpointTest() {
         doReturn(GetProductResponse(product)).whenever(catalogApi).getProduct(any())
 
         assertEndpointEquals("/screens/product/product-no-stock.json", url)
-        assertTrackPushed(product)
+        assertNoTracking(product)
+    }
+
+    private fun assertNoTracking(product: com.wutsi.ecommerce.catalog.dto.Product) {
+        verify(trackingApi, never()).push(any())
     }
 
     private fun assertTrackPushed(product: com.wutsi.ecommerce.catalog.dto.Product) {

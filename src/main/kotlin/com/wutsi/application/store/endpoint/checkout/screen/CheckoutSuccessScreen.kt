@@ -21,14 +21,14 @@ import javax.servlet.http.HttpServletRequest
 class CheckoutSuccessScreen(
     private val orderApi: WutsiOrderApi,
     private val accountApi: WutsiAccountApi,
-    private val paymentApi: WutsiPaymentApi,
+    private val paymentApi: WutsiPaymentApi
 ) : AbstractQuery() {
     @PostMapping
     fun index(
         @RequestParam(name = "order-id") orderId: String,
         @RequestParam(name = "transaction-id", required = false) transactionId: String? = null,
         @RequestParam(required = false) error: String? = null,
-        request: HttpServletRequest,
+        request: HttpServletRequest
     ): Widget {
         val order = orderApi.getOrder(orderId).order
         val merchant = accountApi.getAccount(order.merchantId).account
@@ -54,9 +54,9 @@ class CheckoutSuccessScreen(
                             toTransactionStatusWidget(
                                 tx = paymentApi.getTransaction(transactionId!!).transaction
                             )
-                    ),
-                ),
-            ),
+                    )
+                )
+            )
         ).toWidget()
     }
 }

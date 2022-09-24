@@ -30,7 +30,7 @@ import java.text.DecimalFormat
 @RequestMapping("settings/store/statistics")
 class SettingsStatisticsScreen(
     private val catalogApi: WutsiCatalogApi,
-    private val tenantProvider: TenantProvider,
+    private val tenantProvider: TenantProvider
 ) : AbstractQuery() {
     @PostMapping
     fun index(): Widget {
@@ -51,7 +51,7 @@ class SettingsStatisticsScreen(
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = getText("page.settings.store.statistics.app-bar.title"),
+                title = getText("page.settings.store.statistics.app-bar.title")
             ),
 
             child = Column(
@@ -72,14 +72,14 @@ class SettingsStatisticsScreen(
                         child = toStatWidget(
                             "page.settings.store.statistics.views",
                             metrics.totalViews.toDouble(),
-                            tenant,
+                            tenant
                         )
                     ),
                     Flexible(
                         child = toStatWidget(
                             "page.settings.store.statistics.orders",
                             metrics.totalOrders.toDouble(),
-                            tenant,
+                            tenant
                         )
                     ),
                     Flexible(
@@ -87,9 +87,9 @@ class SettingsStatisticsScreen(
                             "page.settings.store.statistics.conversion",
                             metrics.conversion,
                             tenant,
-                            percent = true,
+                            percent = true
                         )
-                    ),
+                    )
                 )
             )
         ).toWidget()
@@ -102,7 +102,7 @@ class SettingsStatisticsScreen(
         money: Boolean = false,
         percent: Boolean = false,
         color: String = Theme.COLOR_BLACK,
-        valueSize: Double = 30.0,
+        valueSize: Double = 30.0
     ): WidgetAware =
         Container(
             padding = 10.0,
@@ -119,7 +119,7 @@ class SettingsStatisticsScreen(
                             currency = tenant.currencySymbol,
                             color = color,
                             numberFormat = tenant.numberFormat,
-                            valueFontSize = valueSize,
+                            valueFontSize = valueSize
                         )
                     else
                         Text(
@@ -134,7 +134,7 @@ class SettingsStatisticsScreen(
                         child = Text(
                             caption = getText(name).uppercase(),
                             size = Theme.TEXT_SIZE_SMALL,
-                            alignment = TextAlignment.Center,
+                            alignment = TextAlignment.Center
                         )
                     )
                 )

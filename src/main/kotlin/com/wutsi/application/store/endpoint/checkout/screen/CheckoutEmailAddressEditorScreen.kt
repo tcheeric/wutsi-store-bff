@@ -27,7 +27,7 @@ class CheckoutEmailAddressEditorScreen : AbstractQuery() {
 
     @PostMapping
     fun index(
-        @RequestParam(name = "order-id") orderId: String,
+        @RequestParam(name = "order-id") orderId: String
     ): Widget {
         val account = securityContext.currentAccount()
 
@@ -37,7 +37,7 @@ class CheckoutEmailAddressEditorScreen : AbstractQuery() {
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = getText("page.checkout.address.editor.app-bar.title"),
+                title = getText("page.checkout.address.editor.app-bar.title")
             ),
             child = SingleChildScrollView(
                 child = Column(

@@ -1,28 +1,36 @@
 package com.wutsi.application.store.endpoint.checkout.screen
 
 import com.wutsi.application.shared.Theme
-import com.wutsi.application.shared.service.PhoneUtil
 import com.wutsi.application.shared.service.TenantProvider
 import com.wutsi.application.shared.ui.ProfileListItem
 import com.wutsi.application.store.endpoint.AbstractQuery
 import com.wutsi.application.store.endpoint.Page
 import com.wutsi.application.store.service.IdempotencyKeyGenerator
 import com.wutsi.ecommerce.order.WutsiOrderApi
+import com.wutsi.flutter.sdui.Action
 import com.wutsi.flutter.sdui.AppBar
 import com.wutsi.flutter.sdui.Center
 import com.wutsi.flutter.sdui.Column
 import com.wutsi.flutter.sdui.Container
+import com.wutsi.flutter.sdui.Dialog
 import com.wutsi.flutter.sdui.DropdownButton
 import com.wutsi.flutter.sdui.DropdownMenuItem
 import com.wutsi.flutter.sdui.Form
+import com.wutsi.flutter.sdui.IconButton
 import com.wutsi.flutter.sdui.Input
 import com.wutsi.flutter.sdui.MoneyText
 import com.wutsi.flutter.sdui.Screen
 import com.wutsi.flutter.sdui.SingleChildScrollView
 import com.wutsi.flutter.sdui.Widget
+import com.wutsi.flutter.sdui.enums.ActionType
+import com.wutsi.flutter.sdui.enums.DialogType
 import com.wutsi.flutter.sdui.enums.InputType
 import com.wutsi.platform.account.WutsiAccountApi
 import com.wutsi.platform.account.dto.PaymentMethodSummary
+import com.wutsi.platform.payment.Capability
+import com.wutsi.platform.payment.PaymentMethodProvider
+import com.wutsi.platform.payment.PaymentMethodType
+import com.wutsi.platform.tenant.dto.FinancialInstitution
 import com.wutsi.platform.tenant.dto.MobileCarrier
 import com.wutsi.platform.tenant.dto.Tenant
 import org.springframework.web.bind.annotation.PostMapping
@@ -39,15 +47,15 @@ class CheckoutPaymentScreen(
     private val tenantProvider: TenantProvider,
     private val idempotencyKeyGenerator: IdempotencyKeyGenerator
 ) : AbstractQuery() {
-
     @PostMapping
     fun index(@RequestParam(name = "order-id") orderId: String): Widget {
         val tenant = tenantProvider.get()
         val order = orderApi.getOrder(orderId).order
         val merchant = accountApi.getAccount(order.merchantId).account
-        val paymentMethods = accountApi.listPaymentMethods(securityContext.currentAccountId()).paymentMethods
         val amountText = DecimalFormat(tenant.monetaryFormat).format(order.totalPrice)
         val idempotencyKey = idempotencyKeyGenerator.generate()
+        val paymentMethods = accountApi.listPaymentMethods(securityContext.currentAccountId()).paymentMethods
+            .filter { supportsPayment(it) }
 
         // Result
         return Screen(
@@ -58,6 +66,23 @@ class CheckoutPaymentScreen(
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
                 title = getText("page.checkout.payment.app-bar.title"),
+                actions = listOf(
+                    IconButton(
+                        icon = Theme.ICON_CANCEL,
+                        action = Action(
+                            type = ActionType.Command,
+                            url = urlBuilder.build("commands/cancel-order"),
+                            prompt = Dialog(
+                                type = DialogType.Confirm,
+                                message = getText("page.checkout.payment.confirm-cancel")
+                            ).toWidget(),
+                            parameters = mapOf(
+                                "id" to orderId,
+                                "return-home" to "true"
+                            )
+                        )
+                    )
+                )
             ),
             child = SingleChildScrollView(
                 child = Form(
@@ -102,8 +127,13 @@ class CheckoutPaymentScreen(
                         )
                     )
                 )
-            ),
+            )
         ).toWidget()
+    }
+
+    private fun supportsPayment(paymentMethod: PaymentMethodSummary): Boolean {
+        val provider = PaymentMethodProvider.valueOf(paymentMethod.provider.uppercase())
+        return provider.capabilities.contains(Capability.PAYMENT)
     }
 
     private fun toPaymentMethodWidgetList(
@@ -121,16 +151,33 @@ class CheckoutPaymentScreen(
         items.addAll(
             paymentMethods.map {
                 DropdownMenuItem(
-                    caption = PhoneUtil.format(it.phone?.number, it.phone?.country)
-                        ?: it.maskedNumber,
+                    caption = it.maskedNumber,
                     value = it.token,
-                    icon = getMobileCarrier(it, tenant)?.let { tenantProvider.logo(it) }
+                    icon = getLogoUrl(tenant, it)
                 )
             }
         )
         return items
     }
 
-    protected fun getMobileCarrier(paymentMethod: PaymentMethodSummary, tenant: Tenant): MobileCarrier? =
-        tenant.mobileCarriers.findLast { it.code.equals(paymentMethod.provider, true) }
+    private fun getLogoUrl(tenant: Tenant, paymentMethod: PaymentMethodSummary): String? {
+        if (paymentMethod.type == PaymentMethodType.MOBILE.name) {
+            val carrier = getMobileCarrier(paymentMethod.provider, tenant)
+            if (carrier != null) {
+                return tenantProvider.logo(carrier)
+            }
+        } else if (paymentMethod.type == PaymentMethodType.BANK.name) {
+            val financialInstitution = getFinantialInstitution(paymentMethod.provider, tenant)
+            if (financialInstitution != null) {
+                return tenantProvider.logo(financialInstitution)
+            }
+        }
+        return null
+    }
+
+    private fun getMobileCarrier(provider: String, tenant: Tenant): MobileCarrier? =
+        tenant.mobileCarriers.findLast { it.code.equals(provider, true) }
+
+    private fun getFinantialInstitution(provider: String, tenant: Tenant): FinancialInstitution? =
+        tenant.financialInstitutions.findLast { it.code.equals(provider, true) }
 }

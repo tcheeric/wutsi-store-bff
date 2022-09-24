@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/settings/store/product/sub-category-id")
 class SettingsProductSubCategoryScreen(
-    catalogApi: WutsiCatalogApi,
+    catalogApi: WutsiCatalogApi
 ) : AbstractSettingsProductAttributeScreen(catalogApi) {
     override fun getAttributeName() = "sub-category-id"
 
@@ -38,7 +38,7 @@ class SettingsProductSubCategoryScreen(
                         .map {
                             DropdownMenuItem(
                                 caption = "${product.category.title} > ${it.title}",
-                                value = it.id.toString(),
+                                value = it.id.toString()
                             )
                         }
                 )

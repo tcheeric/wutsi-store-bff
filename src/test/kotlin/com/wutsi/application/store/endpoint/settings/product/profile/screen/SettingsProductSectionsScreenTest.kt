@@ -25,7 +25,7 @@ internal class SettingsProductSectionsScreenTest : AbstractEndpointTest() {
         sections.addAll(
             listOf(
                 createSectionSummary(111, "Section 111", 111),
-                createSectionSummary(112, "Section 112", 112),
+                createSectionSummary(112, "Section 112", 112)
             )
         )
         doReturn(ListSectionResponse(sections)).whenever(catalogApi).listSections(any(), anyOrNull())

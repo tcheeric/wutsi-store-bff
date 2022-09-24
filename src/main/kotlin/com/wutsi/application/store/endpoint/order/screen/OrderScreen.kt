@@ -30,7 +30,6 @@ import com.wutsi.flutter.sdui.Container
 import com.wutsi.flutter.sdui.DefaultTabController
 import com.wutsi.flutter.sdui.Dialog
 import com.wutsi.flutter.sdui.Divider
-import com.wutsi.flutter.sdui.DynamicWidget
 import com.wutsi.flutter.sdui.Flexible
 import com.wutsi.flutter.sdui.Row
 import com.wutsi.flutter.sdui.Screen
@@ -62,7 +61,7 @@ class OrderScreen(
     private val accountApi: WutsiAccountApi,
     private val catalogApi: WutsiCatalogApi,
     private val shippingApi: WutsiShippingApi,
-    private val tenantProvider: TenantProvider,
+    private val tenantProvider: TenantProvider
 ) : AbstractQuery() {
     @PostMapping
     fun index(@RequestParam(name = "id") id: String): Widget {
@@ -80,9 +79,7 @@ class OrderScreen(
                 if (shipping != null)
                     Text(getText("page.order.tab.shipping").uppercase(), bold = true)
                 else
-                    null,
-
-                Text(getText("page.order.tab.qr-code").uppercase(), bold = true),
+                    null
             )
         )
         val tabViews = TabBarView(
@@ -92,32 +89,48 @@ class OrderScreen(
                 if (shipping != null)
                     shippingTab(order, shipping, tenant)
                 else
-                    null,
-
-                qrCodeTab(order)
+                    null
             )
         )
 
-        return DefaultTabController(
-            length = tabs.tabs.size,
-            child = Screen(
+        return if (tabViews.children.size == 1)
+            Screen(
                 id = Page.ORDER,
                 backgroundColor = Theme.COLOR_GRAY_LIGHT,
                 appBar = AppBar(
                     elevation = 0.0,
                     backgroundColor = Theme.COLOR_PRIMARY,
                     foregroundColor = Theme.COLOR_WHITE,
-                    bottom = tabs,
                     title = getText("page.order.app-bar.title", arrayOf(order.id.uppercase().takeLast(4))),
                     actions = listOfNotNull(
-                        getAppBarAction(order, shipping),
-                        getShareAction(order, tenant),
+                        getAppBarAction(order),
+                        getShareAction(order, tenant)
                     )
                 ),
-                child = tabViews,
-                bottomNavigationBar = bottomNavigationBar(),
-            )
-        ).toWidget()
+                child = tabViews.children[0],
+                bottomNavigationBar = bottomNavigationBar()
+            ).toWidget()
+        else
+            DefaultTabController(
+                id = Page.ORDER,
+                length = tabs.tabs.size,
+                child = Screen(
+                    backgroundColor = Theme.COLOR_GRAY_LIGHT,
+                    appBar = AppBar(
+                        elevation = 0.0,
+                        backgroundColor = Theme.COLOR_PRIMARY,
+                        foregroundColor = Theme.COLOR_WHITE,
+                        bottom = tabs,
+                        title = getText("page.order.app-bar.title", arrayOf(order.id.uppercase().takeLast(4))),
+                        actions = listOfNotNull(
+                            getAppBarAction(order),
+                            getShareAction(order, tenant)
+                        )
+                    ),
+                    child = tabViews,
+                    bottomNavigationBar = bottomNavigationBar()
+                )
+            ).toWidget()
     }
 
     private fun productsTab(order: Order, tenant: Tenant): WidgetAware {
@@ -164,7 +177,7 @@ class OrderScreen(
                         ),
                         toRow(
                             getText("page.order.date"),
-                            order.created.format(dateFormat),
+                            order.created.format(dateFormat)
                         ),
                         toRow(
                             getText("page.order.status"),
@@ -176,7 +189,7 @@ class OrderScreen(
                                     Theme.COLOR_DANGER
                                 else
                                     null
-                            ),
+                            )
                         ),
 
                         if (togglesProvider.isOrderPaymentEnabled())
@@ -190,13 +203,13 @@ class OrderScreen(
                                         Theme.COLOR_DANGER
                                     else
                                         null
-                                ),
+                                )
                             )
                         else
-                            null,
-                    ),
+                            null
+                    )
                 )
-            ),
+            )
         )
 
         // Products
@@ -287,16 +300,15 @@ class OrderScreen(
         )
     }
 
-    private fun qrCodeTab(order: Order) = toSectionWidget(
-        child = DynamicWidget(
-            url = urlBuilder.build("order/qr-code-widget?id=${order.id}")
-        )
-    )
-
     private fun toProductListWidget(order: Order, products: Map<Long, ProductSummary>, tenant: Tenant): WidgetAware {
         val children = mutableListOf<WidgetAware>()
         var i = 0
-        order.items.map { toItemWidget(it, products[it.productId]!!, tenant) }
+        order.items.mapNotNull {
+            if (products[it.productId] != null)
+                toItemWidget(it, products[it.productId]!!, tenant)
+            else
+                null
+        }
             .forEach {
                 if (i++ > 0)
                     children.add(Divider(color = Theme.COLOR_DIVIDER, height = 1.0))
@@ -318,7 +330,7 @@ class OrderScreen(
 
     private fun toPriceWidget(order: Order, tenant: Tenant) = PriceSummaryCard(
         model = sharedUIMapper.toPriceSummaryModel(order, tenant),
-        showPaymentStatus = togglesProvider.isOrderPaymentEnabled(),
+        showPaymentStatus = togglesProvider.isOrderPaymentEnabled()
     )
 
     private fun toRow(name: String, value: String): WidgetAware =
@@ -349,18 +361,15 @@ class OrderScreen(
             icon = Theme.ICON_SHARE,
             action = Action(
                 type = ActionType.Share,
-                url = "${tenant.webappUrl}/order?id=${order.id}",
+                url = "${tenant.webappUrl}/order?id=${order.id}"
             )
         )
 
-    private fun getAppBarAction(order: Order, shipping: Shipping?): WidgetAware? {
-        if (order.merchantId != securityContext.currentAccountId())
+    private fun getAppBarAction(order: Order): WidgetAware? {
+        if (order.merchantId != securityContext.currentAccountId() || isClosed(order))
             return null
 
-        val buttons = getAppBarButtons(order, shipping)
-        if (buttons.isEmpty())
-            return null
-
+        val buttons = getAppBarButtons(order)
         return TitleBarAction(
             icon = Theme.ICON_MORE,
             action = Action(
@@ -373,63 +382,19 @@ class OrderScreen(
         )
     }
 
-    private fun getAppBarButtons(order: Order, shipping: Shipping?): List<WidgetAware> {
-        val children = mutableListOf<WidgetAware>()
-        if (isManualFulfillment(shipping)) {
-            if (order.status == OrderStatus.OPENED.name)
-                children.add(
-                    Button(
-                        caption = getText("page.order.button.close"),
-                        action = gotoUrl(urlBuilder.build("/order/close?id=${order.id}"))
-                    ),
-                )
-            else if (isAvailableForDelivery(order))
-                children.add(
-                    Button(
-                        caption = getText("page.order.button.deliver"),
-                        action = gotoUrl(urlBuilder.build("/order/deliver?id=${order.id}"))
-                    )
-                )
-            else if (isAvailableForLocalDelivery(order, shipping))
-                children.add(
-                    Button(
-                        caption = getText("page.order.button.start-delivery"),
-                        action = gotoUrl(urlBuilder.build("/order/start-delivery?id=${order.id}"))
-                    )
-                )
+    private fun isClosed(order: Order): Boolean =
+        order.status == OrderStatus.CANCELLED.name || order.status == OrderStatus.DONE.name
 
-            if (canCancel(order))
-                children.add(
-                    Button(
-                        type = ButtonType.Outlined,
-                        caption = getText("page.order.button.cancel"),
-                        action = gotoUrl(urlBuilder.build("/order/cancel?id=${order.id}"))
-                    )
-                )
-        }
-        return children
-    }
-
-    private fun canCancel(order: Order): Boolean =
-        order.status != OrderStatus.EXPIRED.name &&
-            order.status != OrderStatus.CANCELLED.name &&
-            order.status != OrderStatus.DELIVERED.name
-
-    private fun isAvailableForDelivery(order: Order): Boolean =
-        order.status == OrderStatus.READY_FOR_PICKUP.name ||
-            order.status == OrderStatus.IN_TRANSIT.name
-
-    private fun isAvailableForLocalDelivery(order: Order, shipping: Shipping?): Boolean =
-        togglesProvider.isShippingLocalDeliveryEnabled() &&
-            shipping != null &&
-            shipping.type == ShippingType.LOCAL_DELIVERY.name &&
-            order.status == OrderStatus.DONE.name
-
-    private fun isManualFulfillment(shipping: Shipping?): Boolean =
-        isAutomaticFulfillment(shipping)
-
-    private fun isAutomaticFulfillment(shipping: Shipping?): Boolean =
-        togglesProvider.isShippingEmailDeliveryEnabled() &&
-            shipping != null &&
-            shipping.type == ShippingType.EMAIL_DELIVERY.name
+    private fun getAppBarButtons(order: Order): List<WidgetAware> =
+        listOf<WidgetAware>(
+            Button(
+                caption = getText("page.order.button.close"),
+                action = gotoUrl(urlBuilder.build("/order/close?id=${order.id}"))
+            ),
+            Button(
+                type = ButtonType.Outlined,
+                caption = getText("page.order.button.cancel"),
+                action = gotoUrl(urlBuilder.build("/order/cancel?id=${order.id}"))
+            )
+        )
 }

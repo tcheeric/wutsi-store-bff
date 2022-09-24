@@ -47,7 +47,7 @@ class SettingsShippingProfileScreen(
                 elevation = 0.0,
                 backgroundColor = Theme.COLOR_WHITE,
                 foregroundColor = Theme.COLOR_BLACK,
-                title = getText("shipping.type.${shipping.type}"),
+                title = getText("shipping.type.${shipping.type}")
             ),
 
             child = Column(
@@ -113,11 +113,11 @@ class SettingsShippingProfileScreen(
                                     action = gotoUrl(
                                         urlBuilder.build("/settings/store/shipping/attribute/message?id=$id")
                                     )
-                                ),
+                                )
                             )
-                        ),
+                        )
                     )
-                ),
+                )
             )
         ).toWidget()
     }

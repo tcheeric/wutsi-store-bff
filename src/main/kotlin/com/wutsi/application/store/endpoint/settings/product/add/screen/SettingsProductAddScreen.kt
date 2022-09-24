@@ -48,7 +48,7 @@ class SettingsProductAddScreen(
                     Container(
                         padding = 10.0,
                         child = Text(
-                            caption = getText("page.settings.store.product.add.message"),
+                            caption = getText("page.settings.store.product.add.message")
                         )
                     ),
                     Divider(color = Theme.COLOR_DIVIDER),
@@ -69,8 +69,8 @@ class SettingsProductAddScreen(
                                     )
                                 }
                         )
-                    ),
-                ),
+                    )
+                )
             )
         ).toWidget()
     }

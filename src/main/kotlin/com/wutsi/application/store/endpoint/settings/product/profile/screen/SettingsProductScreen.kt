@@ -41,6 +41,7 @@ import com.wutsi.flutter.sdui.enums.InputType
 import com.wutsi.flutter.sdui.enums.MainAxisAlignment
 import com.wutsi.flutter.sdui.enums.TextAlignment
 import com.wutsi.platform.tenant.dto.Tenant
+import com.wutsi.platform.tenant.entity.ToggleName
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -56,7 +57,7 @@ class SettingsProductScreen(
 
     @Value("\${wutsi.store.pictures.max-width}") private val pictureMaxWidth: Int,
     @Value("\${wutsi.store.pictures.max-width}") private val pictureMaxHeight: Int,
-    @Value("\${wutsi.store.pictures.max-per-product}") private val maxPicturesPerProduct: Int,
+    @Value("\${wutsi.store.pictures.max-per-product}") private val maxPicturesPerProduct: Int
 ) : AbstractQuery() {
     companion object {
         const val IMAGE_WIDTH = 150.0
@@ -73,33 +74,54 @@ class SettingsProductScreen(
         val tenant = tenantProvider.get()
 
         val tabs = TabBar(
-            tabs = listOf(
+            tabs = listOfNotNull(
                 Text(getText("page.settings.store.product.tab.product").uppercase(), bold = true),
-                Text(getText("page.settings.store.product.tab.stats").uppercase(), bold = true)
+
+                if (togglesProvider.isToggleEnabled(ToggleName.STORE_STATISTICS))
+                    Text(getText("page.settings.store.product.tab.stats").uppercase(), bold = true)
+                else
+                    null
             )
         )
         val tabViews = TabBarView(
-            children = listOf(
+            children = listOfNotNull(
                 productTab(product, tenant, errors),
-                statisticsTab(product, tenant)
+
+                if (togglesProvider.isToggleEnabled(ToggleName.STORE_STATISTICS))
+                    statisticsTab(product, tenant)
+                else
+                    null
             )
         )
 
-        return DefaultTabController(
-            length = tabs.tabs.size,
-            child = Screen(
+        return if (tabViews.children.size == 1)
+            Screen(
                 id = Page.SETTINGS_STORE_PRODUCT,
                 backgroundColor = Theme.COLOR_WHITE,
                 appBar = AppBar(
                     elevation = 0.0,
                     backgroundColor = Theme.COLOR_PRIMARY,
                     foregroundColor = Theme.COLOR_WHITE,
-                    title = getText("page.settings.store.product.app-bar.title"),
-                    bottom = tabs,
+                    title = getText("page.settings.store.product.app-bar.title")
                 ),
-                child = tabViews,
-            )
-        ).toWidget()
+                child = tabViews.children[0]
+            ).toWidget()
+        else
+            return DefaultTabController(
+                id = Page.SETTINGS_STORE_PRODUCT,
+                length = tabs.tabs.size,
+                child = Screen(
+                    backgroundColor = Theme.COLOR_WHITE,
+                    appBar = AppBar(
+                        elevation = 0.0,
+                        backgroundColor = Theme.COLOR_PRIMARY,
+                        foregroundColor = Theme.COLOR_WHITE,
+                        title = getText("page.settings.store.product.app-bar.title"),
+                        bottom = tabs
+                    ),
+                    child = tabViews
+                )
+            ).toWidget()
     }
 
     private fun productTab(product: Product, tenant: Tenant, errors: Array<String>? = null): WidgetAware {
@@ -114,7 +136,7 @@ class SettingsProductScreen(
                     Container(
                         padding = 10.0,
                         height = IMAGE_HEIGHT + 2 * (10.0 + IMAGE_PADDING),
-                        child = toPictureListWidget(product),
+                        child = toPictureListWidget(product)
                     ),
 
                     if (product.status == ProductStatus.DRAFT.name)
@@ -132,7 +154,7 @@ class SettingsProductScreen(
                                     children = listOf(
                                         Text(
                                             caption = getText("page.settings.store.product.draft"),
-                                            color = Theme.COLOR_WARNING,
+                                            color = Theme.COLOR_WARNING
                                         )
                                     )
                                 )
@@ -230,7 +252,7 @@ class SettingsProductScreen(
                                         type = ActionType.Command,
                                         url = urlBuilder.build("commands/publish-product?id=${product.id}")
                                     )
-                                ),
+                                )
                             )
                         )
                     )
@@ -258,14 +280,14 @@ class SettingsProductScreen(
                     child = toStatWidget(
                         "page.settings.store.product.stats-views",
                         product.overallMetrics.totalViews.toDouble(),
-                        tenant,
+                        tenant
                     )
                 ),
                 Flexible(
                     child = toStatWidget(
                         "page.settings.store.product.stats-orders",
                         product.overallMetrics.totalOrders.toDouble(),
-                        tenant,
+                        tenant
                     )
                 ),
                 Flexible(
@@ -273,9 +295,9 @@ class SettingsProductScreen(
                         "page.settings.store.product.stats-conversion",
                         product.overallMetrics.conversion,
                         tenant,
-                        percent = true,
+                        percent = true
                     )
-                ),
+                )
             )
         )
 
@@ -286,7 +308,7 @@ class SettingsProductScreen(
         money: Boolean = false,
         percent: Boolean = false,
         color: String = Theme.COLOR_BLACK,
-        valueSize: Double = 30.0,
+        valueSize: Double = 30.0
     ): WidgetAware =
         Container(
             padding = 10.0,
@@ -303,7 +325,7 @@ class SettingsProductScreen(
                             currency = tenant.currencySymbol,
                             color = color,
                             numberFormat = tenant.numberFormat,
-                            valueFontSize = valueSize,
+                            valueFontSize = valueSize
                         )
                     else
                         Text(
@@ -318,7 +340,7 @@ class SettingsProductScreen(
                         child = Text(
                             caption = getText(name).uppercase(),
                             size = Theme.TEXT_SIZE_SMALL,
-                            alignment = TextAlignment.Center,
+                            alignment = TextAlignment.Center
                         )
                     )
                 )
@@ -388,14 +410,14 @@ class SettingsProductScreen(
                         action = Action(
                             type = ActionType.Prompt,
                             prompt = uploadDialog(product).toWidget()
-                        ),
-                    ),
+                        )
+                    )
                 )
             )
 
         return ListView(
             direction = Axis.Horizontal,
-            children = images,
+            children = images
         )
     }
 
@@ -443,8 +465,8 @@ class SettingsProductScreen(
             ),
             Button(
                 type = ButtonType.Text,
-                caption = getText("page.settings.store.product.button.cancel"),
-            ),
+                caption = getText("page.settings.store.product.button.cancel")
+            )
         )
     )
 

@@ -20,7 +20,7 @@
               "type": "ListItem",
               "attributes": {
                 "caption": "Ray Sponsible",
-                "subCaption": "Business Account - Marketing - Cameroon",
+                "subCaption": "Marketing - Cameroon",
                 "padding": 10.0,
                 "leading": {
                   "type": "CircleAvatar",
@@ -850,18 +850,6 @@
         "action": {
           "type": "Route",
           "url": "https://wutsi-gateway-test.herokuapp.com/shell/profile"
-        }
-      },
-      {
-        "type": "BottomNavigationBarItem",
-        "attributes": {
-          "icon": "f36e",
-          "caption": "Settings"
-        },
-        "children": [],
-        "action": {
-          "type": "Route",
-          "url": "https://wutsi-gateway-test.herokuapp.com/shell/settings"
         }
       }
     ]

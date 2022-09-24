@@ -15,21 +15,25 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/commands/cancel-order")
 class CancelOrderCommand(
-    private val orderApi: WutsiOrderApi,
+    private val orderApi: WutsiOrderApi
 ) : AbstractCommand() {
     @PostMapping
     fun index(
         @RequestParam id: String,
-        @RequestBody request: ChangeOrderStatusRequest
+        @RequestParam(name = "return-home", required = false) returnHome: Boolean? = null,
+        @RequestBody(required = false) request: ChangeOrderStatusRequest? = null
     ): Action {
         orderApi.changeStatus(
             id,
             ChangeStatusRequest(
                 status = OrderStatus.CANCELLED.name,
-                reason = request.reason,
-                comment = request.comment
+                reason = request?.reason,
+                comment = request?.comment
             )
         )
-        return gotoPreviousScreen()
+        return if (returnHome == true)
+            gotoHomeScreen()
+        else
+            gotoPreviousScreen()
     }
 }

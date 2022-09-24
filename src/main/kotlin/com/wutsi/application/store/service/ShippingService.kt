@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service
 @Service
 class ShippingService(
     private val shippingApi: WutsiShippingApi,
-    private val catalogApi: WutsiCatalogApi,
+    private val catalogApi: WutsiCatalogApi
 ) {
     fun findShippingRates(account: Account, order: Order): List<RateSummary> {
         val products = catalogApi.searchProducts(

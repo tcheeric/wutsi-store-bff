@@ -137,18 +137,6 @@
           "type": "Route",
           "url": "https://wutsi-gateway-test.herokuapp.com/shell/profile"
         }
-      },
-      {
-        "type": "BottomNavigationBarItem",
-        "attributes": {
-          "icon": "f36e",
-          "caption": "Settings"
-        },
-        "children": [],
-        "action": {
-          "type": "Route",
-          "url": "https://wutsi-gateway-test.herokuapp.com/shell/settings"
-        }
       }
     ]
   }
